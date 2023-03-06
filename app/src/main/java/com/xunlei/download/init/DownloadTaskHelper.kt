@@ -26,10 +26,11 @@ object DownloadTaskHelper {
             this.mStatCfgSavePath = globalApplication.filesDir.absolutePath
             this.mStatSavePath = globalApplication.filesDir.absolutePath
         })
-        if (initResult == 9900) {
+        if (initResult == 9000) {
             XLDownloadManager.getInstance().setOSVersion(Build.VERSION.INCREMENTAL)
             XLDownloadManager.getInstance().setUserId("Yt4vsji-qngamdRo")
             XLDownloadManager.getInstance().setSpeedLimit(-1, -1)
+            XLDownloadManager.getInstance().setVipType("5")
         }
         Log.i(TAG, "initXl = $initResult")
     }
