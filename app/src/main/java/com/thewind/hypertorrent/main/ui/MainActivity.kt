@@ -8,14 +8,20 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.ActivityMainBinding
 import com.thewind.util.toJson
 
 import com.thewind.util.toast
+import com.xunlei.download.provider.TaskInfo
+import com.xunlei.download.provider.TorrentTaskHelper
+import com.xunlei.download.provider.TorrentTaskListener
+import com.xunlei.download.provider.TorrentTaskManager
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,36 +37,64 @@ class MainActivity : AppCompatActivity() {
         requestPermission()
     }
 
-    private fun initView() {
+    private val taskListener =  object : TorrentTaskListener {
+        override fun onStart(taskInfo: TaskInfo) {
+            Log.i(TAG, "onStart, taskInfo = ${taskInfo.toJson()}")
+        }
 
+        override fun onDownloading(taskInfo: TaskInfo) {
+            Log.i(TAG, "onStart, taskInfo = ${taskInfo.toJson()}")
+        }
+
+        override fun onError(taskInfo: TaskInfo) {
+            Log.i(TAG, "onError, taskInfo = ${taskInfo.toJson()}")
+        }
+
+        override fun onSuccess(taskInfo: TaskInfo) {
+            Log.i(TAG, "onSuccess, taskInfo = ${taskInfo.toJson()}")
+        }
+    }
+
+    private fun initView() {
+        Log.i(TAG, "initView")
         binding.btnAddMagnetTask.setOnClickListener {
-            taskId = com.xunlei.download.provider.TorrentTaskHelper.instance.addMagnetTask(binding.etHash.text.toString())
+            val hash = com.xunlei.download.config.TorrentTaskHelper.getMagnetHash(binding.etHash.text.toString())
+            taskId = TorrentTaskHelper.instance.addMagnetTask(binding.etHash.text.toString())
+            TorrentTaskManager.instance.registerTaskListener(hash, taskListener)
             Toast.makeText(applicationContext, "创建磁力链接任务， taskId = $taskId", Toast.LENGTH_LONG).show()
         }
 
         binding.btnParseTorrent.setOnClickListener {
             val fullPath = com.xunlei.download.config.TORRENT_DIR + com.xunlei.download.config.TorrentTaskHelper.getMagnetHash(binding.etHash.text.toString()) + ".torrent"
-            val torrentInfo = com.xunlei.download.provider.TorrentTaskHelper.instance.getTorrentInfo(fullPath)
+            val torrentInfo = TorrentTaskHelper.instance.getTorrentInfo(fullPath)
             Toast.makeText(applicationContext, "解析磁力文件， fullPath = $fullPath", Toast.LENGTH_LONG).show()
             binding.tvTorrentInfo.text = torrentInfo.toJson()
+        }
+
+        binding.btnPauseDown.setOnClickListener {
+            TorrentTaskHelper.instance.pauseTask(taskId)
         }
 
         binding.btnDownload.setOnClickListener {
             val n = binding.etSelectedFile.text.toString()
             val fullPath = com.xunlei.download.config.TORRENT_DIR + com.xunlei.download.config.TorrentTaskHelper.getMagnetHash(binding.etHash.text.toString()) + ".torrent"
-            val torrentInfo = com.xunlei.download.provider.TorrentTaskHelper.instance.getTorrentInfo(fullPath)
+            val torrentInfo = TorrentTaskHelper.instance.getTorrentInfo(fullPath)
             if (n.isEmpty()) {
-                taskId = com.xunlei.download.provider.TorrentTaskHelper.instance.addTorrentTask(torrentInfo)
+                taskId = TorrentTaskHelper.instance.addTorrentTask(torrentInfo)
             } else {
                 val mutableList: MutableList<Int> = mutableListOf<Int>().apply { add(n.toInt()) }
-                taskId = com.xunlei.download.provider.TorrentTaskHelper.instance.addTorrentTask(torrentInfo = torrentInfo, selectedFileList = mutableList)
+                taskId = TorrentTaskHelper.instance.addTorrentTask(torrentInfo = torrentInfo, selectedFileList = mutableList)
             }
+            TorrentTaskManager.instance.registerTaskListener(torrentInfo.mInfoHash, taskListener)
             Toast.makeText(applicationContext, "下载种子的文件， taskId = $taskId", Toast.LENGTH_LONG).show()
         }
 
         binding.btnQueryTaskState.setOnClickListener {
-            val info = com.xunlei.download.provider.TorrentTaskHelper.instance.getTaskInfo(taskId)
+            val info = TorrentTaskHelper.instance.getTaskInfo(taskId)
             binding.tvTaskInfo.text = info.toJson()
+        }
+        binding.btnQueryTaskList.setOnClickListener {
+            supportFragmentManager.beginTransaction().add(R.id.fcv_task_list, DownloadListFragment.newInstance()).commitNow()
         }
     }
 
@@ -118,4 +152,4 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-private const val TAG = "MainActivity"
+private const val TAG = "[main]MainActivity"

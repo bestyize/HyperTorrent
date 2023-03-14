@@ -56,7 +56,7 @@ public class XLDownloadManager {
     private static final int GET_GUID_FIRST_TIME = 5000;
     private static final int GET_GUID_INTERVAL_TIME = 60000;
     private static final int QUERY_GUID_COUNT = 5;
-    private static final String TAG = "XLDownloadManager";
+    private static final String TAG = "[xunlei]XLDownloadManager";
     public static XLConstant.XLManagerStatus mDownloadManagerState = XLConstant.XLManagerStatus.MANAGER_UNINIT;
     private static XLDownloadManager mInstance = null;
     private static int mRunningRefCount = 0;

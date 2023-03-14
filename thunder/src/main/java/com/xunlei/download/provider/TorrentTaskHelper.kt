@@ -9,6 +9,7 @@ import com.xunlei.downloadlib.XLDownloadManager
 import com.xunlei.downloadlib.parameter.*
 import com.xunlei.util.TaskManager
 import java.io.File
+import kotlin.math.max
 
 
 /**
@@ -21,6 +22,8 @@ class TorrentTaskHelper private constructor() {
     companion object {
         val instance by lazy { TorrentTaskHelper() }
     }
+
+    var maxTaskId: Long = -1
 
     @Synchronized
     fun addMagnetTask(
@@ -37,7 +40,8 @@ class TorrentTaskHelper private constructor() {
         if (saveName.isNullOrBlank()) {
             saveTorrentFileName = "$hash.torrent"
         }
-        val magnet = if (magnetLink?.startsWith(TORRENT_PREFIX) == true) magnetLink else TORRENT_PREFIX + magnetLink
+        val magnet =
+            if (magnetLink?.startsWith(TORRENT_PREFIX) == true) magnetLink else TORRENT_PREFIX + magnetLink
         val magnetTaskParam = MagnetTaskParam().apply {
             setFileName(saveTorrentFileName)
             setFilePath(saveDir)
@@ -49,6 +53,11 @@ class TorrentTaskHelper private constructor() {
         XLDownloadManager.getInstance().setTaskLxState(task.taskId, 0, 1)
         val taskState = XLDownloadManager.getInstance().startTask(task.taskId)
         Log.i(TAG, "downloadMagnet, taskState = $taskState, taskId = ${task.taskId}")
+        maxTaskId = if (maxTaskId == -1L) {
+            task.taskId
+        } else {
+            max(task.taskId, maxTaskId)
+        }
         return task.taskId
     }
 
@@ -60,12 +69,21 @@ class TorrentTaskHelper private constructor() {
         return torrentInfo
     }
 
+    /**
+     *  继续下载会重新创建一个taskId
+     * @param torrentInfo TorrentInfo
+     * @param saveDir String?
+     * @param torrentFilePath String?
+     * @param selectedFileList MutableList<Int>
+     * @return Long
+     */
     @Synchronized
     fun addTorrentTask(
         torrentInfo: TorrentInfo,
         saveDir: String? = TORRENT_FILE_DIR,
-        torrentFilePath: String ?= null,
-        selectedFileList: MutableList<Int> = mutableListOf()
+        torrentFilePath: String? = null,
+        selectedFileList: MutableList<Int> = mutableListOf(),
+        autoStart: Boolean = true
     ): Long {
         if (selectedFileList.isEmpty()) {
             torrentInfo.mSubFileInfo?.forEach {
@@ -83,8 +101,8 @@ class TorrentTaskHelper private constructor() {
             setTorrentPath(fullPath)
         }
 
-        val getTaskId = GetTaskId()
-        XLDownloadManager.getInstance().createBtTask(btTaskParam, getTaskId)
+        val task = GetTaskId()
+        XLDownloadManager.getInstance().createBtTask(btTaskParam, task)
         if (torrentInfo.mSubFileInfo.isNotEmpty() && selectedFileList.isNotEmpty()) {
             val arrayList = ArrayList<Any>()
             for (torrentFileInfo in torrentInfo.mSubFileInfo) {
@@ -109,19 +127,37 @@ class TorrentTaskHelper private constructor() {
             for (i2 in 0 until arrayList.size) {
                 btIndexSet.mIndexSet[i2] = (arrayList[i2] as Int).toInt()
             }
-            XLDownloadManager.getInstance().deselectBtSubTask(getTaskId.taskId, btIndexSet)
+            XLDownloadManager.getInstance().deselectBtSubTask(task.taskId, btIndexSet)
         }
-        XLDownloadManager.getInstance().setTaskLxState(getTaskId.taskId, 0, 1)
-        val taskState = XLDownloadManager.getInstance().startTask(getTaskId.taskId)
-        Log.i(TAG, "addTorrentTask, taskId = ${getTaskId.taskId}, taskState = $taskState")
-        return getTaskId.taskId
+        XLDownloadManager.getInstance().setTaskLxState(task.taskId, 0, 1)
+        if (autoStart) {
+            val taskState = XLDownloadManager.getInstance().startTask(task.taskId)
+            Log.i(TAG, "addTorrentTask, taskId = ${task.taskId}, taskState = $taskState")
+        }
+        maxTaskId = if (maxTaskId == -1L) {
+            task.taskId
+        } else {
+            max(task.taskId, maxTaskId)
+        }
+        TorrentTaskManager.instance.addTaskRecord(TaskInfo().apply {
+            this.taskId = task.taskId
+            this.magnetHash = torrentInfo.mInfoHash
+            this.torrentFilePath = fullPath
+            this.xlTaskInfo = getTaskInfo(task.taskId)
+        })
+        return task.taskId
     }
 
     @Synchronized
     fun getTaskInfo(taskId: Long): XLTaskInfo {
         val xlTaskInfo = XLTaskInfo()
         val taskState = XLDownloadManager.getInstance().getTaskInfo(taskId, 1, xlTaskInfo)
-        Log.i(TAG, "getTaskInfo, taskId = $taskId, taskState = $taskState")
+        Log.i(
+            TAG,
+            "getTaskInfo, taskId = $taskId, taskState = ${
+                XLDownloadManager.getInstance().getErrorCodeMsg(taskState)
+            }"
+        )
         return xlTaskInfo
     }
 
@@ -141,7 +177,9 @@ class TorrentTaskHelper private constructor() {
         val taskState = XLDownloadManager.getInstance().startTask(taskId)
         Log.i(
             TAG,
-            "getSubTaskInfo, taskId = $taskId,taskState = $taskState"
+            "getSubTaskInfo, taskId = $taskId,taskState = ${
+                XLDownloadManager.getInstance().getErrorCodeMsg(taskState)
+            }"
         )
         return taskState
     }
@@ -150,12 +188,15 @@ class TorrentTaskHelper private constructor() {
     fun stopTask(taskId: Long): Int {
         XLDownloadManager.getInstance().stopTask(taskId)
         val taskState = XLDownloadManager.getInstance().releaseTask(taskId)
-        Log.i(TAG, "stopTask, taskState = ${XLDownloadManager.getInstance().getErrorCodeMsg(taskState)}")
+        Log.i(
+            TAG,
+            "stopTask, taskState = ${XLDownloadManager.getInstance().getErrorCodeMsg(taskState)}"
+        )
         return taskState
     }
 
     @Synchronized
-    fun deleteTask(taskId: Long, filePath: String) : Int {
+    fun deleteTask(taskId: Long, filePath: String): Int {
         val taskState = stopTask(taskId)
         TaskManager.execute {
             val file = File(filePath)
@@ -167,18 +208,11 @@ class TorrentTaskHelper private constructor() {
     }
 
     @Synchronized
-    fun pauseTask(taskId: Long) : Int {
+    fun pauseTask(taskId: Long): Int {
         return stopTask(taskId)
-    }
-
-    @Synchronized
-    fun restartTask(taskId: Long): Int{
-        pauseTask(taskId)
-        return startTask(taskId)
-
     }
 
 
 }
 
-private const val TAG = "TorrentTaskHelper"
+private const val TAG = "[xunlei]TorrentTaskHelper"

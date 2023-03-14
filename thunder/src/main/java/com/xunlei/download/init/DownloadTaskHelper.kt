@@ -3,6 +3,7 @@ package com.xunlei.download.init
 import android.content.Context
 import android.os.Build
 import android.util.Log
+import com.xunlei.download.provider.TorrentTaskManager
 import com.xunlei.downloadlib.XLDownloadManager
 import com.xunlei.downloadlib.parameter.InitParam
 import java.util.*
@@ -14,7 +15,7 @@ import java.util.*
  */
 object DownloadTaskHelper {
 
-    private const val TAG = "DownloadTaskHelper"
+    private const val TAG = "[xunlei]DownloadTaskHelper"
 
     fun init(context: Context) {
         System.loadLibrary("xl_thunder_sdk")
@@ -31,6 +32,7 @@ object DownloadTaskHelper {
             XLDownloadManager.getInstance().setUserId("Yt4vsji-qngamdRo")
             XLDownloadManager.getInstance().setSpeedLimit(-1, -1)
         }
+        TorrentTaskManager.instance.init()
         Log.i(TAG, "initXl = $initResult")
     }
 }
