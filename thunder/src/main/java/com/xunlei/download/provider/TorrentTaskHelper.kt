@@ -16,10 +16,10 @@ import java.io.File
  * @date: 2023/3/3 上午12:26
  * @description:
  */
-class DownloadTaskManager private constructor() {
+class TorrentTaskHelper private constructor() {
 
     companion object {
-        val instance by lazy { DownloadTaskManager() }
+        val instance by lazy { TorrentTaskHelper() }
     }
 
     @Synchronized
@@ -137,24 +137,48 @@ class DownloadTaskManager private constructor() {
     }
 
     @Synchronized
-    fun stopTask(taskId: Long) {
-        XLDownloadManager.getInstance().stopTask(taskId)
-        val taskState = XLDownloadManager.getInstance().releaseTask(taskId)
-        Log.i(TAG, "stopTask, taskState = $taskState")
+    fun startTask(taskId: Long): Int {
+        val taskState = XLDownloadManager.getInstance().startTask(taskId)
+        Log.i(
+            TAG,
+            "getSubTaskInfo, taskId = $taskId,taskState = $taskState"
+        )
+        return taskState
     }
 
     @Synchronized
-    fun deleteTask(taskId: Long, filePath: String) {
-        stopTask(taskId)
+    fun stopTask(taskId: Long): Int {
+        XLDownloadManager.getInstance().stopTask(taskId)
+        val taskState = XLDownloadManager.getInstance().releaseTask(taskId)
+        Log.i(TAG, "stopTask, taskState = ${XLDownloadManager.getInstance().getErrorCodeMsg(taskState)}")
+        return taskState
+    }
+
+    @Synchronized
+    fun deleteTask(taskId: Long, filePath: String) : Int {
+        val taskState = stopTask(taskId)
         TaskManager.execute {
             val file = File(filePath)
             if (file.exists()) {
                 file.delete()
             }
         }
+        return taskState
+    }
+
+    @Synchronized
+    fun pauseTask(taskId: Long) : Int {
+        return stopTask(taskId)
+    }
+
+    @Synchronized
+    fun restartTask(taskId: Long): Int{
+        pauseTask(taskId)
+        return startTask(taskId)
+
     }
 
 
 }
 
-private const val TAG = "DownloadTaskManager"
+private const val TAG = "TorrentTaskHelper"

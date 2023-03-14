@@ -16,7 +16,7 @@ class HyperApplication : Application() {
     override fun onCreate() {
         globalApplication = this
         super.onCreate()
-        DownloadTaskHelper.init()
+        DownloadTaskHelper.init(this)
     }
 
 }

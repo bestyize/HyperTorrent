@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+
+    <application >
+        <meta-data android:name="com.xunlei.download.APP_KEY" android:value="bpIzNjAxNTsxNTA0MDk0ODg4LjQyODAwMA&amp;&amp;OxNw==^a2cec7^10e7f1756b15519e20ffb6cf0fbf671f==2D^E21EACA6^E5EB66DA2726E51707BA"/>
+        <meta-data android:name="com.xunlei.download.RECOMMENDED_MAX_BYTES_OVER_MOBILE" android:value="-1"/>
+        <meta-data android:name="com.xunlei.download.MAX_BYTES_OVER_MOBILE" android:value="-1"/>
+        <meta-data android:name="com.xunlei.download.RECOMMENDED_MAX_TOTAL_CONCURRENT_DOWNLOADS" android:value="5"/>
+        <meta-data android:name="com.xunlei.download.RECOMMENDED_MAX_CONCURRENT_BT_SUB_DOWNLOADS" android:value="3"/>
+        <meta-data android:name="com.xunlei.download.SHOW_NOTIFY" android:value="false"/>
+        <meta-data android:name="com.xunlei.download.SERVICE_START_COMMAND" android:value="2"/>
+    </application>
+</manifest>

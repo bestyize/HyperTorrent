@@ -1,8 +1,8 @@
 package com.xunlei.download.init
 
+import android.content.Context
 import android.os.Build
 import android.util.Log
-import com.thewind.hypertorrent.main.globalApplication
 import com.xunlei.downloadlib.XLDownloadManager
 import com.xunlei.downloadlib.parameter.InitParam
 import java.util.*
@@ -16,21 +16,20 @@ object DownloadTaskHelper {
 
     private const val TAG = "DownloadTaskHelper"
 
-    fun init() {
+    fun init(context: Context) {
         System.loadLibrary("xl_thunder_sdk")
-        val initResult = XLDownloadManager.getInstance().init(globalApplication.applicationContext, InitParam().apply {
+        val initResult = XLDownloadManager.getInstance().init(context, InitParam().apply {
             this.mAppVersion = "7.60.0.8385"
             this.mGuid = UUID.randomUUID().toString()
-            this.mLogSavePath = globalApplication.filesDir.absolutePath
+            this.mLogSavePath = context.filesDir.absolutePath
             this.mPermissionLevel = 3
-            this.mStatCfgSavePath = globalApplication.filesDir.absolutePath
-            this.mStatSavePath = globalApplication.filesDir.absolutePath
+            this.mStatCfgSavePath = context.filesDir.absolutePath
+            this.mStatSavePath = context.filesDir.absolutePath
         })
         if (initResult == 9000) {
             XLDownloadManager.getInstance().setOSVersion(Build.VERSION.INCREMENTAL)
             XLDownloadManager.getInstance().setUserId("Yt4vsji-qngamdRo")
             XLDownloadManager.getInstance().setSpeedLimit(-1, -1)
-            XLDownloadManager.getInstance().setVipType("5")
         }
         Log.i(TAG, "initXl = $initResult")
     }

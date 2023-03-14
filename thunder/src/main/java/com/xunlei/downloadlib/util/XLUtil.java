@@ -6,8 +6,6 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.text.TextUtils;
 
-import androidx.exifinterface.media.ExifInterface;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,7 +55,7 @@ public class XLUtil {
             if (TextUtils.isEmpty(a2)) {
                 return null;
             }
-            String str2 = a2 + ExifInterface.GPS_MEASUREMENT_INTERRUPTED;
+            String str2 = a2 + "V";
             config.set(context, "peerid", str2);
             return str2;
         }
