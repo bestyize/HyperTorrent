@@ -4,7 +4,7 @@ import android.util.Log
 import com.xunlei.download.config.TORRENT_DIR
 import com.xunlei.download.config.TORRENT_FILE_DIR
 import com.xunlei.download.config.TORRENT_PREFIX
-import com.xunlei.download.config.TorrentTaskHelper
+import com.xunlei.download.config.TorrentUtil
 import com.xunlei.downloadlib.XLDownloadManager
 import com.xunlei.downloadlib.parameter.*
 import com.xunlei.util.TaskManager
@@ -31,7 +31,7 @@ class TorrentTaskHelper private constructor() {
         saveDir: String? = TORRENT_DIR,
         saveName: String? = null
     ): Long {
-        val hash = TorrentTaskHelper.getMagnetHash(magnetLink)
+        val hash = TorrentUtil.getMagnetHash(magnetLink)
         if (hash.isEmpty()) {
             Log.i(TAG, "downloadMagnet, error magnet link is null or empty")
             return -1
@@ -85,13 +85,8 @@ class TorrentTaskHelper private constructor() {
         selectedFileList: MutableList<Int> = mutableListOf(),
         autoStart: Boolean = true
     ): Long {
-        if (selectedFileList.isEmpty()) {
-            torrentInfo.mSubFileInfo?.forEach {
-                selectedFileList.add(it.mFileIndex)
-            }
-        }
         val fullPath = torrentFilePath
-            ?: (TORRENT_DIR + TorrentTaskHelper.getMagnetHash(torrentInfo.mInfoHash) + ".torrent")
+            ?: (TORRENT_DIR + TorrentUtil.getMagnetHash(torrentInfo.mInfoHash) + ".torrent")
         var z: Boolean
         val btTaskParam = BtTaskParam().apply {
             setCreateMode(1)
@@ -139,7 +134,7 @@ class TorrentTaskHelper private constructor() {
         } else {
             max(task.taskId, maxTaskId)
         }
-        TorrentTaskManager.instance.addTaskRecord(TaskInfo().apply {
+        TorrentRecordManager.instance.addTaskRecord(TaskInfo().apply {
             this.taskId = task.taskId
             this.magnetHash = torrentInfo.mInfoHash
             this.torrentFilePath = fullPath

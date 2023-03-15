@@ -1,4 +1,4 @@
-package com.thewind.hypertorrent.main.ui
+package com.thewind.hypertorrent.main.card.downloadlist
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,10 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentDownloadListBinding
-import com.thewind.hypertorrent.main.card.downloadlist.DownloadListAdapter
-import com.xunlei.download.provider.TorrentTaskManager
+import com.xunlei.download.provider.TorrentRecordManager
 
 
 /**
@@ -35,7 +33,7 @@ class DownloadListFragment : Fragment() {
         binding.rvDownloadTaskList.layoutManager = LinearLayoutManager(context).apply {
             orientation = LinearLayoutManager.VERTICAL
         }
-        binding.rvDownloadTaskList.adapter = DownloadListAdapter(TorrentTaskManager.instance.getTorrentTaskList())
+        binding.rvDownloadTaskList.adapter = DownloadListAdapter(TorrentRecordManager.instance.getTorrentTaskList())
     }
 
     companion object {

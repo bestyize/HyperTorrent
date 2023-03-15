@@ -1,13 +1,11 @@
 package com.xunlei.download.config
 
-import kotlin.math.min
-
 /**
  * @author: read
  * @date: 2023/3/3 上午12:46
  * @description:
  */
-object TorrentTaskHelper {
+object TorrentUtil {
 
     fun getMagnetHash(magnetUrl: String?): String {
         magnetUrl ?: return ""

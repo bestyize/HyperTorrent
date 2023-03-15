@@ -1,7 +1,7 @@
 package com.thewind.hypertorrent.main
 
 import android.app.Application
-import com.xunlei.download.init.DownloadTaskHelper
+import com.xunlei.download.init.TorrentDownloadModule
 
 /**
  * @author: read
@@ -16,7 +16,7 @@ class HyperApplication : Application() {
     override fun onCreate() {
         globalApplication = this
         super.onCreate()
-        DownloadTaskHelper.init(this)
+        TorrentDownloadModule.init(this)
     }
 
 }

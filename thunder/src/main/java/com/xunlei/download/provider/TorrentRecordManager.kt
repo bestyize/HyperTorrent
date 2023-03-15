@@ -11,10 +11,10 @@ import java.util.concurrent.ConcurrentHashMap
  * @date : 2023/3/14
  * @email : zhangrui10@bilibili.com
  */
-class TorrentTaskManager {
+class TorrentRecordManager {
     companion object {
         private const val TAG = "[xunlei]TorrentTaskManager"
-        val instance by lazy { TorrentTaskManager() }
+        val instance by lazy { TorrentRecordManager() }
     }
 
     fun init() {
@@ -65,7 +65,7 @@ class TorrentTaskManager {
                 val taskId = TorrentTaskHelper.instance.addTorrentTask(
                     torrentInfo = torrentInfo,
                     torrentFilePath = it.absolutePath,
-                    selectedFileList = mutableListOf(0),
+                    selectedFileList = mutableListOf(),
                     autoStart = false
                 )
                 taskRecords[hash] = TaskInfo().apply {

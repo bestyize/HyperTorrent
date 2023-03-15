@@ -3,7 +3,7 @@ package com.xunlei.download.init
 import android.content.Context
 import android.os.Build
 import android.util.Log
-import com.xunlei.download.provider.TorrentTaskManager
+import com.xunlei.download.provider.TorrentRecordManager
 import com.xunlei.downloadlib.XLDownloadManager
 import com.xunlei.downloadlib.parameter.InitParam
 import java.util.*
@@ -13,7 +13,7 @@ import java.util.*
  * @date: 2023/3/3 上午12:21
  * @description:
  */
-object DownloadTaskHelper {
+object TorrentDownloadModule {
 
     private const val TAG = "[xunlei]DownloadTaskHelper"
 
@@ -32,7 +32,7 @@ object DownloadTaskHelper {
             XLDownloadManager.getInstance().setUserId("Yt4vsji-qngamdRo")
             XLDownloadManager.getInstance().setSpeedLimit(-1, -1)
         }
-        TorrentTaskManager.instance.init()
+        TorrentRecordManager.instance.init()
         Log.i(TAG, "initXl = $initResult")
     }
 }
