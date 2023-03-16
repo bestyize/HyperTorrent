@@ -12,6 +12,8 @@ import java.io.File
 
 val TORRENT_PREFIX = "magnet:?xt=urn:btih:"
 
+val STORAGE_ROOT by lazy { Environment.getExternalStorageDirectory().absolutePath }
+
 val BASE_DIR by lazy { Environment.getExternalStorageDirectory().absolutePath + File.separator + "a.torrent" }
 val BASE_DOWNLOAD_DIR by lazy { BASE_DIR + File.separator + "download" + File.separator}
 val TORRENT_DIR by lazy { BASE_DOWNLOAD_DIR +  "torrent" + File.separator }

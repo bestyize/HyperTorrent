@@ -47,6 +47,7 @@ class TorrentSelectDialogFragment private constructor(private val torrentFilePat
                 handleBatchClicked(torrentSimpleInfo)
             }
             binding.clSelectBatch.setOnClickListener {
+                binding.rbSelectAll.isChecked = !binding.rbSelectAll.isChecked
                 handleBatchClicked(torrentSimpleInfo)
             }
         }
@@ -56,7 +57,6 @@ class TorrentSelectDialogFragment private constructor(private val torrentFilePat
     }
 
     private fun handleBatchClicked(torrentSimpleInfo: TorrentSimpleInfo) {
-        binding.rbSelectAll.isChecked = !binding.rbSelectAll.isChecked
         val isChecked = binding.rbSelectAll.isChecked
         torrentSimpleInfo.filesList.forEachIndexed { index, torrentFileSimpleInfo ->
             run {

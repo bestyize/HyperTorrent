@@ -22,6 +22,7 @@
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@id/iv_torrent_item_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
@@ -30,8 +31,9 @@
             android:textSize="14sp"
             android:lineHeight="16sp"
             android:text="权力的游戏权力的游戏权力的游戏权力的游戏权力的游戏权力的游戏权力的游戏权力的游戏权力的游戏权力的游戏"
-            android:maxEms="16"
-            android:maxLines="2"
+            android:maxEms="18"
+            android:minEms="18"
+            android:maxLines="3"
             android:ellipsize="end"
             android:textAlignment="textStart"
             android:layout_width="wrap_content"

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.TorrentSelectItemBinding
+import com.thewind.util.icon
 import com.xunlei.tool.editor.TorrentFileSimpleInfo
 
 /**
@@ -29,10 +30,12 @@ class TorrentSelectAdapter(private val items: MutableList<TorrentFileSimpleInfo>
         holder.binding.tvResTitle.text = item.name
         holder.binding.tvResDesc.text = "文件大小:${item.size}"
         holder.binding.rbSelect.isChecked = item.isChecked
+        item.name?.icon()?.let {
+            holder.binding.ivTorrentItemIcon.setImageResource(it)
+        }
         holder.binding.root.setOnClickListener {
             item.isChecked = !item.isChecked
             notifyItemChanged(position)
-
         }
     }
 }
