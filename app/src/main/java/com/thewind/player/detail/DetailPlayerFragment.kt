@@ -21,6 +21,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
+import java.io.File
 
 private const val PLAY_URL = "play_url"
 
@@ -110,6 +111,7 @@ class DetailPlayerFragment : Fragment() {
                 binding.controlPanel.visibility = View.VISIBLE
             }
         }
+        binding.videoTitle.text = File(playUrl).name
     }
 
     private var surfaceCallback = object : TextureView.SurfaceTextureListener {

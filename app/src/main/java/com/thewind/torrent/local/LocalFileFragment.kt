@@ -62,6 +62,9 @@ class LocalFileFragment : Fragment() {
             }
         }
         vm.clickItem.observe(this) {
+            files.clear()
+            File(path).listFiles()?.let { files.addAll(it) }
+            files.nameSort()
             val file = files[it]
             when {
                 file.isTorrent() -> TorrentSelectDialogFragment.newInstance(file.absolutePath)

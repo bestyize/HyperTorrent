@@ -30,6 +30,7 @@
             android:name="com.thewind.player.detail.DetailPlayerActivity"
             android:exported="false" />
         <activity
+            android:configChanges="orientation|uiMode"
             android:name=".main.ui.MainActivity"
             android:exported="true">
             <intent-filter>
