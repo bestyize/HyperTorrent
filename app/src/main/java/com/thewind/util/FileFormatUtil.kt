@@ -152,3 +152,40 @@ fun File.isApk(): Boolean{
 fun File.isTorrent(): Boolean {
     return extension.isTorrent()
 }
+
+fun MutableList<File>.nameSort(): MutableList<File> {
+    val fileList = filter { it.isFile }.sortedBy { it.name }
+    val directoryList = filter { it.isDirectory }.sortedBy { it.name }
+    clear()
+    addAll(directoryList)
+    addAll(fileList)
+    return this
+}
+
+fun MutableList<File>.nameSortReverse(): MutableList<File> {
+    val fileList = filter { it.isFile }.sortedBy { it.name }.reversed()
+    val directoryList = filter { it.isDirectory }.sortedBy { it.name }.reversed()
+    clear()
+    addAll(directoryList)
+    addAll(fileList)
+    return this
+}
+
+fun MutableList<File>.timeSort(): MutableList<File> {
+    val fileList = filter { it.isFile }.sortedBy { it.lastModified() }
+    val directoryList = filter { it.isDirectory }.sortedBy { it.lastModified() }
+    clear()
+    addAll(directoryList)
+    addAll(fileList)
+    return this
+}
+
+fun MutableList<File>.timeSortReverse(): MutableList<File> {
+    val fileList = filter { it.isFile }.sortedBy { it.lastModified() }.reversed()
+    val directoryList = filter { it.isDirectory }.sortedBy { it.lastModified() }.reversed()
+    clear()
+    addAll(directoryList)
+    addAll(fileList)
+    return this
+}
+

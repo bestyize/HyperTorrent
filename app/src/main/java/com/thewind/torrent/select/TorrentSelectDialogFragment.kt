@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.TorrentSelectDialogFragmentBinding
+import com.thewind.util.fillWidth
 import com.xunlei.tool.editor.TorrentEditor
 import com.xunlei.tool.editor.TorrentSimpleInfo
 import kotlinx.coroutines.launch
@@ -70,9 +71,7 @@ class TorrentSelectDialogFragment private constructor(private val torrentFilePat
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.window?.attributes?.gravity = Gravity.BOTTOM
-        dialog?.window?.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+        fillWidth()
     }
 
     companion object {

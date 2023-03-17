@@ -38,6 +38,10 @@ class LocalFileAdapter(private val files: MutableList<File>) : RecyclerView.Adap
         holder.binding.root.setOnClickListener {
             vmm?.clickItem?.value = position
         }
+        holder.binding.root.setOnLongClickListener {
+            vmm?.longClickItem?.value = position
+            true
+        }
 
     }
 }

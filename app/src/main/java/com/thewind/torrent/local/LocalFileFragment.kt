@@ -17,8 +17,10 @@ import com.thewind.player.detail.DetailPlayerFragment
 import com.thewind.torrent.select.TorrentSelectDialogFragment
 import com.thewind.util.isTorrent
 import com.thewind.util.isVideo
+import com.thewind.util.nameSort
 import com.xunlei.download.config.STORAGE_ROOT
 import com.xunlei.download.config.TORRENT_DIR
+import com.xunlei.download.config.TORRENT_FILE_DIR
 import java.io.File
 
 
@@ -27,13 +29,32 @@ import java.io.File
 private const val PAGE_PATH = "page_path"
 
 class LocalFileFragment : Fragment() {
-    private var path: String = TORRENT_DIR
+    private var path: String = TORRENT_FILE_DIR
     private lateinit var binding: FragmentLocalFileBinding
     private var files: MutableList<File> = mutableListOf()
     private lateinit var vm: LocalFileViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initView()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentLocalFileBinding.inflate(inflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity?.title = "文件"
+        vm.path.value = path
+
+    }
+
+    private fun initView() {
         vm = ViewModelProvider(this)[LocalFileViewModel::class.java]
         arguments?.let {
             it.getString(PAGE_PATH)?.let {
@@ -74,11 +95,22 @@ class LocalFileFragment : Fragment() {
         vm.path.observe(this) {
             files.clear()
             File(path).listFiles()?.let { files.addAll(it) }
+            files.nameSort()
             binding.rvLocalFileList.layoutManager = LinearLayoutManager(context)
             binding.rvLocalFileList.adapter = LocalFileAdapter(files).apply {
                 this.vmm = vm
             }
             binding.folderPath.text = path.replace(STORAGE_ROOT, "")
+        }
+
+        vm.longClickItem.observe(this) {
+            val file = files[it]
+            LocalFileProcessDialogFragment.newInstance(file.absolutePath, action = {
+                when(it) {
+                    DialogAction.DELETE -> vm.path.value = path
+                    else -> {}
+                }
+            }).showNow(childFragmentManager, file.absolutePath)
         }
 
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
@@ -90,21 +122,6 @@ class LocalFileFragment : Fragment() {
                 vm.path.value = path
             }
         })
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentLocalFileBinding.inflate(inflater)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        activity?.title = "文件"
-        vm.path.value = path
-
     }
 
 

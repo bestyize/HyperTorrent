@@ -25,6 +25,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
+            android:configChanges="uiMode|orientation"
             android:theme="@style/Theme.Material3.Light.NoActionBar"
             android:name="com.thewind.player.detail.DetailPlayerActivity"
             android:exported="false" />

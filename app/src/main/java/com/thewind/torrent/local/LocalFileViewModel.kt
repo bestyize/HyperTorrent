@@ -13,5 +13,6 @@ import java.io.File
 class LocalFileViewModel: ViewModel() {
     val path: MutableLiveData<String> = MutableLiveData(TORRENT_DIR)
     val clickItem: MutableLiveData<Int> = MutableLiveData()
+    var longClickItem: MutableLiveData<Int> = MutableLiveData()
 
 }

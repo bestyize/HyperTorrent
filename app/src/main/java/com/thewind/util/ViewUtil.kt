@@ -2,8 +2,10 @@ package com.thewind.util
 
 import android.app.Activity
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -11,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.DialogFragment
 import com.thewind.hypertorrent.main.globalApplication
 
 /**
@@ -82,8 +85,13 @@ object ViewUtils {
         window.statusBarColor = Color.TRANSPARENT
         window.decorView.fitsSystemWindows = true
         val compat = ViewCompat.getWindowInsetsController(activity.window.decorView)
-        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
-        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
         compat?.isAppearanceLightStatusBars = isLight
     }
+}
+
+
+fun DialogFragment.fillWidth() {
+    dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialog?.window?.attributes?.gravity = Gravity.BOTTOM
+    dialog?.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
 }
