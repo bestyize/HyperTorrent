@@ -10,9 +10,13 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentLocalFileBinding
+import com.thewind.player.detail.DetailPlayerActivity
+import com.thewind.player.detail.DetailPlayerFragment
 import com.thewind.torrent.select.TorrentSelectDialogFragment
 import com.thewind.util.isTorrent
+import com.thewind.util.isVideo
 import com.xunlei.download.config.STORAGE_ROOT
 import com.xunlei.download.config.TORRENT_DIR
 import java.io.File
@@ -39,13 +43,26 @@ class LocalFileFragment : Fragment() {
         vm.clickItem.observe(this) {
             val file = files[it]
             when {
-                file.isTorrent() -> TorrentSelectDialogFragment.newInstance(file.absolutePath).showNow(childFragmentManager, "torrent_select_$it")
+                file.isTorrent() -> TorrentSelectDialogFragment.newInstance(file.absolutePath)
+                    .showNow(childFragmentManager, "torrent_select_$it")
                 file.isDirectory -> {
                     path = file.absolutePath
                     vm.path.value = path
                 }
+                file.isVideo() -> {
+                    val intent = Intent(activity, DetailPlayerActivity::class.java)
+                    intent.putExtra("play_url", file.absolutePath)
+                    startActivity(intent)
+                }
                 else -> {
-                    Intent(Intent.ACTION_VIEW, FileProvider.getUriForFile(requireContext(), "com.thewind.hypertorrent.provider", file)).apply {
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        FileProvider.getUriForFile(
+                            requireContext(),
+                            "com.thewind.hypertorrent.provider",
+                            file
+                        )
+                    ).apply {
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                         startActivity(this)
                     }
@@ -64,12 +81,12 @@ class LocalFileFragment : Fragment() {
             binding.folderPath.text = path.replace(STORAGE_ROOT, "")
         }
 
-        activity?.onBackPressedDispatcher?.addCallback(this, object :OnBackPressedCallback(true) {
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (path == STORAGE_ROOT) {
                     return
                 }
-                path = File(path).parent?: STORAGE_ROOT
+                path = File(path).parent ?: STORAGE_ROOT
                 vm.path.value = path
             }
         })
@@ -89,7 +106,6 @@ class LocalFileFragment : Fragment() {
         vm.path.value = path
 
     }
-
 
 
     companion object {
