@@ -28,23 +28,12 @@ class TorrentSearchViewModel : ViewModel() {
         private val TAG = "TorrentSearchViewModel"
     }
 
-    val tabs: MutableLiveData<MutableList<TorrentSource>> = MutableLiveData()
     val results: MutableLiveData<MutableList<TorrentInfo>> = MutableLiveData()
     val magnetUrlLiveData: MutableLiveData<String> = MutableLiveData()
     val config: MutableLiveData<MutableList<TorrentSource>> = MutableLiveData()
     val downTorrentLiveData: MutableLiveData<String> = MutableLiveData()
     val parseMagnetFileLiveData: MutableLiveData<String> = MutableLiveData()
 
-
-    fun loadTabs() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                TorrentSearchService.requestTabs()
-            }.run {
-                tabs.value = this
-            }
-        }
-    }
 
     fun search(keyword: String, src: Int, page: Int) {
         viewModelScope.launch {

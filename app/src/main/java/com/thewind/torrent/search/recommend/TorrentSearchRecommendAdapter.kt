@@ -3,6 +3,7 @@ package com.thewind.torrent.search.recommend
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.thewind.torrent.search.TorrentSearchFragment
@@ -16,14 +17,14 @@ import com.thewind.torrent.search.model.TorrentSource
 class TorrentSearchRecommendAdapter(
     fm: FragmentManager,
     lifecycle: Lifecycle,
-    private val list: MutableList<TorrentSource>
+    private val list: MutableList<TorrentSource>,
+    private val liveData: MutableLiveData<TorrentSearchOperator>
 ) : FragmentStateAdapter(fm, lifecycle) {
     override fun getItemCount(): Int {
         return list.size
     }
-
     override fun createFragment(position: Int): Fragment {
-        return TorrentSearchFragment.newInstance(list[position])
+        return TorrentSearchFragment.newInstance(list[position], liveData)
     }
 
 

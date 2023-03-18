@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <include android:id="@+id/top_search_bar" layout="@layout/item_main_top_bar"/>
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/search_tab"
         app:tabMode="scrollable"

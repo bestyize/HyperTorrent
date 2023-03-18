@@ -10,6 +10,8 @@
 
     <color name="bili_pink">#FFFF6699</color>
 
+    <color name="bili_pink_transport">#22FF6699</color>
+
     <color name="transport">#00000000</color>
 
     <color name="gray_medium">#FF888888</color>

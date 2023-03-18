@@ -13,6 +13,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentTorrentSearchRecommendBinding
 import com.thewind.torrent.search.model.TorrentSource
+import com.thewind.util.toast
 
 class TorrentSearchRecommendFragment : Fragment() {
 
@@ -20,6 +21,8 @@ class TorrentSearchRecommendFragment : Fragment() {
     private lateinit var vm: TorrentSearchRecommendViewModel
 
     private val sourceList: MutableList<TorrentSource> = mutableListOf()
+
+    private var currTabTitle = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,14 +41,37 @@ class TorrentSearchRecommendFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.vpContainer.offscreenPageLimit = 20
         binding.vpContainer.adapter =
-            TorrentSearchRecommendAdapter(childFragmentManager, lifecycle, sourceList)
-        context?.resources?.getColor(R.color.bili_pink)?.let { biliPink ->
+            TorrentSearchRecommendAdapter(childFragmentManager, lifecycle, sourceList, vm.searchOperatorLiveData)
+        context?.resources?.getColor(R.color.bili_pink_transport)?.let { biliPink ->
             binding.searchTab.tabRippleColor = ColorStateList.valueOf(biliPink)
         }
+        binding.searchTab.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                currTabTitle = tab?.text?.toString() ?: ""
+                vm.notifySearch(title = currTabTitle, keyword = binding.topSearchBar.etInput.text.toString())
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+        })
+        binding.topSearchBar.tvSearch.setOnClickListener {
+            toast("正在努力搜索")
+            val keyword = binding.topSearchBar.etInput.text.toString()
+            vm.notifySearch(title = currTabTitle, keyword = keyword)
+        }
+
 
         vm.sources.observe(viewLifecycleOwner) {
             sourceList.clear()
             sourceList.addAll(it)
+            if (currTabTitle.isEmpty() && sourceList.size > 0) {
+                currTabTitle = sourceList[0].title
+            }
             binding.vpContainer.adapter?.notifyDataSetChanged()
             TabLayoutMediator(binding.searchTab, binding.vpContainer, false) { tab, pos ->
                 tab.text = sourceList[pos].title

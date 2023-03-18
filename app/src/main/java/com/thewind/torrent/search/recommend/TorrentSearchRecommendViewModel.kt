@@ -18,6 +18,8 @@ class TorrentSearchRecommendViewModel : ViewModel() {
 
     val sources: MutableLiveData<MutableList<TorrentSource>> = MutableLiveData()
 
+    val searchOperatorLiveData: MutableLiveData<TorrentSearchOperator> = MutableLiveData()
+
     fun loadSource() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -28,4 +30,16 @@ class TorrentSearchRecommendViewModel : ViewModel() {
         }
     }
 
+    fun notifySearch(title: String, keyword: String) {
+        searchOperatorLiveData.value = TorrentSearchOperator().apply {
+            this.title = title
+            this.keyword = keyword
+        }
+    }
+
+}
+
+class TorrentSearchOperator{
+    var title: String = ""
+    var keyword: String = ""
 }
