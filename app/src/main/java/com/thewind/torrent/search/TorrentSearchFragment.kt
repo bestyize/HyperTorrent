@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentTorrentSearchBinding
 import com.thewind.torrent.search.model.TorrentInfo
 import com.thewind.torrent.select.TorrentSelectDialogFragment
@@ -21,7 +22,7 @@ class TorrentSearchFragment : Fragment() {
     private lateinit var vm: TorrentSearchViewModel
     private var currPage = 1
     private var src = 4
-    private var isLoading = true
+    private var isLoading:Boolean = true
 
     private val torrentList: MutableList<TorrentInfo> = mutableListOf()
     private val actions = mutableListOf("复制磁力链接", "下载种子文件", "解析磁力链接文件", "取消")
@@ -70,13 +71,20 @@ class TorrentSearchFragment : Fragment() {
         }
 
         binding.srfRefresh.setOnRefreshListener {
-            if (isLoading) return@setOnRefreshListener
-            isLoading = true
-            binding.srfRefresh.isRefreshing = true
-            currPage = 1
-            val keyword = binding.topSearchBar.etInput.text.toString()
-            vm.search(keyword, src = src, page = currPage)
+            if (binding.topSearchBar.etInput.text.isNullOrBlank()) {
+                binding.srfRefresh.isRefreshing = false
+                return@setOnRefreshListener
+            }
+            if (!isLoading) {
+                isLoading = true
+                binding.srfRefresh.isRefreshing = true
+                currPage = 1
+                val keyword = binding.topSearchBar.etInput.text.toString()
+                vm.search(keyword, src = src, page = currPage)
+            }
+
         }
+        binding.srfRefresh.setColorSchemeResources(R.color.bili_pink)
 
         binding.rvSearchResult.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             private var lastPos: Int = 0
