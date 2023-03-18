@@ -2,6 +2,7 @@ package com.thewind.local
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +44,8 @@ class LocalFileProcessDialogFragment private constructor(
             action.invoke(DialogAction.CANCEL)
         }
         binding.tvDelete.setOnClickListener {
-            File(path).delete()
+            Log.i(TAG, "delete file , path = $path")
+            Runtime.getRuntime().exec("rm -rf $path")
             dismissAllowingStateLoss()
             action.invoke(DialogAction.DELETE)
         }
@@ -78,6 +80,8 @@ class LocalFileProcessDialogFragment private constructor(
     }
 
     companion object {
+
+        private const val TAG = "LocalFileProcessDialogFragment"
         fun newInstance(
             path: String,
             action: (DialogAction) -> Unit

@@ -18,12 +18,16 @@ import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.ActivityMainBinding
 import com.thewind.local.LocalFileFragment
 import com.thewind.torrent.search.TorrentSearchFragment
+import com.thewind.torrent.search.recommend.TorrentSearchRecommendFragment
 import com.thewind.util.ViewUtils
 import com.thewind.util.spToPx
 import com.thewind.util.toJson
 import com.thewind.util.toast
+import com.xunlei.download.config.TORRENT_DIR
+import com.xunlei.download.config.TORRENT_FILE_DIR
 import com.xunlei.download.provider.TaskInfo
 import com.xunlei.download.provider.TorrentTaskListener
+import java.io.File
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val torrentSearchFragment by lazy { TorrentSearchFragment.newInstance() }
+    private val torrentSearchFragment by lazy { TorrentSearchRecommendFragment.newInstance()}
     private val localFileFragment by lazy { LocalFileFragment.newInstance() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,18 +135,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initVView2() {
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, torrentSearchFragment).commitNow()
+        supportFragmentManager.beginTransaction().add(R.id.fragment_container, localFileFragment).commitNow()
+        supportFragmentManager.beginTransaction().hide(localFileFragment).commitNow()
+        supportFragmentManager.beginTransaction().add(R.id.fragment_container, torrentSearchFragment).commitNow()
         binding.mainItemMain.setOnCheckedChangeListener { buttonView, isChecked ->
             handleMainTabChecked(buttonView, isChecked)
             if (isChecked) {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, torrentSearchFragment).commitNow()
+                supportFragmentManager.beginTransaction().show(torrentSearchFragment).commitNow()
+            } else {
+                supportFragmentManager.beginTransaction().hide(torrentSearchFragment).commitNow()
             }
         }
         binding.mainItemLocal.setOnCheckedChangeListener { buttonView, isChecked ->
             handleMainTabChecked(buttonView, isChecked)
             if (isChecked) {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, localFileFragment).commitNow()
+                supportFragmentManager.beginTransaction().show(localFileFragment).commitNow()
+            } else {
+                supportFragmentManager.beginTransaction().hide(localFileFragment).commitNow()
             }
         }
         binding.mainItemMy.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -158,6 +167,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun requestPermission() {
+        initDir()
         // 通过api判断手机当前版本号
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // 安卓11，判断有没有“所有文件访问权限”权限
@@ -204,8 +214,21 @@ class MainActivity : AppCompatActivity() {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                toast("存储权限获取失败")
+                toast("存储权限获取失败, 无法正常搜索下载")
+            } else {
+                initDir()
             }
+        }
+    }
+
+    private fun initDir() {
+        var file = File(TORRENT_FILE_DIR)
+        if (!file.exists()) {
+            file.mkdirs()
+        }
+        file = File(TORRENT_DIR)
+        if (!file.exists()) {
+            file.mkdirs()
         }
     }
 }

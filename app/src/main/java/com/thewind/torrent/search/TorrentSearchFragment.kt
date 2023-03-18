@@ -11,18 +11,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentTorrentSearchBinding
 import com.thewind.torrent.search.model.TorrentInfo
+import com.thewind.torrent.search.model.TorrentSource
 import com.thewind.torrent.select.TorrentSelectDialogFragment
 import com.thewind.util.ClipboardUtil
 import com.thewind.util.toast
 import com.thewind.widget.bottomsheet.CommonBottomSheetDialogFragment
 
 
-class TorrentSearchFragment : Fragment() {
+class TorrentSearchFragment(private val torrentSource: TorrentSource) : Fragment() {
     private lateinit var binding: FragmentTorrentSearchBinding
     private lateinit var vm: TorrentSearchViewModel
     private var currPage = 1
-    private var src = 4
-    private var isLoading:Boolean = true
+    private var isLoading: Boolean = true
 
     private val torrentList: MutableList<TorrentInfo> = mutableListOf()
     private val actions = mutableListOf("复制磁力链接", "下载种子文件", "解析磁力链接文件", "取消")
@@ -51,15 +51,15 @@ class TorrentSearchFragment : Fragment() {
                 when (action) {
                     0 -> {
                         toast("正在请求磁力链接")
-                        vm.requestMagnetLink(src, info.detailUrl)
+                        vm.requestMagnetLink(torrentSource.src, info.detailUrl)
                     }
                     1 -> {
                         toast("正在为您下载种子文件")
-                        vm.downloadMagnetFile(src, info.detailUrl)
+                        vm.downloadMagnetFile(torrentSource.src, info.detailUrl)
                     }
                     2 -> {
                         toast("正在为您解析磁力文件")
-                        vm.parseOnlineMagnetFile(src, info.detailUrl)
+                        vm.parseOnlineMagnetFile(torrentSource.src, info.detailUrl)
                     }
 
                 }
@@ -80,7 +80,7 @@ class TorrentSearchFragment : Fragment() {
                 binding.srfRefresh.isRefreshing = true
                 currPage = 1
                 val keyword = binding.topSearchBar.etInput.text.toString()
-                vm.search(keyword, src = src, page = currPage)
+                vm.search(keyword, src = torrentSource.src, page = currPage)
             }
 
         }
@@ -94,7 +94,7 @@ class TorrentSearchFragment : Fragment() {
                     if (lastPos == torrentList.size - 1 && !isLoading) {
                         isLoading = true
                         val keyword = binding.topSearchBar.etInput.text.toString()
-                        vm.search(keyword, src = src, page = currPage++)
+                        vm.search(keyword, src = torrentSource.src, page = currPage++)
                     }
                 }
             }
@@ -110,7 +110,7 @@ class TorrentSearchFragment : Fragment() {
 
         binding.topSearchBar.tvSearch.setOnClickListener {
             val keyword = binding.topSearchBar.etInput.text.toString()
-            vm.search(keyword = keyword, page = currPage, src = src)
+            vm.search(keyword = keyword, page = currPage, src = torrentSource.src)
         }
     }
 
@@ -156,6 +156,6 @@ class TorrentSearchFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = TorrentSearchFragment()
+        fun newInstance(torrentSource: TorrentSource) = TorrentSearchFragment(torrentSource)
     }
 }

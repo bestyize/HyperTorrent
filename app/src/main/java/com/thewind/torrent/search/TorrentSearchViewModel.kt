@@ -115,6 +115,7 @@ class TorrentSearchViewModel : ViewModel() {
                         }
 
                         override fun onError(taskInfo: TaskInfo) {
+                            TorrentRecordManager.instance.removeTaskListener(hash)
                             if (noParse) downTorrentLiveData.postValue("") else parseMagnetFileLiveData.postValue(
                                 ""
                             )
@@ -135,6 +136,7 @@ class TorrentSearchViewModel : ViewModel() {
                         }
                     })
                 } else {
+                    TorrentRecordManager.instance.removeTaskListener(hash)
                     if (noParse) downTorrentLiveData.postValue("") else parseMagnetFileLiveData.postValue(
                         ""
                     )

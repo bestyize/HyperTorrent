@@ -9,6 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thewind.hypertorrent.databinding.FragmentLocalFileBinding
 import com.thewind.player.detail.DetailPlayerActivity
@@ -19,6 +20,8 @@ import com.thewind.util.nameSort
 import com.xunlei.download.config.BASE_DOWNLOAD_DIR
 import com.xunlei.download.config.STORAGE_ROOT
 import com.xunlei.download.config.TORRENT_FILE_DIR
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 
 
@@ -109,7 +112,12 @@ class LocalFileFragment : Fragment() {
             val file = files[it]
             LocalFileProcessDialogFragment.newInstance(file.absolutePath, action = { action ->
                 when (action) {
-                    DialogAction.DELETE -> vm.path.value = path
+                    DialogAction.DELETE -> {
+                        lifecycleScope.launch {
+                            delay(500)
+                            vm.path.value = path
+                        }
+                    }
                     else -> {}
                 }
             }).showNow(childFragmentManager, file.absolutePath)
