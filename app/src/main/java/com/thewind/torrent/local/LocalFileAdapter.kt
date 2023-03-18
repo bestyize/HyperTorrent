@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.LocalFileItemBinding
-import com.thewind.torrent.select.TorrentSelectDialogFragment
 import com.thewind.util.formatDate
 import com.thewind.util.formatSize
 import com.thewind.util.icon
@@ -17,12 +16,17 @@ import java.io.File
  * @date: 2023/3/17 上午12:44
  * @description:
  */
-class LocalFileAdapter(private val files: MutableList<File>) : RecyclerView.Adapter<LocalFileViewHolder>() {
+class LocalFileAdapter(private val files: MutableList<File>) :
+    RecyclerView.Adapter<LocalFileViewHolder>() {
 
     var vmm: LocalFileViewModel? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocalFileViewHolder {
-        return LocalFileViewHolder(LocalFileItemBinding.bind(LayoutInflater.from(parent.context).inflate(R.layout.local_file_item, parent, false)))
+        return LocalFileViewHolder(
+            LocalFileItemBinding.bind(
+                LayoutInflater.from(parent.context).inflate(R.layout.local_file_item, parent, false)
+            )
+        )
     }
 
     override fun getItemCount(): Int {

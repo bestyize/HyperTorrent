@@ -3,17 +3,11 @@ package com.thewind.player.detail
 import android.content.pm.ActivityInfo
 import android.graphics.SurfaceTexture
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.Surface
-import android.view.SurfaceHolder
-import android.view.TextureView
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.SeekBar
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentDetailPlayerBinding
 import com.thewind.util.toTime
 import kotlinx.coroutines.Dispatchers
@@ -80,7 +74,8 @@ class DetailPlayerFragment : Fragment() {
         binding.svPlayerContainer.setOnClickListener {
             if (notAllowControlPanelClick) {
                 val isPlayLockVisible = !(binding.playLockSwitch.visibility == View.VISIBLE)
-                binding.playLockSwitch.visibility = if (isPlayLockVisible) View.VISIBLE else View.GONE
+                binding.playLockSwitch.visibility =
+                    if (isPlayLockVisible) View.VISIBLE else View.GONE
                 showControlPanel = false
                 binding.controlPanel.visibility = View.GONE
                 return@setOnClickListener
@@ -93,17 +88,17 @@ class DetailPlayerFragment : Fragment() {
         binding.ivBack.setOnClickListener {
             activity?.onBackPressed()
         }
-        binding.volumeSwitch.setOnCheckedChangeListener{ view, checked ->
+        binding.volumeSwitch.setOnCheckedChangeListener { view, checked ->
             val volume = if (checked) 1f else 0f
             player.setVolume(volume, volume)
         }
-        binding.playSwitch.setOnCheckedChangeListener{ view, checked ->
+        binding.playSwitch.setOnCheckedChangeListener { view, checked ->
             if (checked) player.start() else player.pause()
         }
 
         binding.playLockSwitch.setOnCheckedChangeListener { view, checked ->
             notAllowControlPanelClick = !notAllowControlPanelClick
-            if(notAllowControlPanelClick) {
+            if (notAllowControlPanelClick) {
                 showControlPanel = false
                 binding.controlPanel.visibility = View.GONE
             } else {
@@ -138,16 +133,19 @@ class DetailPlayerFragment : Fragment() {
     }
 
     private fun adjustPlayArea(videoWidth: Int, videoHeight: Int) {
-        activity?.requestedOrientation = if (videoWidth > videoHeight) ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
+        activity?.requestedOrientation =
+            if (videoWidth > videoHeight) ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE else ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
 
         val lp = binding.svPlayerContainer.layoutParams
-        lp.width = if (videoWidth <= videoHeight) binding.root.width else (binding.root.height * (videoWidth.toDouble() / videoHeight)).toInt()
-        lp.height = if (videoWidth <= videoHeight) (binding.root.width * (videoHeight.toDouble() / videoWidth)).toInt() else binding.root.height
+        lp.width =
+            if (videoWidth <= videoHeight) binding.root.width else (binding.root.height * (videoWidth.toDouble() / videoHeight)).toInt()
+        lp.height =
+            if (videoWidth <= videoHeight) (binding.root.width * (videoHeight.toDouble() / videoWidth)).toInt() else binding.root.height
         binding.svPlayerContainer.layoutParams = lp
     }
 
     private fun setSeekBar(totalTime: Long) {
-        binding.seekBar.max = (totalTime/1000).toInt()
+        binding.seekBar.max = (totalTime / 1000).toInt()
         binding.tvTotalTime.text = totalTime.toTime()
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -171,7 +169,7 @@ class DetailPlayerFragment : Fragment() {
             while (true) {
                 if (player.isPlaying) {
                     val position = player.currentPosition
-                    binding.seekBar.progress = (position/1000).toInt()
+                    binding.seekBar.progress = (position / 1000).toInt()
                     binding.tvPlayedTime.text = position.toTime()
                 }
                 delay(1000)

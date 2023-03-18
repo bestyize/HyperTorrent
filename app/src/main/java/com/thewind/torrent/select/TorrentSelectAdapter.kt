@@ -13,10 +13,12 @@ import com.xunlei.tool.editor.TorrentFileSimpleInfo
  * @date: 2023/3/16 上午2:05
  * @description:
  */
-class TorrentSelectAdapter(private val items: MutableList<TorrentFileSimpleInfo>): RecyclerView.Adapter<TorrentSelectViewHolder>() {
+class TorrentSelectAdapter(private val items: MutableList<TorrentFileSimpleInfo>) :
+    RecyclerView.Adapter<TorrentSelectViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TorrentSelectViewHolder {
 
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.torrent_select_item,parent,false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.torrent_select_item, parent, false)
         return TorrentSelectViewHolder(TorrentSelectItemBinding.bind(view))
     }
 
@@ -41,4 +43,5 @@ class TorrentSelectAdapter(private val items: MutableList<TorrentFileSimpleInfo>
 }
 
 
-class TorrentSelectViewHolder (val binding: TorrentSelectItemBinding): RecyclerView.ViewHolder(binding.root)
+class TorrentSelectViewHolder(val binding: TorrentSelectItemBinding) :
+    RecyclerView.ViewHolder(binding.root)

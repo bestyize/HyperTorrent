@@ -11,8 +11,6 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.DialogFragment
 import com.thewind.hypertorrent.main.globalApplication
 
@@ -93,5 +91,8 @@ object ViewUtils {
 fun DialogFragment.fillWidth() {
     dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     dialog?.window?.attributes?.gravity = Gravity.BOTTOM
-    dialog?.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+    dialog?.window?.setLayout(
+        WindowManager.LayoutParams.MATCH_PARENT,
+        WindowManager.LayoutParams.WRAP_CONTENT
+    )
 }

@@ -2,9 +2,6 @@ package com.thewind.player.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.ActivityDetailPlayerBinding
 import com.thewind.util.ViewUtils

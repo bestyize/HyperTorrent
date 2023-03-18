@@ -21,7 +21,7 @@ private val numberFormat = DecimalFormat("0.##")
 
 
 fun Long.formatSize(): String {
-    return when{
+    return when {
         this < KB -> "$this B"
         this < MB -> "${numberFormat.format(this.toDouble() / KB)} KB"
         this < GB -> "${numberFormat.format(this.toDouble() / MB)} MB"
@@ -38,7 +38,7 @@ fun File.formatDate(): String {
     return dateFormat.format(lastModified())
 }
 
-fun String.postfix():String {
+fun String.postfix(): String {
     return substring(lastIndexOf(".") + 1)
 }
 
@@ -72,7 +72,7 @@ fun File.icon(): Int {
 }
 
 fun String.isVideo(): Boolean {
-    return when(postfix().lowercase()){
+    return when (postfix().lowercase()) {
         "mp4", "mkv", "mov", "avi", "flv", "mpeg", "mpg", "3gp", "wmv", "f4v", "rmvb", "rm", "asf" -> true
         else -> false
     }
@@ -83,7 +83,7 @@ fun File.isVideo(): Boolean {
 }
 
 fun String.isPicture(): Boolean {
-    return when(postfix().lowercase()){
+    return when (postfix().lowercase()) {
         "jpg", "jpeg", "png", "webp", "gif", "svg", "bmp", "avif", "tif", "heif" -> true
         else -> false
     }
@@ -92,8 +92,9 @@ fun String.isPicture(): Boolean {
 fun File.isPicture(): Boolean {
     return extension.isPicture()
 }
+
 fun String.isAudio(): Boolean {
-    return when(postfix().lowercase()){
+    return when (postfix().lowercase()) {
         "mp3", "ape", "flac", "m4a", "aac", "wma", "wav" -> true
         else -> false
     }
@@ -105,7 +106,7 @@ fun File.isAudio(): Boolean {
 }
 
 fun String.isCompress(): Boolean {
-    return when(postfix().lowercase()){
+    return when (postfix().lowercase()) {
         "zip", "rar", "7z", "gz", "bz", "bz2", "tgz", "xz", "taz", "tar" -> true
         else -> false
     }
@@ -116,7 +117,7 @@ fun File.isCompress(): Boolean {
 }
 
 fun String.isText(): Boolean {
-    return when(postfix().lowercase()){
+    return when (postfix().lowercase()) {
         "txt" -> true
         else -> false
     }
@@ -127,7 +128,7 @@ fun File.isText(): Boolean {
 }
 
 fun String.isDocument(): Boolean {
-    return when(postfix().lowercase()){
+    return when (postfix().lowercase()) {
         "doc", "docx", "ppt", "pptx", "xls", "md", "pdf" -> true
         else -> false
     }
@@ -145,7 +146,7 @@ fun String.isApk(): Boolean {
     return postfix() == "apk"
 }
 
-fun File.isApk(): Boolean{
+fun File.isApk(): Boolean {
     return extension.isApk()
 }
 

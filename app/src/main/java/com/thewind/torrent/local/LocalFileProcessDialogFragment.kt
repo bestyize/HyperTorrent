@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import com.thewind.hypertorrent.databinding.LocalFileProcessDialogFragmentBinding
-import com.thewind.torrent.select.TorrentSelectDialogFragment
 import com.thewind.util.fillWidth
 import java.io.File
 
@@ -18,7 +17,10 @@ import java.io.File
  * @date: 2023/3/17 下午11:22
  * @description:
  */
-class LocalFileProcessDialogFragment private constructor(private val path: String, private val action: (DialogAction) -> Unit): DialogFragment() {
+class LocalFileProcessDialogFragment private constructor(
+    private val path: String,
+    private val action: (DialogAction) -> Unit
+) : DialogFragment() {
 
     private lateinit var binding: LocalFileProcessDialogFragmentBinding
 
@@ -65,7 +67,10 @@ class LocalFileProcessDialogFragment private constructor(private val path: Strin
     }
 
     companion object {
-        fun newInstance(path: String, action: (DialogAction) -> Unit) : LocalFileProcessDialogFragment {
+        fun newInstance(
+            path: String,
+            action: (DialogAction) -> Unit
+        ): LocalFileProcessDialogFragment {
             return LocalFileProcessDialogFragment(path, action)
         }
     }

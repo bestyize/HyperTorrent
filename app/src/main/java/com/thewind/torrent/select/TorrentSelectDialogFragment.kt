@@ -1,17 +1,12 @@
 package com.thewind.torrent.select
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager.LayoutParams
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.TorrentSelectDialogFragmentBinding
 import com.thewind.util.fillWidth
 import com.xunlei.tool.editor.TorrentEditor
@@ -23,7 +18,8 @@ import kotlinx.coroutines.launch
  * @date: 2023/3/15 下午11:44
  * @description:
  */
-class TorrentSelectDialogFragment private constructor(private val torrentFilePath: String): DialogFragment() {
+class TorrentSelectDialogFragment private constructor(private val torrentFilePath: String) :
+    DialogFragment() {
 
     private lateinit var binding: TorrentSelectDialogFragmentBinding
 
@@ -75,7 +71,7 @@ class TorrentSelectDialogFragment private constructor(private val torrentFilePat
     }
 
     companion object {
-        fun newInstance(torrentFilePath: String) : TorrentSelectDialogFragment{
+        fun newInstance(torrentFilePath: String): TorrentSelectDialogFragment {
             return TorrentSelectDialogFragment(torrentFilePath)
         }
     }
