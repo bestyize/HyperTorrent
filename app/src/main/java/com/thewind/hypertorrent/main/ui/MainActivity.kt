@@ -16,7 +16,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.ActivityMainBinding
-import com.thewind.torrent.local.LocalFileFragment
+import com.thewind.local.LocalFileFragment
+import com.thewind.torrent.search.TorrentSearchFragment
+import com.thewind.util.ViewUtils
 import com.thewind.util.spToPx
 import com.thewind.util.toJson
 import com.thewind.util.toast
@@ -29,11 +31,16 @@ class MainActivity : AppCompatActivity() {
     var taskId: Long = -1
 
     private lateinit var binding: ActivityMainBinding
+
+    private val torrentSearchFragment by lazy { TorrentSearchFragment.newInstance() }
+    private val localFileFragment by lazy { LocalFileFragment.newInstance() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         requestPermission()
+        ViewUtils.setStatusBarColor(this, true)
+        supportActionBar?.hide()
         initView()
         initVView2()
     }
@@ -124,13 +131,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initVView2() {
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, torrentSearchFragment).commitNow()
         binding.mainItemMain.setOnCheckedChangeListener { buttonView, isChecked ->
             handleMainTabChecked(buttonView, isChecked)
+            if (isChecked) {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, torrentSearchFragment).commitNow()
+            }
         }
         binding.mainItemLocal.setOnCheckedChangeListener { buttonView, isChecked ->
             handleMainTabChecked(buttonView, isChecked)
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, LocalFileFragment.newInstance()).commitNow()
+            if (isChecked) {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, localFileFragment).commitNow()
+            }
         }
         binding.mainItemMy.setOnCheckedChangeListener { buttonView, isChecked ->
             handleMainTabChecked(buttonView, isChecked)

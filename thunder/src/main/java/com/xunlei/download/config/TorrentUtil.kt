@@ -25,6 +25,10 @@ object TorrentUtil {
 
     }
 
+    fun getLocalTorrentPath(hash: String): String {
+        return "$TORRENT_DIR$hash.torrent"
+    }
+
 
     fun isHashHex(str: String?): Boolean {
         str ?: return false

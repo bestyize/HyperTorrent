@@ -1,4 +1,4 @@
-package com.thewind.torrent.local
+package com.thewind.local
 
 import android.content.Intent
 import android.os.Bundle

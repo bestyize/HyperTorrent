@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.thewind.torrent.local.LocalFileFragment">
+    tools:context="com.thewind.local.LocalFileFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

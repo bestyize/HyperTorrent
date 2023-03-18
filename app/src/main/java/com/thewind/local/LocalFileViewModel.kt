@@ -1,4 +1,4 @@
-package com.thewind.torrent.local
+package com.thewind.local
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

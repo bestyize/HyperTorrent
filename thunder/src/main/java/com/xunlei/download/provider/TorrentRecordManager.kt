@@ -18,10 +18,8 @@ class TorrentRecordManager {
     }
 
     fun init() {
-        initTaskRecord()
         TaskManager.execute {
             while (true) {
-                initTaskRecord()
                 for (taskId in 1000..TorrentTaskHelper.instance.maxTaskId) {
                     val xlTaskInfo = TorrentTaskHelper.instance.getTaskInfo(taskId)
                     taskRecords.forEach { (t, u) ->
@@ -29,6 +27,7 @@ class TorrentRecordManager {
                             if (u?.taskId == taskId) {
                                 u.xlTaskInfo = xlTaskInfo
                                 when (xlTaskInfo.mTaskStatus) {
+                                    0 -> taskListener[u.magnetHash]?.onInit(u)
                                     1 -> taskListener[u.magnetHash]?.onDownloading(u)
                                     2 -> taskListener[u.magnetHash]?.onSuccess(u)
                                     3 -> taskListener[u.magnetHash]?.onError(u)
@@ -107,6 +106,8 @@ class TorrentRecordManager {
 
 
 interface TorrentTaskListener {
+
+    fun onInit(taskInfo: TaskInfo){}
     fun onStart(taskInfo: TaskInfo)
 
     fun onDownloading(taskInfo: TaskInfo)

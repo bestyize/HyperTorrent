@@ -20,7 +20,7 @@ import com.thewind.hypertorrent.main.globalApplication
  * @description:
  */
 
-fun Int.toPx():Int {
+fun Int.toPx(): Int {
     return TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
         this.toFloat(),
@@ -28,7 +28,7 @@ fun Int.toPx():Int {
     ).toInt()
 }
 
-fun Int.spToPx():Float {
+fun Int.spToPx(): Float {
     return TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_SP,
         this.toFloat(),
@@ -85,11 +85,11 @@ object ViewUtils {
         setStatusBarColor(activity, isLight)
     }
 
-    private fun setStatusBarColor(activity: Activity?, isLight: Boolean) {
+    fun setStatusBarColor(activity: Activity?, isLight: Boolean, color: Int = Color.TRANSPARENT) {
         val window = activity?.window
         window ?: return
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.statusBarColor = Color.TRANSPARENT
+        window.statusBarColor = color
         window.decorView.fitsSystemWindows = true
         val compat = ViewCompat.getWindowInsetsController(activity.window.decorView)
         compat?.isAppearanceLightStatusBars = isLight
