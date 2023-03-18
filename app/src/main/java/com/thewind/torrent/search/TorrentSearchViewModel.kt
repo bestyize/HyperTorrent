@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.thewind.downloader.HttpDownloader
 import com.thewind.torrent.search.model.TorrentInfo
 import com.thewind.torrent.search.model.TorrentSource
 import com.thewind.torrent.search.service.TorrentServiceHelper
+import com.xunlei.download.config.TORRENT_DIR
 import com.xunlei.download.config.TorrentUtil
 import com.xunlei.download.provider.TaskInfo
 import com.xunlei.download.provider.TorrentRecordManager
@@ -58,6 +60,24 @@ class TorrentSearchViewModel : ViewModel() {
     fun downloadMagnetFile(src: Int, link: String, noParse: Boolean = true) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
+                if (link.endsWith(".torrent")) {
+                    val fullPath = TORRENT_DIR + TorrentUtil.getMagnetHash(link) + ".torrent"
+                    var path = ""
+                    var file = File(fullPath)
+                    try {
+                        if (!file.exists() || file.length() == 0L) {
+                            HttpDownloader.download(link, fullPath)
+                        }
+                        file = File(fullPath)
+                        path = if (file.exists() && file.length() > 0) file.absolutePath else ""
+                    } catch (_: java.lang.Exception) {
+                    }
+                    if (noParse) downTorrentLiveData.postValue(path) else parseMagnetFileLiveData.postValue(
+                        path
+                    )
+                    return@withContext
+
+                }
                 val magnetLink =
                     TorrentServiceHelper.requestMagnetLink(src = src, link = link).result
                 val hash = TorrentUtil.getMagnetHash(magnetLink)

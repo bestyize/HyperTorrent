@@ -9,6 +9,7 @@ object TorrentUtil {
 
     fun getMagnetHash(magnetUrl: String?): String {
         magnetUrl ?: return ""
+        if (magnetUrl.endsWith(".torrent") && magnetUrl.contains("/")) return magnetUrl.substring(IntRange(magnetUrl.lastIndexOf("/") + 1, magnetUrl.lastIndexOf(".") - 1))
         val magnetLink = if (magnetUrl.startsWith(TORRENT_PREFIX)) {
             magnetUrl
         } else {
