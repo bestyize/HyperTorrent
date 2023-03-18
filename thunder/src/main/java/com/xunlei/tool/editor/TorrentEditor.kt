@@ -51,9 +51,18 @@ object TorrentEditor {
         return torrentSimpleInfo
     }
 
+    fun washTorrentFile(path: String): Boolean {
+        return try {
+            saveTorrentFile(washTorrent(decodeTorrentFileToMap(path)), path)
+            true
+        } catch (e: java.lang.Exception) {
+            false
+        }
+    }
 
-    fun decodeTorrentFileToMap(path: String, useTextEditor:Boolean = false): MutableMap<String, Any?> {
-        val map = mutableMapOf<String, Any?>()
+
+    private fun decodeTorrentFileToMap(path: String, useTextEditor:Boolean = false): MutableMap<String, Any> {
+        val map = mutableMapOf<String, Any>()
         val file = File(path)
         if (!file.exists()) {
             return map
@@ -62,7 +71,7 @@ object TorrentEditor {
         return if (useTextEditor) textEditor.decode(bArr, DICTIONARY) else byteEditor.decode(bArr, DICTIONARY)
     }
 
-    fun saveTorrentFile(map: MutableMap<String, Any?>, fullPath: String) {
+    private fun saveTorrentFile(map: MutableMap<String, Any>, fullPath: String) {
         val file = File(fullPath)
         if (!file.parentFile.exists()) {
             file.parentFile.mkdirs()
@@ -70,7 +79,7 @@ object TorrentEditor {
         FileUtils.writeByteArrayToFile(file, byteEditor.encode(map))
     }
 
-    fun washTorrent(map: MutableMap<String, Any>): MutableMap<String, Any> {
+    private fun washTorrent(map: MutableMap<String, Any>): MutableMap<String, Any> {
         val createBArr = map[TorrentFileKeyDefine.CREATED_BY.key] as ByteArray?
         createBArr?.let {
             map[TorrentFileKeyDefine.CREATED_BY.key] = "Hyper磁力编辑工具 - By [thewind.xyz]"
@@ -104,6 +113,7 @@ object TorrentEditor {
 
     private fun washName(byteArray: ByteArray): ByteArray {
         val originName = String(byteArray)
+        if (originName.contains("_padding_file")) return byteArray
         if (!originName.contains(".")) {
             return (NOTICE + String(byteArray).reversed()).toByteArray()
         }

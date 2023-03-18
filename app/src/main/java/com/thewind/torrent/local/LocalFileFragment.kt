@@ -16,6 +16,7 @@ import com.thewind.torrent.select.TorrentSelectDialogFragment
 import com.thewind.util.isTorrent
 import com.thewind.util.isVideo
 import com.thewind.util.nameSort
+import com.xunlei.download.config.BASE_DOWNLOAD_DIR
 import com.xunlei.download.config.STORAGE_ROOT
 import com.xunlei.download.config.TORRENT_FILE_DIR
 import java.io.File
@@ -26,7 +27,7 @@ import java.io.File
 private const val PAGE_PATH = "page_path"
 
 class LocalFileFragment : Fragment() {
-    private var path: String = TORRENT_FILE_DIR
+    private var path: String = BASE_DOWNLOAD_DIR
     private lateinit var binding: FragmentLocalFileBinding
     private var files: MutableList<File> = mutableListOf()
     private lateinit var vm: LocalFileViewModel
@@ -54,18 +55,18 @@ class LocalFileFragment : Fragment() {
     private fun initView() {
         vm = ViewModelProvider(this)[LocalFileViewModel::class.java]
         arguments?.let {
-            it.getString(PAGE_PATH)?.let {
-                path = it
+            it.getString(PAGE_PATH)?.let { p ->
+                path = p
             }
         }
-        vm.clickItem.observe(this) {
+        vm.clickItem.observe(this) { pos ->
             files.clear()
             File(path).listFiles()?.let { files.addAll(it) }
             files.nameSort()
-            val file = files[it]
+            val file = files[pos]
             when {
                 file.isTorrent() -> TorrentSelectDialogFragment.newInstance(file.absolutePath)
-                    .showNow(childFragmentManager, "torrent_select_$it")
+                    .showNow(childFragmentManager, "torrent_select_$pos")
                 file.isDirectory -> {
                     path = file.absolutePath
                     vm.path.value = path
@@ -101,12 +102,13 @@ class LocalFileFragment : Fragment() {
                 this.vmm = vm
             }
             binding.folderPath.text = path.replace(STORAGE_ROOT, "")
+            binding.ivNothing.visibility = if (files.size == 0) View.VISIBLE else View.GONE
         }
 
         vm.longClickItem.observe(this) {
             val file = files[it]
-            LocalFileProcessDialogFragment.newInstance(file.absolutePath, action = {
-                when (it) {
+            LocalFileProcessDialogFragment.newInstance(file.absolutePath, action = { action ->
+                when (action) {
                     DialogAction.DELETE -> vm.path.value = path
                     else -> {}
                 }

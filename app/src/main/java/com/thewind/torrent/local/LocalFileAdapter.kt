@@ -51,7 +51,3 @@ class LocalFileAdapter(private val files: MutableList<File>) :
 }
 
 class LocalFileViewHolder(val binding: LocalFileItemBinding) : RecyclerView.ViewHolder(binding.root)
-
-interface LocalFileEventListener {
-    fun onItemClick(position: Int, item: File)
-}

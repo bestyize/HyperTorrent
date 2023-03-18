@@ -12,7 +12,6 @@ class DetailPlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        ViewUtils.enterFullScreenMode(this, true)
         ViewUtils.enterImmersiveFullScreenMode(this)
         val playUrl = intent.getStringExtra("play_url") ?: ""
         supportFragmentManager.beginTransaction()

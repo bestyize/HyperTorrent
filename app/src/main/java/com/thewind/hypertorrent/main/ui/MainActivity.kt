@@ -3,26 +3,24 @@ package com.thewind.hypertorrent.main.ui
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
 import android.util.Log
-import android.widget.Toast
+import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.ActivityMainBinding
-import com.thewind.hypertorrent.main.card.downloadlist.DownloadListFragment
 import com.thewind.torrent.local.LocalFileFragment
-import com.thewind.torrent.select.TorrentSelectDialogFragment
+import com.thewind.util.spToPx
 import com.thewind.util.toJson
 import com.thewind.util.toast
 import com.xunlei.download.provider.TaskInfo
-import com.xunlei.download.provider.TorrentRecordManager
-import com.xunlei.download.provider.TorrentTaskHelper
 import com.xunlei.download.provider.TorrentTaskListener
 
 
@@ -126,10 +124,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initVView2() {
-        binding.mainItemLocal.setOnClickListener {
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, LocalFileFragment.newInstance()).commitNow()
+        binding.mainItemMain.setOnCheckedChangeListener { buttonView, isChecked ->
+            handleMainTabChecked(buttonView, isChecked)
         }
+        binding.mainItemLocal.setOnCheckedChangeListener { buttonView, isChecked ->
+            handleMainTabChecked(buttonView, isChecked)
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, LocalFileFragment.newInstance()).commitNow()
+        }
+        binding.mainItemMy.setOnCheckedChangeListener { buttonView, isChecked ->
+            handleMainTabChecked(buttonView, isChecked)
+        }
+
     }
+    private fun handleMainTabChecked(button: CompoundButton, checked: Boolean) {
+        button.textSize = if (checked) 20f else 18f
+        button.typeface = if (checked) Typeface.create(Typeface.DEFAULT, Typeface.BOLD) else  Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+    }
+
 
 
     private fun requestPermission() {

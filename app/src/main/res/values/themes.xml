@@ -58,4 +58,14 @@
         <item name="android:textAlignment">center</item>
     </style>
 
+    <style name="MainTabTextStyle">
+        <item name="android:textAlignment">center</item>
+        <item name="android:button">@null</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/transport</item>
+    </style>
+
 </resources>

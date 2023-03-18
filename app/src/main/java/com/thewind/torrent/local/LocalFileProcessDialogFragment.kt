@@ -9,6 +9,9 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import com.thewind.hypertorrent.databinding.LocalFileProcessDialogFragmentBinding
 import com.thewind.util.fillWidth
+import com.thewind.util.isTorrent
+import com.thewind.util.toast
+import com.xunlei.tool.editor.TorrentEditor
 import java.io.File
 
 
@@ -58,6 +61,14 @@ class LocalFileProcessDialogFragment private constructor(
             }
             dismissAllowingStateLoss()
             action.invoke(DialogAction.SHARE)
+        }
+        if (File(path).isTorrent()) {
+            binding.llWashTorrent.visibility = View.VISIBLE
+        }
+        binding.llWashTorrent.setOnClickListener {
+            dismissAllowingStateLoss()
+            val ret = TorrentEditor.washTorrentFile(path)
+            toast("种子洗白${if (ret) "成功" else "失败"}")
         }
     }
 

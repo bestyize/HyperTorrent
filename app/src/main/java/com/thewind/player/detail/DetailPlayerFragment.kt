@@ -57,9 +57,9 @@ class DetailPlayerFragment : Fragment() {
                 withContext(Dispatchers.IO) {
                     player.dataSource = it[0].url
                     player.prepareAsync()
-                    player.setOnPreparedListener {
-                        adjustPlayArea(it.videoWidth, it.videoHeight)
-                        setSeekBar(it.duration)
+                    player.setOnPreparedListener { player ->
+                        adjustPlayArea(player.videoWidth, player.videoHeight)
+                        setSeekBar(player.duration)
                         player.start()
                         monitorPlayState()
                     }
@@ -73,7 +73,7 @@ class DetailPlayerFragment : Fragment() {
 
         binding.svPlayerContainer.setOnClickListener {
             if (notAllowControlPanelClick) {
-                val isPlayLockVisible = !(binding.playLockSwitch.visibility == View.VISIBLE)
+                val isPlayLockVisible = binding.playLockSwitch.visibility != View.VISIBLE
                 binding.playLockSwitch.visibility =
                     if (isPlayLockVisible) View.VISIBLE else View.GONE
                 showControlPanel = false
@@ -86,17 +86,17 @@ class DetailPlayerFragment : Fragment() {
         }
 
         binding.ivBack.setOnClickListener {
-            activity?.onBackPressed()
+            activity?.onBackPressedDispatcher?.onBackPressed()
         }
-        binding.volumeSwitch.setOnCheckedChangeListener { view, checked ->
+        binding.volumeSwitch.setOnCheckedChangeListener { _, checked ->
             val volume = if (checked) 1f else 0f
             player.setVolume(volume, volume)
         }
-        binding.playSwitch.setOnCheckedChangeListener { view, checked ->
+        binding.playSwitch.setOnCheckedChangeListener { _, checked ->
             if (checked) player.start() else player.pause()
         }
 
-        binding.playLockSwitch.setOnCheckedChangeListener { view, checked ->
+        binding.playLockSwitch.setOnCheckedChangeListener { _, _ ->
             notAllowControlPanelClick = !notAllowControlPanelClick
             if (notAllowControlPanelClick) {
                 showControlPanel = false

@@ -19,15 +19,24 @@ import com.thewind.hypertorrent.main.globalApplication
  * @date: 2023/3/17 下午11:10
  * @description:
  */
-object ViewUtils {
 
-    fun dpToPx(dp: Int): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            dp.toFloat(),
-            globalApplication.resources.displayMetrics
-        ).toInt()
-    }
+fun Int.toPx():Int {
+    return TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        this.toFloat(),
+        globalApplication.resources.displayMetrics
+    ).toInt()
+}
+
+fun Int.spToPx():Float {
+    return TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_SP,
+        this.toFloat(),
+        globalApplication.resources.displayMetrics
+    )
+}
+
+object ViewUtils {
 
     fun getScreenWidth(): Int {
         return globalApplication.resources.displayMetrics.widthPixels
