@@ -31,7 +31,7 @@ fun Long.formatSize(): String {
 
 
 fun File.formatSize(): String {
-    return length().formatSize()
+    return if (isFile) length().formatSize() else ""
 }
 
 fun File.formatDate(): String {
@@ -151,12 +151,12 @@ fun File.isApk(): Boolean {
 }
 
 fun File.isTorrent(): Boolean {
-    return extension.isTorrent()
+    return isFile && extension.isTorrent()
 }
 
 fun MutableList<File>.nameSort(): MutableList<File> {
-    val fileList = filter { it.isFile }.sortedBy { it.name }
-    val directoryList = filter { it.isDirectory }.sortedBy { it.name }
+    val fileList = filter { it.isFile }.sortedBy { it.name.lowercase() }
+    val directoryList = filter { it.isDirectory }.sortedBy { it.name.lowercase() }
     clear()
     addAll(directoryList)
     addAll(fileList)
@@ -164,8 +164,8 @@ fun MutableList<File>.nameSort(): MutableList<File> {
 }
 
 fun MutableList<File>.nameSortReverse(): MutableList<File> {
-    val fileList = filter { it.isFile }.sortedBy { it.name }.reversed()
-    val directoryList = filter { it.isDirectory }.sortedBy { it.name }.reversed()
+    val fileList = filter { it.isFile }.sortedBy { it.name.lowercase() }.reversed()
+    val directoryList = filter { it.isDirectory }.sortedBy { it.name.lowercase() }.reversed()
     clear()
     addAll(directoryList)
     addAll(fileList)

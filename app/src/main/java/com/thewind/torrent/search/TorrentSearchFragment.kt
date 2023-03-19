@@ -58,6 +58,8 @@ class TorrentSearchFragment(
             searchOperator.keyword = it.keyword
             if (searchOperator.title == torrentSource.title && lastKeyWord != searchOperator.keyword) {
                 lastKeyWord = searchOperator.keyword
+                torrentList.clear()
+                binding.srfRefresh.isRefreshing = true
                 vm.search(
                     keyword = searchOperator.keyword,
                     src = torrentSource.src,
