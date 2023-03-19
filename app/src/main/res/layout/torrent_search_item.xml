@@ -1,48 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:paddingStart="20dp"
-    android:paddingEnd="20dp"
-    android:paddingTop="5dp"
+
+<com.google.android.material.card.MaterialCardView
+    app:cardCornerRadius="5dp"
+    app:cardElevation="0.5dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    android:id="@+id/file_desc"
-    android:orientation="vertical"
-    android:minHeight="60dp"
-    android:gravity="center_vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <TextView
-        android:minEms="16"
-        android:text="文件名文件名"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:textColor="@color/black"
-        android:id="@+id/file_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/file_time"
-            android:textSize="10sp"
-            android:text="2023-03-17"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:layout_marginLeft="10dp"
-            android:id="@+id/file_size"
-            android:textSize="10sp"
-            android:text="123.12 KB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <View
-        android:layout_marginTop="10dp"
-        android:background="#11000000"
+        android:padding="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/file_desc"
+        android:orientation="vertical"
+        android:minHeight="80dp"
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
-</LinearLayout>
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:minEms="16"
+            android:text="文件名文件名"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textColor="@color/black"
+            android:id="@+id/file_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/file_time"
+                android:textSize="10sp"
+                android:text="2023-03-17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:id="@+id/file_size"
+                android:textSize="10sp"
+                android:text="123.12 KB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <View
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:background="#11000000"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+    </LinearLayout>
+    <TextView
+        android:text="100"
+        android:textColor="@color/white"
+        android:textSize="8dp"
+        android:gravity="center"
+        android:id="@+id/tv_index"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_gravity="top|end"
+        android:background="@drawable/round_pink_rect_bg"
+        android:layout_width="20dp"
+        android:layout_height="12dp"/>
+</com.google.android.material.card.MaterialCardView>

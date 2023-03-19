@@ -15,4 +15,8 @@
     <color name="transport">#00000000</color>
 
     <color name="gray_medium">#FF888888</color>
+
+    <color name="gray_shadow">#11000000</color>
+
+    <color name="gold">#FFFFD700</color>
 </resources>

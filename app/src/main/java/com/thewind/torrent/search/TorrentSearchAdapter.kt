@@ -35,6 +35,7 @@ class TorrentSearchAdapter(
         holder.binding.fileName.text = info.title
         holder.binding.fileSize.text = info.size
         holder.binding.fileTime.text = info.date
+        holder.binding.tvIndex.text = (position + 1).toString()
         holder.binding.root.setOnClickListener {
             action.invoke(position)
         }

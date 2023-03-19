@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentLocalFileBinding
 import com.thewind.player.detail.DetailPlayerActivity
 import com.thewind.torrent.select.TorrentSelectDialogFragment
@@ -37,7 +38,6 @@ class LocalFileFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initView()
     }
 
     override fun onCreateView(
@@ -50,6 +50,7 @@ class LocalFileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
         activity?.title = "文件"
         vm.path.value = path
 
@@ -61,6 +62,11 @@ class LocalFileFragment : Fragment() {
             it.getString(PAGE_PATH)?.let { p ->
                 path = p
             }
+        }
+        binding.srfRefresh.setColorSchemeColors(resources.getColor(R.color.bili_pink))
+        binding.srfRefresh.setOnRefreshListener {
+            binding.srfRefresh.isRefreshing = true
+            vm.path.value = path
         }
         vm.clickItem.observe(this) { pos ->
             files.clear()
@@ -97,6 +103,7 @@ class LocalFileFragment : Fragment() {
         }
 
         vm.path.observe(this) {
+            binding.srfRefresh.isRefreshing = false
             files.clear()
             File(path).listFiles()?.let { files.addAll(it) }
             files.nameSort()

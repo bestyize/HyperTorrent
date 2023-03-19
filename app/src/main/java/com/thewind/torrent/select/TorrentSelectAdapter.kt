@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.TorrentSelectItemBinding
+import com.thewind.util.formatSize
 import com.thewind.util.icon
 import com.xunlei.tool.editor.TorrentFileSimpleInfo
 
@@ -30,7 +31,8 @@ class TorrentSelectAdapter(private val items: MutableList<TorrentFileSimpleInfo>
         val item = items[position]
         holder.binding.rbSelect.isSelected = true
         holder.binding.tvResTitle.text = item.name
-        holder.binding.tvResDesc.text = "文件大小:${item.size}"
+        val fileSize = "文件大小:${item.size.formatSize()}"
+        holder.binding.tvResDesc.text = fileSize
         holder.binding.rbSelect.isChecked = item.isChecked
         item.name?.icon()?.let {
             holder.binding.ivTorrentItemIcon.setImageResource(it)
