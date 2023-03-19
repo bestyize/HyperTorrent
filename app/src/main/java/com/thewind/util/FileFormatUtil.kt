@@ -53,6 +53,7 @@ fun String.icon(): Int {
         this.isTorrent() -> R.drawable.torrent
         this.isApk() -> R.drawable.android
         this.isJson() -> R.drawable.json
+        this.isPdf() -> R.drawable.pdf
         else -> R.drawable.unknown
     }
 }
@@ -69,6 +70,7 @@ fun File.icon(): Int {
         this.isDirectory -> R.drawable.folder
         this.isApk() -> R.drawable.android
         this.isJson() -> R.drawable.json
+        this.isPdf() -> R.drawable.pdf
         else -> R.drawable.unknown
     }
 }
@@ -161,6 +163,12 @@ fun File.isTorrent(): Boolean {
 fun File.isJson(): Boolean {
     return isFile && extension.isJson()
 }
+
+fun File.isPdf(): Boolean {
+    return isFile && extension.isPdf()
+}
+
+private fun String.isPdf(): Boolean = postfix() == "pdf"
 
 fun MutableList<File>.nameSort(): MutableList<File> {
     val fileList = filter { it.isFile }.sortedBy { it.name.lowercase() }

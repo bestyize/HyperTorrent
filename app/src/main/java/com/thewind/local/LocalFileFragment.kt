@@ -15,10 +15,7 @@ import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentLocalFileBinding
 import com.thewind.player.detail.DetailPlayerActivity
 import com.thewind.torrent.select.TorrentSelectDialogFragment
-import com.thewind.util.isJson
-import com.thewind.util.isTorrent
-import com.thewind.util.isVideo
-import com.thewind.util.nameSort
+import com.thewind.util.*
 import com.thewind.viewer.FileViewerActivity
 import com.xunlei.download.config.BASE_DOWNLOAD_DIR
 import com.xunlei.download.config.STORAGE_ROOT
@@ -90,6 +87,12 @@ class LocalFileFragment : Fragment() {
                 file.isJson() -> {
                     val intent = Intent(activity, FileViewerActivity::class.java)
                     intent.putExtra("type", "json")
+                    intent.putExtra("path", file.absolutePath)
+                    startActivity(intent)
+                }
+                file.isPdf() -> {
+                    val intent = Intent(activity, FileViewerActivity::class.java)
+                    intent.putExtra("type", "pdf")
                     intent.putExtra("path", file.absolutePath)
                     startActivity(intent)
                 }

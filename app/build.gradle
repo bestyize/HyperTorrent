@@ -94,6 +94,9 @@ dependencies {
     // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation 'commons-io:commons-io:2.11.0'
 
+    // https://mvnrepository.com/artifact/com.dmitryborodin/pdfview-android
+    implementation 'com.dmitryborodin:pdfview-android:1.1.0'
+
 
 
 }
