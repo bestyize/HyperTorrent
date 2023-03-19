@@ -26,13 +26,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
-
-            android:screenOrientation="portrait"
-            android:configChanges="uiMode|orientation"
+            android:name="com.thewind.viewer.FileViewerActivity"
+            android:exported="true" />
+        <activity
             android:name="com.thewind.download.page.DownloadActivity"
-            android:exported="true" >
-
-        </activity>
+            android:configChanges="uiMode|orientation"
+            android:exported="true"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name="com.thewind.player.detail.DetailPlayerActivity"
             android:configChanges="uiMode|orientation"

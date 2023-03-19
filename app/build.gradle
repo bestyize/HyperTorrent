@@ -41,6 +41,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation project(path: ':thunder')
+    implementation project(path: ':thirdlib:JsonViewer')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -89,6 +90,9 @@ dependencies {
     runtimeOnly("tv.danmaku.ijk.media:ijkplayer-arm64:0.8.8")
 // https://mvnrepository.com/artifact/tv.danmaku.ijk.media/ijkplayer-armv7a
     implementation("tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8")
+
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    implementation 'commons-io:commons-io:2.11.0'
 
 
 

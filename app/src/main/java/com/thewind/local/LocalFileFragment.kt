@@ -15,9 +15,11 @@ import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentLocalFileBinding
 import com.thewind.player.detail.DetailPlayerActivity
 import com.thewind.torrent.select.TorrentSelectDialogFragment
+import com.thewind.util.isJson
 import com.thewind.util.isTorrent
 import com.thewind.util.isVideo
 import com.thewind.util.nameSort
+import com.thewind.viewer.FileViewerActivity
 import com.xunlei.download.config.BASE_DOWNLOAD_DIR
 import com.xunlei.download.config.STORAGE_ROOT
 import com.xunlei.download.config.TORRENT_FILE_DIR
@@ -68,7 +70,7 @@ class LocalFileFragment : Fragment() {
             binding.srfRefresh.isRefreshing = true
             vm.path.value = path
         }
-        vm.clickItem.observe(this) { pos ->
+        vm.clickItem.observe(viewLifecycleOwner) { pos ->
             files.clear()
             File(path).listFiles()?.let { files.addAll(it) }
             files.nameSort()
@@ -83,6 +85,12 @@ class LocalFileFragment : Fragment() {
                 file.isVideo() -> {
                     val intent = Intent(activity, DetailPlayerActivity::class.java)
                     intent.putExtra("play_url", file.absolutePath)
+                    startActivity(intent)
+                }
+                file.isJson() -> {
+                    val intent = Intent(activity, FileViewerActivity::class.java)
+                    intent.putExtra("type", "json")
+                    intent.putExtra("path", file.absolutePath)
                     startActivity(intent)
                 }
                 else -> {
@@ -102,7 +110,7 @@ class LocalFileFragment : Fragment() {
             }
         }
 
-        vm.path.observe(this) {
+        vm.path.observe(viewLifecycleOwner) {
             binding.srfRefresh.isRefreshing = false
             files.clear()
             File(path).listFiles()?.let { files.addAll(it) }
@@ -115,7 +123,7 @@ class LocalFileFragment : Fragment() {
             binding.ivNothing.visibility = if (files.size == 0) View.VISIBLE else View.GONE
         }
 
-        vm.longClickItem.observe(this) {
+        vm.longClickItem.observe(viewLifecycleOwner) {
             val file = files[it]
             LocalFileProcessDialogFragment.newInstance(file.absolutePath, action = { action ->
                 when (action) {
