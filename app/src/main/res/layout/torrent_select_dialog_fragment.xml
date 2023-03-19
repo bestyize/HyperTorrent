@@ -89,6 +89,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
+        android:id="@+id/tv_add_download_task"
         android:layout_marginBottom="25dp"
         android:background="@drawable/bg_wide_button"
         android:minHeight="48dp"

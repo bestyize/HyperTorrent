@@ -135,6 +135,7 @@ class TorrentTaskHelper private constructor() {
             max(task.taskId, maxTaskId)
         }
         TorrentRecordManager.instance.addTaskRecord(TaskInfo().apply {
+            this.taskType = TaskType.TORRENT
             this.taskId = task.taskId
             this.magnetHash = torrentInfo.mInfoHash
             this.torrentFilePath = fullPath

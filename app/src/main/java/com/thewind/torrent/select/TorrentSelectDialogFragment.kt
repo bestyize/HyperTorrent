@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thewind.hypertorrent.databinding.TorrentSelectDialogFragmentBinding
 import com.thewind.util.fillWidth
+import com.xunlei.download.config.TorrentUtil
 import com.xunlei.tool.editor.TorrentEditor
 import com.xunlei.tool.editor.TorrentSimpleInfo
 import kotlinx.coroutines.launch
@@ -22,6 +24,12 @@ class TorrentSelectDialogFragment private constructor(private val torrentFilePat
     DialogFragment() {
 
     private lateinit var binding: TorrentSelectDialogFragmentBinding
+    private lateinit var vm: TorrentSelectViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        vm = ViewModelProvider(this)[TorrentSelectViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +54,11 @@ class TorrentSelectDialogFragment private constructor(private val torrentFilePat
             binding.clSelectBatch.setOnClickListener {
                 binding.rbSelectAll.isChecked = !binding.rbSelectAll.isChecked
                 handleBatchClicked(torrentSimpleInfo)
+            }
+            binding.tvAddDownloadTask.setOnClickListener {
+                dismissAllowingStateLoss()
+                val selectedList = torrentSimpleInfo.filesList.filter { it.isChecked }.map { it.index }.toMutableList()
+                vm.addMagnetTask(torrentFilePath, selectedList)
             }
         }
         binding.closeDialog.setOnClickListener {

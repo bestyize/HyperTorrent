@@ -9,10 +9,16 @@ import com.xunlei.downloadlib.parameter.XLTaskInfo
  * @email : zhangrui10@bilibili.com
  */
 class TaskInfo {
+    var taskType: TaskType = TaskType.MAGNET
     var taskId: Long = 0
     var torrentFilePath: String = ""
     var magnetHash  = ""
     var xlTaskInfo: XLTaskInfo?=null
+}
+
+enum class TaskType(val type: Int) {
+    MAGNET(0),
+    TORRENT(1)
 }
 
 enum class TaskState(val state: Int) {
