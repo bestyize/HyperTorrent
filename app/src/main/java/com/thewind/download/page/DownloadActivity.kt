@@ -2,6 +2,7 @@ package com.thewind.download.page
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.thewind.download.page.detail.DownloadDetailFragment
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.ActivityDownloadBinding
 import com.thewind.util.ViewUtils
@@ -13,5 +14,8 @@ class DownloadActivity : AppCompatActivity() {
         binding = ActivityDownloadBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewUtils.enterImmersiveFullScreenMode(this)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, DownloadDetailFragment.newInstance()).commitNow()
+
     }
 }
