@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.ActivityFileViewerBinding
+import com.thewind.viewer.code.CodeViewerFragment
 import com.thewind.viewer.json.JsonViewerFragment
 import com.thewind.viewer.pdf.PdfViewerFragment
 
@@ -23,7 +24,8 @@ class FileViewerActivity : AppCompatActivity() {
         when(intent.getStringExtra("type")) {
             "json" -> supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, JsonViewerFragment.newInstance(path)).commitNow()
-            "pdf" -> supportFragmentManager.beginTransaction().add(R.id.fragment_container, PdfViewerFragment.newInstance(path))
+            "pdf" -> supportFragmentManager.beginTransaction().add(R.id.fragment_container, PdfViewerFragment.newInstance(path)).commitNow()
+            "code" -> supportFragmentManager.beginTransaction().add(R.id.fragment_container, CodeViewerFragment.newInstance(path)).commitNow()
         }
     }
 }

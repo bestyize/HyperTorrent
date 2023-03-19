@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/thirdlib" />
+            <option value="$PROJECT_DIR$/thirdlib/CodeViewer" />
             <option value="$PROJECT_DIR$/thirdlib/JsonViewer" />
             <option value="$PROJECT_DIR$/thunder" />
           </set>

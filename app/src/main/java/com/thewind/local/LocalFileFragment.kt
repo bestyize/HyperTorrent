@@ -97,17 +97,21 @@ class LocalFileFragment : Fragment() {
                     startActivity(intent)
                 }
                 else -> {
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        FileProvider.getUriForFile(
-                            requireContext(),
-                            "com.thewind.hypertorrent.provider",
-                            file
-                        )
-                    ).apply {
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        startActivity(this)
-                    }
+                    val intent = Intent(activity, FileViewerActivity::class.java)
+                    intent.putExtra("type", "code")
+                    intent.putExtra("path", file.absolutePath)
+                    startActivity(intent)
+//                    Intent(
+//                        Intent.ACTION_VIEW,
+//                        FileProvider.getUriForFile(
+//                            requireContext(),
+//                            "com.thewind.hypertorrent.provider",
+//                            file
+//                        )
+//                    ).apply {
+//                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//                        startActivity(this)
+//                    }
 
                 }
             }
