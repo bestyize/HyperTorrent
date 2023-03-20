@@ -24,9 +24,9 @@ import io.github.kbiakov.codeview.highlight.color
  * @author Kirill Biakov
  */
 class CodeView @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : RelativeLayout(context, attrs, defStyleAttr) {
 
     private val vCodeList: RecyclerView
@@ -45,9 +45,9 @@ class CodeView @JvmOverloads constructor(
         }
 
         vShadows = mapOf(
-                ShadowPosition.RightBorder to R.id.shadow_right_border,
-                ShadowPosition.NumBottom to R.id.shadow_num_bottom,
-                ShadowPosition.ContentBottom to R.id.shadow_content_bottom
+            ShadowPosition.RightBorder to R.id.shadow_right_border,
+            ShadowPosition.NumBottom to R.id.shadow_num_bottom,
+            ShadowPosition.ContentBottom to R.id.shadow_content_bottom
         ).mapValues {
             findViewById<View>(it.value)
         }
@@ -58,8 +58,8 @@ class CodeView @JvmOverloads constructor(
             alpha = Const.Alpha.Invisible
 
             animate()
-                    .setDuration(Const.DefaultDelay * 5)
-                    .alpha(Const.Alpha.Initial)
+                .setDuration(Const.DefaultDelay * 5)
+                .alpha(Const.Alpha.Initial)
         } else {
             alpha = Const.Alpha.Initial
         }
@@ -68,8 +68,8 @@ class CodeView @JvmOverloads constructor(
     private fun AbstractCodeAdapter<*>.checkHighlightAnimation(action: () -> Unit) {
         if (options.animateOnHighlight) {
             animate()
-                    .setDuration(Const.DefaultDelay * 2)
-                    .alpha(Const.Alpha.AlmostInvisible)
+                .setDuration(Const.DefaultDelay * 2)
+                .alpha(Const.Alpha.AlmostInvisible)
             delayed {
                 animate().alpha(Const.Alpha.Visible)
                 action()
@@ -218,9 +218,7 @@ class CodeView @JvmOverloads constructor(
         }
 
         private fun View.setSafeBackground(newBackground: Drawable) {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                background = newBackground
-            }
+            background = newBackground
         }
     }
 

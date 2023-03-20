@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentJsonViewerBinding
+import com.thewind.util.toast
+import com.thewind.viewer.code.CodeViewerFragment
 
 
 class JsonViewerFragment private constructor(private val path: String): Fragment() {
@@ -38,8 +40,13 @@ class JsonViewerFragment private constructor(private val path: String): Fragment
         binding.srfRefresh.setColorSchemeColors(resources.getColor(R.color.bili_pink))
         vm.jsonTextLiveData.observe(viewLifecycleOwner) {
             binding.srfRefresh.isRefreshing = false
-            binding.jsonViewer.bindJson(it)
-            binding.jsonViewer.expandAll()
+            try {
+                binding.jsonViewer.bindJson(it)
+                binding.jsonViewer.expandAll()
+            } catch (e: java.lang.Exception) {
+                toast("非法Json类型, 请重命名为正确后缀")
+            }
+
         }
         vm.loadJsonStr(path)
         binding.srfRefresh.isRefreshing = true

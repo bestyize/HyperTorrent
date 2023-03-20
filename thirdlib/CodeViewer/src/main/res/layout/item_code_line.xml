@@ -14,15 +14,15 @@
         tools:text="@string/stub_line_num"/>
 
     <TextView
+        android:textIsSelectable="true"
         android:id="@+id/tv_line_content"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/default_margin"
         android:layout_marginRight="@dimen/default_margin"
         android:layout_toEndOf="@+id/tv_line_num"
         android:layout_toRightOf="@+id/tv_line_num"
         android:gravity="center_vertical"
-        android:maxLines="1"
         android:textSize="@dimen/line_text_size"
         tools:text="@string/stub_line_content"/>
 
