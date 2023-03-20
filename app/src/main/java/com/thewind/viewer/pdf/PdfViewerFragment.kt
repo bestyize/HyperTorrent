@@ -25,7 +25,7 @@ class PdfViewerFragment private constructor(private val path: String): Fragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.pdfView.fromFile(path)
+        binding.pdfView.fromFile(path).show()
     }
 
     companion object {
