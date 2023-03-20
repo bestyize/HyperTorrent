@@ -12,7 +12,10 @@ import com.thewind.hypertorrent.databinding.LocalFileProcessDialogFragmentBindin
 import com.thewind.util.fillWidth
 import com.thewind.util.isTorrent
 import com.thewind.util.toast
+import com.thewind.widget.inputdialog.InputDialogFragment
+import com.thewind.widget.inputdialog.InputDialogModel
 import com.xunlei.tool.editor.TorrentEditor
+import org.apache.commons.io.FileUtils
 import java.io.File
 
 
@@ -48,6 +51,20 @@ class LocalFileProcessDialogFragment private constructor(
             Runtime.getRuntime().exec("rm -rf $path")
             dismissAllowingStateLoss()
             action.invoke(DialogAction.DELETE)
+        }
+        binding.tvRename.setOnClickListener {
+            dismissAllowingStateLoss()
+            InputDialogFragment.newInstance(InputDialogModel().apply {
+                this.title = "重命名"
+                this.preInput = File(path).name
+            }){ pos, content ->
+                if (pos == 1 && content.isNotBlank()) {
+                    val file = File(path)
+                    val newName = file.absolutePath.replace(file.name, content)
+                    file.renameTo(File(newName))
+                    action.invoke(DialogAction.RENAME)
+                }
+            }.showNow(parentFragmentManager, path)
         }
         binding.tvShare.setOnClickListener {
             Intent(
@@ -94,5 +111,6 @@ class LocalFileProcessDialogFragment private constructor(
 enum class DialogAction(val action: Int) {
     CANCEL(0),
     SHARE(1),
-    DELETE(2)
+    DELETE(2),
+    RENAME(3)
 }

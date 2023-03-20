@@ -8,6 +8,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentCodeViewerBinding
+import com.thewind.util.postfix
+import io.github.kbiakov.codeview.adapters.Options
+import io.github.kbiakov.codeview.highlight.ColorTheme
+import java.io.File
 
 class CodeViewerFragment private constructor(private val path: String): Fragment() {
 
@@ -30,8 +34,9 @@ class CodeViewerFragment private constructor(private val path: String): Fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.title = File(path).name
         vm.codeLiveData.observe(viewLifecycleOwner) {
-            binding.cv.setCode(it)
+            binding.cv.setOptions(Options.get(view.context).withCode(it).withLanguage(path.postfix()).disableHighlightAnimation().withTheme(ColorTheme.SOLARIZED_LIGHT).withoutShadows())
         }
         vm.loadCode(path)
     }

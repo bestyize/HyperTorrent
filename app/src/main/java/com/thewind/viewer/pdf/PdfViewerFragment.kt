@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.thewind.hypertorrent.databinding.FragmentPdfViewerBinding
+import com.thewind.util.postfix
+import java.io.File
 
 class PdfViewerFragment private constructor(private val path: String): Fragment() {
 
@@ -25,6 +27,7 @@ class PdfViewerFragment private constructor(private val path: String): Fragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.title = File(path).name
         binding.pdfView.fromFile(path).show()
     }
 

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -19,7 +18,6 @@ import com.thewind.util.*
 import com.thewind.viewer.FileViewerActivity
 import com.xunlei.download.config.BASE_DOWNLOAD_DIR
 import com.xunlei.download.config.STORAGE_ROOT
-import com.xunlei.download.config.TORRENT_FILE_DIR
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
@@ -34,10 +32,6 @@ class LocalFileFragment : Fragment() {
     private lateinit var binding: FragmentLocalFileBinding
     private var files: MutableList<File> = mutableListOf()
     private lateinit var vm: LocalFileViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -101,18 +95,6 @@ class LocalFileFragment : Fragment() {
                     intent.putExtra("type", "code")
                     intent.putExtra("path", file.absolutePath)
                     startActivity(intent)
-//                    Intent(
-//                        Intent.ACTION_VIEW,
-//                        FileProvider.getUriForFile(
-//                            requireContext(),
-//                            "com.thewind.hypertorrent.provider",
-//                            file
-//                        )
-//                    ).apply {
-//                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-//                        startActivity(this)
-//                    }
-
                 }
             }
         }
@@ -136,7 +118,13 @@ class LocalFileFragment : Fragment() {
                 when (action) {
                     DialogAction.DELETE -> {
                         lifecycleScope.launch {
-                            delay(500)
+                            delay(200)
+                            vm.path.value = path
+                        }
+                    }
+                    DialogAction.RENAME -> {
+                        lifecycleScope.launch {
+                            delay(200)
                             vm.path.value = path
                         }
                     }
@@ -145,15 +133,17 @@ class LocalFileFragment : Fragment() {
             }).showNow(childFragmentManager, file.absolutePath)
         }
 
-        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (path == STORAGE_ROOT) {
-                    return
+        activity?.onBackPressedDispatcher?.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (path == STORAGE_ROOT) {
+                        return
+                    }
+                    path = File(path).parent ?: STORAGE_ROOT
+                    vm.path.value = path
                 }
-                path = File(path).parent ?: STORAGE_ROOT
-                vm.path.value = path
-            }
-        })
+            })
     }
 
 

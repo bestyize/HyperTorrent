@@ -133,7 +133,7 @@ fun File.isText(): Boolean {
 
 fun String.isDocument(): Boolean {
     return when (postfix().lowercase()) {
-        "doc", "docx", "ppt", "pptx", "xls", "md", "pdf" -> true
+        "doc", "docx", "ppt", "pptx", "xls", "md" -> true
         else -> false
     }
 }

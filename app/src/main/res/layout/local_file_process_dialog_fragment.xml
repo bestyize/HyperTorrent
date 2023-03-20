@@ -30,6 +30,26 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"/>
 
+        <TextView
+            android:minHeight="60dp"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:text="重命名"
+            android:id="@+id/tv_rename"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@color/gray_medium"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"/>
+
         <LinearLayout
             android:visibility="gone"
             android:id="@+id/ll_wash_torrent"
