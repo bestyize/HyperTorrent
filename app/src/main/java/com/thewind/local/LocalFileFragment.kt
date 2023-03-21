@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -90,11 +91,26 @@ class LocalFileFragment : Fragment() {
                     intent.putExtra("path", file.absolutePath)
                     startActivity(intent)
                 }
-                else -> {
+
+                file.isTextFile() -> {
                     val intent = Intent(activity, FileViewerActivity::class.java)
                     intent.putExtra("type", "code")
                     intent.putExtra("path", file.absolutePath)
                     startActivity(intent)
+                }
+
+                else -> {
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        FileProvider.getUriForFile(
+                            requireContext(),
+                            "com.thewind.hypertorrent.provider",
+                            file
+                        )
+                    ).apply {
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        startActivity(this)
+                    }
                 }
             }
         }
@@ -112,20 +128,22 @@ class LocalFileFragment : Fragment() {
             binding.ivNothing.visibility = if (files.size == 0) View.VISIBLE else View.GONE
         }
 
-        vm.longClickItem.observe(viewLifecycleOwner) {
-            val file = files[it]
-            LocalFileProcessDialogFragment.newInstance(file.absolutePath, action = { action ->
+        vm.longClickItem.observe(viewLifecycleOwner) {pos ->
+            val file = files[pos]
+            LocalFileProcessDialogFragment.newInstance(file.absolutePath, action = { action, extra ->
                 when (action) {
                     DialogAction.DELETE -> {
                         lifecycleScope.launch {
                             delay(200)
-                            vm.path.value = path
+                            files.removeAt(pos)
+                            binding.rvLocalFileList.adapter?.notifyItemRemoved(pos)
                         }
                     }
                     DialogAction.RENAME -> {
                         lifecycleScope.launch {
                             delay(200)
-                            vm.path.value = path
+                            files[pos] = File(extra)
+                            binding.rvLocalFileList.adapter?.notifyItemChanged(pos)
                         }
                     }
                     else -> {}

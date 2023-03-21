@@ -17,6 +17,7 @@ import com.thewind.widget.inputdialog.InputDialogModel
 import com.xunlei.tool.editor.TorrentEditor
 import org.apache.commons.io.FileUtils
 import java.io.File
+import java.util.concurrent.locks.ReentrantLock
 
 
 /**
@@ -26,8 +27,10 @@ import java.io.File
  */
 class LocalFileProcessDialogFragment private constructor(
     private val path: String,
-    private val action: (DialogAction) -> Unit
+    private val action: (DialogAction, String) -> Unit
 ) : DialogFragment() {
+
+    private val lock = ReentrantLock()
 
     private lateinit var binding: LocalFileProcessDialogFragmentBinding
 
@@ -44,13 +47,15 @@ class LocalFileProcessDialogFragment private constructor(
         super.onViewCreated(view, savedInstanceState)
         binding.tvCancel.setOnClickListener {
             dismissAllowingStateLoss()
-            action.invoke(DialogAction.CANCEL)
+            action.invoke(DialogAction.CANCEL, path)
         }
         binding.tvDelete.setOnClickListener {
             Log.i(TAG, "delete file , path = $path")
-            Runtime.getRuntime().exec("rm -rf $path")
+            lock.lock()
+            val isSuccess = File(path).delete()
+            lock.unlock()
             dismissAllowingStateLoss()
-            action.invoke(DialogAction.DELETE)
+            if (isSuccess) action.invoke(DialogAction.DELETE, path) else toast("删除失败")
         }
         binding.tvRename.setOnClickListener {
             dismissAllowingStateLoss()
@@ -62,7 +67,7 @@ class LocalFileProcessDialogFragment private constructor(
                     val file = File(path)
                     val newName = file.absolutePath.replace(file.name, content)
                     file.renameTo(File(newName))
-                    action.invoke(DialogAction.RENAME)
+                    action.invoke(DialogAction.RENAME, newName)
                 }
             }.showNow(parentFragmentManager, path)
         }
@@ -79,7 +84,7 @@ class LocalFileProcessDialogFragment private constructor(
                 startActivity(this)
             }
             dismissAllowingStateLoss()
-            action.invoke(DialogAction.SHARE)
+            action.invoke(DialogAction.SHARE, path)
         }
         if (File(path).isTorrent()) {
             binding.llWashTorrent.visibility = View.VISIBLE
@@ -101,7 +106,7 @@ class LocalFileProcessDialogFragment private constructor(
         private const val TAG = "LocalFileProcessDialogFragment"
         fun newInstance(
             path: String,
-            action: (DialogAction) -> Unit
+            action: (DialogAction, String) -> Unit
         ): LocalFileProcessDialogFragment {
             return LocalFileProcessDialogFragment(path, action)
         }

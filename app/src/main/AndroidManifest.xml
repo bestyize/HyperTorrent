@@ -32,7 +32,7 @@
             android:name="com.thewind.download.page.DownloadActivity"
             android:configChanges="uiMode|orientation"
             android:exported="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.thewind.player.detail.DetailPlayerActivity"
             android:configChanges="uiMode|orientation"

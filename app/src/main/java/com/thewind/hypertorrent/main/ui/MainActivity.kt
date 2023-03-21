@@ -32,8 +32,6 @@ import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
-    var taskId: Long = -1
-
     private lateinit var binding: ActivityMainBinding
 
     private val torrentSearchFragment by lazy { TorrentSearchRecommendFragment.newInstance()}
@@ -135,23 +133,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initVView2() {
-        supportFragmentManager.beginTransaction().add(R.id.fragment_container, localFileFragment).commitNow()
-        supportFragmentManager.beginTransaction().hide(localFileFragment).commitNow()
-        supportFragmentManager.beginTransaction().add(R.id.fragment_container, torrentSearchFragment).commitNow()
+        supportFragmentManager.beginTransaction().add(R.id.fragment_container, localFileFragment).commitNowAllowingStateLoss()
+        supportFragmentManager.beginTransaction().hide(localFileFragment).commitNowAllowingStateLoss()
+        supportFragmentManager.beginTransaction().add(R.id.fragment_container, torrentSearchFragment).commitNowAllowingStateLoss()
         binding.mainItemMain.setOnCheckedChangeListener { buttonView, isChecked ->
             handleMainTabChecked(buttonView, isChecked)
             if (isChecked) {
-                supportFragmentManager.beginTransaction().show(torrentSearchFragment).commitNow()
+                supportFragmentManager.beginTransaction().show(torrentSearchFragment).commitNowAllowingStateLoss()
             } else {
-                supportFragmentManager.beginTransaction().hide(torrentSearchFragment).commitNow()
+                supportFragmentManager.beginTransaction().hide(torrentSearchFragment).commitNowAllowingStateLoss()
             }
         }
         binding.mainItemLocal.setOnCheckedChangeListener { buttonView, isChecked ->
             handleMainTabChecked(buttonView, isChecked)
             if (isChecked) {
-                supportFragmentManager.beginTransaction().show(localFileFragment).commitNow()
+                supportFragmentManager.beginTransaction().show(localFileFragment).commitNowAllowingStateLoss()
             } else {
-                supportFragmentManager.beginTransaction().hide(localFileFragment).commitNow()
+                supportFragmentManager.beginTransaction().hide(localFileFragment).commitNowAllowingStateLoss()
             }
         }
         binding.mainItemMy.setOnCheckedChangeListener { buttonView, isChecked ->

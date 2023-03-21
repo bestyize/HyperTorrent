@@ -168,11 +168,15 @@ fun File.isPdf(): Boolean {
     return isFile && extension.isPdf()
 }
 
+fun File.isTextFile(): Boolean {
+    return isFile && length() < 1024 * 50L && codeFormatList.contains(extension)
+}
+
 private fun String.isPdf(): Boolean = postfix() == "pdf"
 
 fun MutableList<File>.nameSort(): MutableList<File> {
-    val fileList = filter { it.isFile }.sortedBy { it.name.lowercase() }
-    val directoryList = filter { it.isDirectory }.sortedBy { it.name.lowercase() }
+    val fileList = filter { it.isFile && !it.name.startsWith(".") }.sortedBy { it.name.lowercase() }
+    val directoryList = filter { it.isDirectory && !it.name.startsWith(".") }.sortedBy { it.name.lowercase() }
     clear()
     addAll(directoryList)
     addAll(fileList)
@@ -205,4 +209,47 @@ fun MutableList<File>.timeSortReverse(): MutableList<File> {
     addAll(fileList)
     return this
 }
+
+
+private val codeFormatList = listOf(
+    "java",
+    "php",
+    "jsp",
+    "kt",
+    "c",
+    "cpp",
+    "xml",
+    "json",
+    "txt",
+    "ini",
+    "conf",
+    "js",
+    "ts",
+    "asm",
+    "html",
+    "c++",
+    "rs",
+    "h",
+    "lua",
+    "hpp",
+    "cs",
+    "py",
+    "python",
+    "go",
+    "sql",
+    "cmd",
+    "sh",
+    "htm",
+    "css",
+    "vue",
+    "csv",
+    "bat",
+    "cmd",
+    "gradle",
+    "properties",
+    "yaml",
+    "configure",
+    "makefile",
+    "md"
+)
 
