@@ -18,6 +18,8 @@
         android:id="@+id/folder_path"
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:maxLines="1"
+        android:ellipsize="start"
         android:text="HyperTorrent/download/files" />
     <View
         android:background="@color/gray_shadow"
