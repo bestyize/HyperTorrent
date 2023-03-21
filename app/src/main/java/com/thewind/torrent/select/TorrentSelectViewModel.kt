@@ -26,7 +26,7 @@ class TorrentSelectViewModel : ViewModel() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val torrentInfo = TorrentTaskHelper.instance.getTorrentInfo(torrentFilePath)
-                val taskId = TorrentTaskHelper.instance.addTorrentTask(torrentInfo = torrentInfo, selectedFileList = selectedList)
+                val taskId = TorrentTaskHelper.instance.addTorrentTask(torrentInfo = torrentInfo, torrentFilePath = torrentFilePath, selectedFileList = selectedList)
                 if (taskId < 1000) {
                     Log.e(TAG, "addTorrentTaskFailed, filePath = $torrentFilePath")
                 } else {

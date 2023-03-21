@@ -7,7 +7,9 @@ import com.xunlei.download.config.TORRENT_PREFIX
 import com.xunlei.download.config.TorrentUtil
 import com.xunlei.downloadlib.XLDownloadManager
 import com.xunlei.downloadlib.parameter.*
+import com.xunlei.downloadlib.parameter.XLConstant.XLTaskStatus
 import com.xunlei.util.TaskManager
+import com.xunlei.util.toast
 import java.io.File
 import kotlin.math.max
 
@@ -98,7 +100,10 @@ class TorrentTaskHelper private constructor() {
         }
 
         val task = GetTaskId()
-        XLDownloadManager.getInstance().createBtTask(btTaskParam, task)
+        val ret = XLDownloadManager.getInstance().createBtTask(btTaskParam, task)
+        if (ret != XLConstant.XLErrorCode.NO_ERROR) {
+            return -1
+        }
         if (torrentInfo.mSubFileInfo.isNotEmpty()) {
             val arrayList = ArrayList<Any>()
             for (torrentFileInfo in torrentInfo.mSubFileInfo) {

@@ -98,7 +98,6 @@ class LocalFileFragment : Fragment() {
                     intent.putExtra("path", file.absolutePath)
                     startActivity(intent)
                 }
-
                 else -> {
                     Intent(
                         Intent.ACTION_VIEW,
@@ -128,7 +127,8 @@ class LocalFileFragment : Fragment() {
             binding.ivNothing.visibility = if (files.size == 0) View.VISIBLE else View.GONE
         }
 
-        vm.longClickItem.observe(viewLifecycleOwner) {pos ->
+        vm.longClickItem.observe(viewLifecycleOwner) { pos ->
+            if (pos >= files.size) return@observe
             val file = files[pos]
             LocalFileProcessDialogFragment.newInstance(file.absolutePath, action = { action, extra ->
                 when (action) {

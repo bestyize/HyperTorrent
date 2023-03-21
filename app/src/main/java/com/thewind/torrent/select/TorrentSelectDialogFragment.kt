@@ -65,8 +65,6 @@ class TorrentSelectDialogFragment private constructor(private val torrentFilePat
         }
         binding.tvAddDownloadTask.setOnClickListener {
             val selectedList = torrentSimpleInfo.filesList.filter { it.isChecked }.map { it.index }.toMutableList()
-            val str1 = selectedList.toJson()
-            val str2 = torrentSimpleInfo.toJson()
             vm.addMagnetTask(torrentFilePath, selectedList)
             dismissAllowingStateLoss()
         }

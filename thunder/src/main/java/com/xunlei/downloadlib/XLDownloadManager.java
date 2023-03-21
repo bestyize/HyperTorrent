@@ -10,6 +10,8 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.xunlei.downloadlib.util.XLLog;
 import com.xunlei.downloadlib.util.XLUtil;
 import com.xunlei.downloadlib.parameter.BtIndexSet;
@@ -46,6 +48,7 @@ import com.xunlei.downloadlib.parameter.XLSessionInfo;
 import com.xunlei.downloadlib.parameter.XLTaskInfo;
 import com.xunlei.downloadlib.parameter.XLTaskInfoEx;
 import com.xunlei.downloadlib.parameter.XLTaskLocalUrl;
+import com.xunlei.util.ToastUtilKt;
 
 import java.util.Map;
 import java.util.Timer;
@@ -77,6 +80,11 @@ public class XLDownloadManager {
     private static void initGuid(XLDownloadManager xLDownloadManager) {
         int i = xLDownloadManager.mQueryGuidCount;
         xLDownloadManager.mQueryGuidCount = i + 1;
+    }
+
+    @NonNull
+    public Context getContext() {
+        return mContext;
     }
 
     public static synchronized XLDownloadManager getInstance() {
@@ -131,13 +139,13 @@ public class XLDownloadManager {
     }
 
     public synchronized int init(Context context, InitParam initParam) {
+        mContext = context;
         if (!mIsLoadErrcodeMsg) {
             loadErrcodeString(context);
             mIsLoadErrcodeMsg = true;
         }
         int i = XLConstant.XLErrorCode.DOWNLOAD_MANAGER_ERROR;
         if (context != null && initParam != null && initParam.checkMemberVar()) {
-            this.mContext = context;
             if (mDownloadManagerState == XLConstant.XLManagerStatus.MANAGER_RUNNING) {
                 XLLog.i(TAG, "XLDownloadManager is already init");
                 return XLConstant.XLErrorCode.DOWNLOAD_MANAGER_ERROR;
@@ -262,6 +270,9 @@ public class XLDownloadManager {
         increRefCount();
         int startTask = (mDownloadManagerState != XLConstant.XLManagerStatus.MANAGER_RUNNING || (xLLoader = this.mLoader) == null) ? XLConstant.XLErrorCode.DOWNLOAD_MANAGER_ERROR : xLLoader.startTask(j, z);
         decreRefCount();
+        if (startTask != XLConstant.XLErrorCode.NO_ERROR) {
+            ToastUtilKt.toast("任务启动失败, 错误信息: " + getErrorCodeMsg(startTask));
+        }
         return startTask;
     }
 
@@ -1167,6 +1178,9 @@ public class XLDownloadManager {
                 i = xLLoader.createBtTask(btTaskParam.mTorrentPath, btTaskParam.mFilePath, btTaskParam.mMaxConcurrent, btTaskParam.mCreateMode, btTaskParam.mSeqId, getTaskId);
             }
             decreRefCount();
+        }
+        if (i != XLConstant.XLErrorCode.NO_ERROR) {
+            ToastUtilKt.toast("任务创建失败：" + getErrorCodeMsg(i));
         }
         return i;
     }
