@@ -33,6 +33,10 @@ class TorrentSelectAdapter(private val items: MutableList<TorrentFileSimpleInfo>
         holder.binding.tvResTitle.text = item.name
         val fileSize = "文件大小:${item.size.formatSize()}"
         holder.binding.tvResDesc.text = fileSize
+        holder.binding.rbSelect.setOnCheckedChangeListener { buttonView, isChecked ->
+            buttonView.isChecked = isChecked
+            item.isChecked = buttonView.isChecked
+        }
         holder.binding.rbSelect.isChecked = item.isChecked
         item.name?.icon()?.let {
             holder.binding.ivTorrentItemIcon.setImageResource(it)

@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thewind.hypertorrent.databinding.TorrentSelectDialogFragmentBinding
 import com.thewind.util.fillWidth
+import com.thewind.util.toJson
 import com.xunlei.download.config.TorrentUtil
 import com.xunlei.tool.editor.TorrentEditor
 import com.xunlei.tool.editor.TorrentSimpleInfo
@@ -25,6 +26,8 @@ class TorrentSelectDialogFragment private constructor(private val torrentFilePat
 
     private lateinit var binding: TorrentSelectDialogFragmentBinding
     private lateinit var vm: TorrentSelectViewModel
+
+    private var torrentSimpleInfo = TorrentSimpleInfo()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,27 +46,36 @@ class TorrentSelectDialogFragment private constructor(private val torrentFilePat
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvSubFileList.layoutManager = LinearLayoutManager(context)
-        lifecycleScope.launch {
-            val torrentSimpleInfo = TorrentEditor.parseTorrentFile(torrentFilePath)
+        vm.torrentFileListLiveData.observe(viewLifecycleOwner) {
+            torrentSimpleInfo.torrentTitle = it.torrentTitle
+            torrentSimpleInfo.createDate = it.createDate
+            torrentSimpleInfo.filesList.clear()
+            torrentSimpleInfo.filesList.addAll(it.filesList)
             binding.resTitle.text = torrentSimpleInfo.torrentTitle
             binding.selectTitle.text = "已选择${torrentSimpleInfo.filesList.size}个项目"
             binding.rvSubFileList.adapter = TorrentSelectAdapter(torrentSimpleInfo.filesList)
-            binding.rbSelectAll.setOnClickListener {
-                handleBatchClicked(torrentSimpleInfo)
-            }
-            binding.clSelectBatch.setOnClickListener {
-                binding.rbSelectAll.isChecked = !binding.rbSelectAll.isChecked
-                handleBatchClicked(torrentSimpleInfo)
-            }
-            binding.tvAddDownloadTask.setOnClickListener {
-                dismissAllowingStateLoss()
-                val selectedList = torrentSimpleInfo.filesList.filter { it.isChecked }.map { it.index }.toMutableList()
-                vm.addMagnetTask(torrentFilePath, selectedList)
-            }
+
         }
+        binding.rbSelectAll.setOnClickListener {
+            handleBatchClicked(torrentSimpleInfo)
+        }
+        binding.clSelectBatch.setOnClickListener {
+            binding.rbSelectAll.isChecked = !binding.rbSelectAll.isChecked
+            handleBatchClicked(torrentSimpleInfo)
+        }
+        binding.tvAddDownloadTask.setOnClickListener {
+            val selectedList = torrentSimpleInfo.filesList.filter { it.isChecked }.map { it.index }.toMutableList()
+            val str1 = selectedList.toJson()
+            val str2 = torrentSimpleInfo.toJson()
+            vm.addMagnetTask(torrentFilePath, selectedList)
+            dismissAllowingStateLoss()
+        }
+
         binding.closeDialog.setOnClickListener {
             dismissAllowingStateLoss()
         }
+
+        vm.loadMagnetInfo(path = torrentFilePath)
     }
 
     private fun handleBatchClicked(torrentSimpleInfo: TorrentSimpleInfo) {

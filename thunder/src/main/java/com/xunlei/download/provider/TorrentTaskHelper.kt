@@ -85,6 +85,7 @@ class TorrentTaskHelper private constructor() {
         selectedFileList: MutableList<Int> = mutableListOf(),
         autoStart: Boolean = true
     ): Long {
+        if (selectedFileList.isEmpty()) return -1
         val fullPath = torrentFilePath
             ?: (TORRENT_DIR + TorrentUtil.getMagnetHash(torrentInfo.mInfoHash) + ".torrent")
         var z: Boolean
@@ -98,7 +99,7 @@ class TorrentTaskHelper private constructor() {
 
         val task = GetTaskId()
         XLDownloadManager.getInstance().createBtTask(btTaskParam, task)
-        if (torrentInfo.mSubFileInfo.isNotEmpty() && selectedFileList.isNotEmpty()) {
+        if (torrentInfo.mSubFileInfo.isNotEmpty()) {
             val arrayList = ArrayList<Any>()
             for (torrentFileInfo in torrentInfo.mSubFileInfo) {
                 val length = selectedFileList.size
