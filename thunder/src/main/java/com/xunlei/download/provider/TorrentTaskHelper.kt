@@ -148,7 +148,7 @@ class TorrentTaskHelper private constructor() {
             this.torrentFilePath = fullPath
             this.xlTaskInfo = getTaskInfo(task.taskId)
         })
-        TorrentDBHelper.addDownloadTaskRecord(task.taskId, fullPath, saveDir, selectedFileList)
+        if (task.taskId >= 1000) TorrentDBHelper.addDownloadTaskRecord(task.taskId, fullPath, saveDir, selectedFileList)
         return task.taskId
     }
 

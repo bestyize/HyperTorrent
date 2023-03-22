@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thewind.download.page.model.DownloadDisplayItem
+import com.xunlei.service.database.TorrentDBHelper
+import com.xunlei.service.database.bean.DownloadTaskBean
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -15,7 +17,7 @@ import kotlinx.coroutines.withContext
  */
 class DownloadFragmentViewModel :ViewModel() {
 
-    val downloadTaskListLiveDate: MutableLiveData<MutableList<DownloadDisplayItem>> = MutableLiveData()
+    val downloadTaskListLiveDate: MutableLiveData<MutableList<DownloadTaskBean>> = MutableLiveData()
 
     fun loadDownloadRecord() {
         viewModelScope.launch {
@@ -33,8 +35,8 @@ class DownloadFragmentViewModel :ViewModel() {
 object DownloadFragmentService {
 
 
-    fun queryDownloadTaskRecord(): MutableList<DownloadDisplayItem> {
-        return mutableListOf()
+    fun queryDownloadTaskRecord(): MutableList<DownloadTaskBean> {
+        return TorrentDBHelper.queryAllDownloadTask().toMutableList()
     }
 
 }

@@ -40,6 +40,15 @@ class DownloadTaskBean {
     var torrentPath: String = ""
 
     @Ignore
+    var downloadState: Int = 0
+
+    @Ignore
+    var downloadedSize: Long = 0L
+
+    @Ignore
+    var downloadSpeed: Long = 0L
+
+    @Ignore
     var fileItemList = mutableListOf<DownloadFileItemBean>()
 
 }

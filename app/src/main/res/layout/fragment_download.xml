@@ -2,12 +2,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.thewind.download.page.DownloadFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_items"
+    <TextView
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:text="下载中心"
+        android:id="@+id/tv_download_task"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="36dp"/>
+
+    <View
+        android:background="@color/gray_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srf_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_items"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 </LinearLayout>

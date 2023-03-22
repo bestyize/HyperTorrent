@@ -15,7 +15,7 @@ class DownloadActivity : AppCompatActivity() {
         setContentView(binding.root)
         ViewUtils.enterImmersiveFullScreenMode(this)
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, DownloadDetailFragment.newInstance()).commitNow()
+            .replace(R.id.fragment_container, DownloadFragment.newInstance()).commitNow()
 
     }
 }

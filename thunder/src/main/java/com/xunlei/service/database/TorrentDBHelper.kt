@@ -8,6 +8,9 @@ import com.xunlei.service.database.bean.DownloadTaskBean
 import com.xunlei.service.database.table.DownloadTaskDatabase
 import com.xunlei.tool.editor.TorrentEditor
 import com.xunlei.util.toJson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import java.io.File
 
 /**
@@ -83,6 +86,14 @@ object TorrentDBHelper {
     fun removeDownloadTaskRecord(stableId: String) {
         downloadDb.downloadTaskDao().deleteTaskByStableId(stableId)
         downloadDb.downloadFileItemDao().deleteTaskByStableTaskId(stableId)
+    }
+
+    fun queryAllDownloadTask(): List<DownloadTaskBean> {
+        val list = mutableListOf<DownloadTaskBean>()
+        downloadDb.downloadTaskDao().getAllTask().map { it.stableTaskId }.forEach {
+            list.add(queryDownloadTaskByStableId(it))
+        }
+        return list
     }
 
 

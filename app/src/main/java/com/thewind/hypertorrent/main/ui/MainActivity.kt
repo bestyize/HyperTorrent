@@ -14,6 +14,8 @@ import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import com.thewind.download.page.DownloadFragment
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.ActivityMainBinding
 import com.thewind.local.LocalFileFragment
@@ -36,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     private val torrentSearchFragment by lazy { TorrentSearchRecommendFragment.newInstance()}
     private val localFileFragment by lazy { LocalFileFragment.newInstance() }
+    private val downloadFragment by lazy { DownloadFragment.newInstance() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -44,7 +47,6 @@ class MainActivity : AppCompatActivity() {
         ViewUtils.setStatusBarColor(this, true)
         supportActionBar?.hide()
         initView()
-        initVView2()
     }
 
     private val taskListener = object : TorrentTaskListener {
@@ -66,100 +68,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        Log.i(TAG, "initView")
-//        binding.btnAddMagnetTask.setOnClickListener {
-//            val hash =
-//                com.xunlei.download.config.TorrentUtil.getMagnetHash(binding.etHash.text.toString())
-//            taskId = TorrentTaskHelper.instance.addMagnetTask(binding.etHash.text.toString())
-//            TorrentRecordManager.instance.registerTaskListener(hash, taskListener)
-//            Toast.makeText(applicationContext, "创建磁力链接任务， taskId = $taskId", Toast.LENGTH_LONG)
-//                .show()
-//        }
-//
-//        binding.btnParseTorrent.setOnClickListener {
-//            val fullPath =
-//                com.xunlei.download.config.TORRENT_DIR + com.xunlei.download.config.TorrentUtil.getMagnetHash(
-//                    binding.etHash.text.toString()
-//                ) + ".torrent"
-//            val torrentInfo = TorrentTaskHelper.instance.getTorrentInfo(fullPath)
-//            Toast.makeText(applicationContext, "解析磁力文件， fullPath = $fullPath", Toast.LENGTH_LONG)
-//                .show()
-//            binding.tvTorrentInfo.text = torrentInfo.toJson()
-//        }
-//
-//        binding.btnPauseDown.setOnClickListener {
-//            TorrentTaskHelper.instance.pauseTask(taskId)
-//        }
-//
-//        binding.btnDownload.setOnClickListener {
-//            val n = binding.etSelectedFile.text.toString()
-//            val fullPath =
-//                com.xunlei.download.config.TORRENT_DIR + com.xunlei.download.config.TorrentUtil.getMagnetHash(
-//                    binding.etHash.text.toString()
-//                ) + ".torrent"
-//            val torrentInfo = TorrentTaskHelper.instance.getTorrentInfo(fullPath)
-//            if (n.isEmpty()) {
-//                val selectedFileList: MutableList<Int> = mutableListOf<Int>()
-//                torrentInfo.mSubFileInfo?.forEach {
-//                    selectedFileList.add(it.mFileIndex)
-//                }
-//                taskId = TorrentTaskHelper.instance.addTorrentTask(
-//                    torrentInfo = torrentInfo,
-//                    selectedFileList = selectedFileList
-//                )
-//            } else {
-//                val mutableList: MutableList<Int> = mutableListOf<Int>().apply { add(n.toInt()) }
-//                taskId = TorrentTaskHelper.instance.addTorrentTask(
-//                    torrentInfo = torrentInfo,
-//                    selectedFileList = mutableList
-//                )
-//            }
-//            TorrentRecordManager.instance.registerTaskListener(torrentInfo.mInfoHash, taskListener)
-//            Toast.makeText(applicationContext, "下载种子的文件， taskId = $taskId", Toast.LENGTH_LONG)
-//                .show()
-//        }
-//
-//        binding.btnQueryTaskState.setOnClickListener {
-//            val info = TorrentTaskHelper.instance.getTaskInfo(taskId)
-//            binding.tvTaskInfo.text = info.toJson()
-//        }
-//        binding.btnQueryTaskList.setOnClickListener {
-//            val fullPath =
-//                com.xunlei.download.config.TORRENT_DIR + com.xunlei.download.config.TorrentUtil.getMagnetHash(
-//                    binding.etHash.text.toString()
-//                ) + ".torrent"
-//            TorrentSelectDialogFragment.newInstance(fullPath).showNow(supportFragmentManager, "ccc")
-//        }
-    }
-
-    private fun initVView2() {
-        supportFragmentManager.beginTransaction().add(R.id.fragment_container, localFileFragment).commitNowAllowingStateLoss()
-        supportFragmentManager.beginTransaction().hide(localFileFragment).commitNowAllowingStateLoss()
         supportFragmentManager.beginTransaction().add(R.id.fragment_container, torrentSearchFragment).commitNowAllowingStateLoss()
         binding.mainItemMain.setOnCheckedChangeListener { buttonView, isChecked ->
-            handleMainTabChecked(buttonView, isChecked)
-            if (isChecked) {
-                supportFragmentManager.beginTransaction().show(torrentSearchFragment).commitNowAllowingStateLoss()
-            } else {
-                supportFragmentManager.beginTransaction().hide(torrentSearchFragment).commitNowAllowingStateLoss()
-            }
+            handleMainTabChecked(buttonView, isChecked, torrentSearchFragment)
         }
         binding.mainItemLocal.setOnCheckedChangeListener { buttonView, isChecked ->
-            handleMainTabChecked(buttonView, isChecked)
-            if (isChecked) {
-                supportFragmentManager.beginTransaction().show(localFileFragment).commitNowAllowingStateLoss()
-            } else {
-                supportFragmentManager.beginTransaction().hide(localFileFragment).commitNowAllowingStateLoss()
-            }
+            handleMainTabChecked(buttonView, isChecked, localFileFragment)
         }
         binding.mainItemMy.setOnCheckedChangeListener { buttonView, isChecked ->
-            handleMainTabChecked(buttonView, isChecked)
+            handleMainTabChecked(buttonView, isChecked, downloadFragment)
         }
 
     }
-    private fun handleMainTabChecked(button: CompoundButton, checked: Boolean) {
+    private fun handleMainTabChecked(button: CompoundButton, checked: Boolean, fragment: Fragment) {
         button.textSize = if (checked) 20f else 18f
         button.typeface = if (checked) Typeface.create(Typeface.DEFAULT, Typeface.BOLD) else  Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+
+        if (checked) {
+            if (!fragment.isAdded) supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commitNowAllowingStateLoss()
+            supportFragmentManager.beginTransaction().show(fragment).commitNowAllowingStateLoss()
+        } else {
+            supportFragmentManager.beginTransaction().hide(fragment).commitNowAllowingStateLoss()
+        }
     }
 
 

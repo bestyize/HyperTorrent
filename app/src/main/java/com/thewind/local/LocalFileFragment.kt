@@ -73,6 +73,7 @@ class LocalFileFragment : Fragment() {
                 file.isDirectory -> {
                     path = file.absolutePath
                     vm.path.value = path
+
                 }
                 file.isVideo() -> {
                     val intent = Intent(activity, DetailPlayerActivity::class.java)
