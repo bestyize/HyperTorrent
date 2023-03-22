@@ -3,6 +3,7 @@ package com.xunlei.service.database.bean
 import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import java.util.Date
 
@@ -12,29 +13,33 @@ import java.util.Date
  * @description:
  */
 @Keep
-@Entity
+@Entity(tableName = "tb_torrent_download")
 class DownloadTaskBean {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     var id: Int = 0 //自增key
+
+    @ColumnInfo(name = "title")
+    var title: String = ""
+
     @ColumnInfo(name = "task_first_create_time")
     var taskFirstCreateTime: Long = 0L // 数据库首次添加的时间
+
+    @ColumnInfo(name = "total_size")
+    var totalSize: Long = 0L
+
+    // xunlei sdk给的task_id
     @ColumnInfo(name = "temp_task_id")
-    var tempTaskId: Int = 0 // 一次启动中生成的taskId
+    var tempTaskId: Long = 0
+
+    // 永久ID 格式 hash
+    @ColumnInfo("stable_task_id")
+    var stableTaskId: String = ""
+
+    // 种子文件存储地址
     @ColumnInfo(name = "torrent_path")
     var torrentPath: String = ""
-    @ColumnInfo(name = "sub_file_list")
-    var subFileList = mutableListOf<TorrentDownloadTaskFileInfo>()
 
-}
+    @Ignore
+    var fileItemList = mutableListOf<DownloadFileItemBean>()
 
-@Keep
-class TorrentDownloadTaskFileInfo {
-    var name: String ?= ""
-    var size: Long = 0L
-    var downloadedSize: Long = 0L
-    var downloadSpeed: Long = 0L
-    var downloadState: Int = 0
-    var savePath: String = ""
-    var index: Int = 0
-    var isChecked = true
 }

@@ -8,25 +8,26 @@ import com.xunlei.service.database.bean.DownloadTaskBean
  * @date: 2023/3/22 上午3:33
  * @description:
  */
-private const val dbName = "tb_torrent_download"
+private const val tbName = "tb_torrent_download"
 @Dao
 interface DownloadTaskDao {
 
-    @Query("SELECT * FROM $dbName")
+    @Query("SELECT * FROM $tbName")
     fun getAllTask(): List<DownloadTaskBean>
 
-    @Query("SELECT * FROM $dbName WHERE temp_task_id=:tempTaskId")
-    fun getTaskByTempTaskId(tempTaskId: Long): DownloadTaskBean
+    @Query("SELECT * FROM $tbName WHERE temp_task_id=:tempTaskId")
+    fun queryTaskByTempTaskId(tempTaskId: Long): DownloadTaskBean
+
+    @Query("SELECT * FROM $tbName WHERE stable_task_id=:stableTaskId")
+    fun queryTaskByStableTaskId(stableTaskId: String): DownloadTaskBean
 
     @Insert
-    fun addTask(taskBean: DownloadTaskBean)
+    fun insertTask(taskBean: DownloadTaskBean)
 
-    @Query("UPDATE $dbName SET")
-    fun updateTaskByTaskId(task: DownloadTaskBean)
-
-    @Query("DELETE FROM $dbName WHERE temp_task_id=:tempTaskId")
+    @Query("DELETE FROM $tbName WHERE temp_task_id=:tempTaskId")
     fun deleteTaskByTempId(tempTaskId: Long)
 
-
+    @Query("DELETE FROM $tbName WHERE stable_task_id=:stableTaskId")
+    fun deleteTaskByStableId(stableTaskId: String)
 
 }

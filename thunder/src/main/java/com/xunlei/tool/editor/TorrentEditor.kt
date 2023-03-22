@@ -1,5 +1,6 @@
 package com.xunlei.tool.editor
 
+import com.xunlei.download.provider.TorrentTaskHelper
 import com.xunlei.tool.bencode.Bencode
 import com.xunlei.tool.bencode.Type.DICTIONARY
 import org.apache.commons.io.FileUtils
@@ -18,6 +19,24 @@ object TorrentEditor {
 
     private val textEditor by lazy {
         Bencode()
+    }
+
+    fun parseTorrentFileWithThunder(path: String, selectedIndexList: List<Int>? = null): TorrentSimpleInfo {
+        val simpleInfo = parseTorrentFile(path)
+        simpleInfo.filesList = mutableListOf()
+        val torrentInfo = TorrentTaskHelper.instance.getTorrentInfo(path)
+        simpleInfo.hash = torrentInfo.mInfoHash
+        torrentInfo.mSubFileInfo?.forEach {
+            simpleInfo.filesList.add(TorrentFileSimpleInfo().apply {
+                this.name = it.mFileName
+                this.index = it.mFileIndex
+                this.size = it.mFileSize
+                this.subPath = it.mSubPath
+                this.isChecked = selectedIndexList == null || selectedIndexList.contains(it.mFileIndex)
+
+            })
+        }
+        return simpleInfo
     }
 
     fun parseTorrentFile(filePath: String): TorrentSimpleInfo {
@@ -126,7 +145,8 @@ object TorrentEditor {
 }
 
 class TorrentSimpleInfo {
-    var torrentTitle: String?= ""
+    var hash: String = ""
+    var torrentTitle: String= ""
     var createDate: Long = 0L
     var filesList: MutableList<TorrentFileSimpleInfo> = mutableListOf()
 }
@@ -135,6 +155,7 @@ class TorrentFileSimpleInfo {
     var name: String ?= ""
     var size: Long = 0L
     var index: Int = 0
+    var subPath: String = ""
     var isChecked = true
 }
 

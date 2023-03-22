@@ -41,24 +41,14 @@ class TorrentSelectViewModel : ViewModel() {
     fun loadMagnetInfo(path: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val simpleInfo = TorrentEditor.parseTorrentFile(path)
-                simpleInfo.filesList = mutableListOf()
-                val torrentInfo = TorrentTaskHelper.instance.getTorrentInfo(path)
-                torrentInfo.mSubFileInfo?.forEach {
-                    simpleInfo.filesList.add(TorrentFileSimpleInfo().apply {
-                        this.name = it.mFileName
-                        this.index = it.mFileIndex
-                        this.size = it.mFileSize
-                        this.isChecked = true
-
-                    })
-                }
-                simpleInfo
+                TorrentEditor.parseTorrentFileWithThunder(path)
             }.let {
                 torrentFileListLiveData.value = it
             }
         }
     }
+
+    private
 
     companion object {
         private const val TAG = "TorrentSelectViewModel"

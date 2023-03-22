@@ -8,6 +8,7 @@ import com.xunlei.download.config.TorrentUtil
 import com.xunlei.downloadlib.XLDownloadManager
 import com.xunlei.downloadlib.parameter.*
 import com.xunlei.downloadlib.parameter.XLConstant.XLTaskStatus
+import com.xunlei.service.database.TorrentDBHelper
 import com.xunlei.util.TaskManager
 import com.xunlei.util.toast
 import java.io.File
@@ -82,7 +83,7 @@ class TorrentTaskHelper private constructor() {
     @Synchronized
     fun addTorrentTask(
         torrentInfo: TorrentInfo,
-        saveDir: String? = TORRENT_FILE_DIR,
+        saveDir: String = TORRENT_FILE_DIR,
         torrentFilePath: String? = null,
         selectedFileList: MutableList<Int> = mutableListOf(),
         autoStart: Boolean = true
@@ -147,6 +148,7 @@ class TorrentTaskHelper private constructor() {
             this.torrentFilePath = fullPath
             this.xlTaskInfo = getTaskInfo(task.taskId)
         })
+        TorrentDBHelper.addDownloadTaskRecord(task.taskId, fullPath, saveDir, selectedFileList)
         return task.taskId
     }
 
