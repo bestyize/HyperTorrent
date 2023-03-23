@@ -45,9 +45,8 @@ class DownloadListAdapter(private val list: MutableList<DownloadTaskBean>, priva
         holder.binding.tvDownloadSpeed.text = DownloadFormat.formatDownloadSpeed(item.downloadSpeed)
         holder.binding.downloadProgress.max = 100
         holder.binding.downloadProgress.progress = DownloadFormat.formatDownloadProgress(item.downloadedSize, item.size)
-        holder.binding.root.setOnLongClickListener {
+        holder.binding.root.setOnClickListener {
             onLongClickedAction.invoke(position)
-            true
         }
 
     }

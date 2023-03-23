@@ -47,7 +47,7 @@ class DownloadFragment : Fragment() {
         binding.rvItems.adapter = DownloadListAdapter(list) {
             if (it >= list.size) return@DownloadListAdapter
             val item = list[it]
-            CommonBottomSheetDialogFragment.newInstance(mutableListOf("删除", "继续下载", "暂停下载")){ pos ->
+            CommonBottomSheetDialogFragment.newInstance(mutableListOf("删除", "继续下载", "暂停下载", "取消")){ pos ->
                 when (pos) {
                     0 -> {
                         lifecycleScope.launch {
