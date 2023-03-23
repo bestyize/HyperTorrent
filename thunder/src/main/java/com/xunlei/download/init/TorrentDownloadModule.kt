@@ -33,6 +33,7 @@ object TorrentDownloadModule {
             XLDownloadManager.getInstance().setOSVersion(Build.VERSION.INCREMENTAL)
             XLDownloadManager.getInstance().setUserId("Yt4vsji-qngamdRo")
             XLDownloadManager.getInstance().setSpeedLimit(-1, -1)
+            XLDownloadManager.getInstance().setVipType("5")
             TorrentTaskSchedule.INSTANCE.startSchedule()
         } else {
             toast("下载器初始化失败")
