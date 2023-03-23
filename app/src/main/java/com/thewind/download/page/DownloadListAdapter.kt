@@ -39,12 +39,12 @@ class DownloadListAdapter(private val list: MutableList<DownloadTaskBean>, priva
     override fun onBindViewHolder(holder: DownloadDetailListViewHolder, position: Int) {
         val item = list[position]
         holder.binding.tvDownloadState.text = DownloadFormat.formatDownloadState(item.downloadState)
-        holder.binding.tvFileSize.text = "/" + item.totalSize.formatSize()
+        holder.binding.tvFileSize.text = "/" + item.size.formatSize()
         holder.binding.tvDownloadedSize.text = item.downloadedSize.formatSize()
         holder.binding.tvFileName.text = item.title
         holder.binding.tvDownloadSpeed.text = DownloadFormat.formatDownloadSpeed(item.downloadSpeed)
         holder.binding.downloadProgress.max = 100
-        holder.binding.downloadProgress.progress = DownloadFormat.formatDownloadProgress(item.downloadedSize, item.totalSize)
+        holder.binding.downloadProgress.progress = DownloadFormat.formatDownloadProgress(item.downloadedSize, item.size)
         holder.binding.root.setOnLongClickListener {
             onLongClickedAction.invoke(position)
             true

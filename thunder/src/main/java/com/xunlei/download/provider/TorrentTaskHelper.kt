@@ -9,8 +9,14 @@ import com.xunlei.downloadlib.XLDownloadManager
 import com.xunlei.downloadlib.parameter.*
 import com.xunlei.downloadlib.parameter.XLConstant.XLTaskStatus
 import com.xunlei.service.database.TorrentDBHelper
+import com.xunlei.service.database.bean.DownloadTaskBean
+import com.xunlei.service.schedule.TorrentTaskSchedule
 import com.xunlei.util.TaskManager
 import com.xunlei.util.toast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import kotlin.math.max
 
@@ -86,7 +92,8 @@ class TorrentTaskHelper private constructor() {
         saveDir: String = TORRENT_FILE_DIR,
         torrentFilePath: String? = null,
         selectedFileList: MutableList<Int> = mutableListOf(),
-        autoStart: Boolean = true
+        autoStart: Boolean = true,
+        addToDatabase: Boolean = true
     ): Long {
         if (selectedFileList.isEmpty()) return -1
         val fullPath = torrentFilePath
@@ -148,7 +155,7 @@ class TorrentTaskHelper private constructor() {
             this.torrentFilePath = fullPath
             this.xlTaskInfo = getTaskInfo(task.taskId)
         })
-        if (task.taskId >= 1000) TorrentDBHelper.addDownloadTaskRecord(task.taskId, fullPath, saveDir, selectedFileList)
+        if (task.taskId >= 1000 && addToDatabase) TorrentDBHelper.addDownloadTaskRecord(task.taskId, fullPath, saveDir, selectedFileList)
         return task.taskId
     }
 
@@ -212,8 +219,15 @@ class TorrentTaskHelper private constructor() {
     }
 
     @Synchronized
-    fun pauseTask(taskId: Long): Int {
-        return stopTask(taskId)
+    fun pauseTask(task: DownloadTaskBean, action:(Int) -> Unit) {
+        MainScope().launch {
+            val ret = stopTask(taskId  = task.tempTaskId)
+            withContext(Dispatchers.IO) {
+                TorrentTaskSchedule.INSTANCE.restoreSingleTask(task)
+            }
+            action.invoke(ret)
+        }
+
     }
 
 

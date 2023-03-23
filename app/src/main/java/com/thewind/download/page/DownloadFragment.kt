@@ -13,9 +13,11 @@ import com.thewind.download.page.model.DownloadDisplayItem
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentDownloadBinding
 import com.thewind.widget.bottomsheet.CommonBottomSheetDialogFragment
+import com.xunlei.download.provider.TorrentTaskHelper
 import com.xunlei.service.database.TorrentDBHelper
 import com.xunlei.service.database.bean.DownloadTaskBean
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -45,7 +47,7 @@ class DownloadFragment : Fragment() {
         binding.rvItems.adapter = DownloadListAdapter(list) {
             if (it >= list.size) return@DownloadListAdapter
             val item = list[it]
-            CommonBottomSheetDialogFragment.newInstance(mutableListOf("删除")){ pos ->
+            CommonBottomSheetDialogFragment.newInstance(mutableListOf("删除", "继续下载", "暂停下载")){ pos ->
                 when (pos) {
                     0 -> {
                         lifecycleScope.launch {
@@ -56,6 +58,15 @@ class DownloadFragment : Fragment() {
                             binding.rvItems.adapter?.notifyItemRemoved(it)
                         }
 
+                    }
+                    1 -> {
+                        TorrentTaskHelper.instance.startTask(item.tempTaskId)
+                    }
+
+                    2 -> {
+                        TorrentTaskHelper.instance.pauseTask(item) {
+                            binding.rvItems.adapter?.notifyItemChanged(it)
+                        }
                     }
                 }
             }.showNow(childFragmentManager, "")
@@ -74,6 +85,13 @@ class DownloadFragment : Fragment() {
         }
 
         vm.loadDownloadRecord()
+
+        lifecycleScope.launch {
+            while (true) {
+                vm.loadDownloadRecord()
+                delay(1000)
+            }
+        }
     }
 
     companion object {

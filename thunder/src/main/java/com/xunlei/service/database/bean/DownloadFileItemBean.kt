@@ -37,4 +37,6 @@ class DownloadFileItemBean {
     var savePath: String = ""
     @ColumnInfo("is_checked")
     var isChecked = true
+    @ColumnInfo("is_finished")
+    var isFinished = false
 }

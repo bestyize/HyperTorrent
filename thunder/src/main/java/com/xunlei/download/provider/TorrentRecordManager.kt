@@ -37,7 +37,7 @@ class TorrentRecordManager {
                     }
 
                 }
-                Thread.sleep(500)
+                Thread.sleep(2000)
             }
         }
     }

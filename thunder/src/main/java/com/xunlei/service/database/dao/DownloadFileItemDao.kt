@@ -34,7 +34,8 @@ interface DownloadFileItemDao {
             "SET " +
             "downloaded_size = :downloadedSize, " +
             "download_speed = :downloadSpeed," +
-            "download_state = :downloadState " +
+            "download_state = :downloadState, " +
+            "is_finished = :isFinished " +
             "WHERE " +
             "stable_task_id = :stableTaskId " +
             "AND " +
@@ -44,7 +45,8 @@ interface DownloadFileItemDao {
         fileIndex: Int,
         downloadedSize: Long,
         downloadSpeed: Long,
-        downloadState: Int
+        downloadState: Int,
+        isFinished: Boolean
     )
 
     @Query("DELETE FROM $tbName WHERE stable_task_id = :stableTaskId")

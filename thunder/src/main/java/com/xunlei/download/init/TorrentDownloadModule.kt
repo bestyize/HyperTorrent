@@ -6,6 +6,7 @@ import android.util.Log
 import com.xunlei.download.provider.TorrentRecordManager
 import com.xunlei.downloadlib.XLDownloadManager
 import com.xunlei.downloadlib.parameter.InitParam
+import com.xunlei.service.schedule.TorrentTaskSchedule
 import com.xunlei.util.toast
 import java.util.*
 
@@ -32,6 +33,7 @@ object TorrentDownloadModule {
             XLDownloadManager.getInstance().setOSVersion(Build.VERSION.INCREMENTAL)
             XLDownloadManager.getInstance().setUserId("Yt4vsji-qngamdRo")
             XLDownloadManager.getInstance().setSpeedLimit(-1, -1)
+            TorrentTaskSchedule.INSTANCE.startSchedule()
         } else {
             toast("下载器初始化失败")
         }

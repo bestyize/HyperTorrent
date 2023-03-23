@@ -5,7 +5,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import java.util.Date
 
 /**
  * @author: read
@@ -39,14 +38,22 @@ class DownloadTaskBean {
     @ColumnInfo(name = "torrent_path")
     var torrentPath: String = ""
 
-    @Ignore
+    @ColumnInfo("download_state")
     var downloadState: Int = 0
 
-    @Ignore
+    @ColumnInfo("downloaded_size")
     var downloadedSize: Long = 0L
 
-    @Ignore
+    @ColumnInfo("file_size")
+    var size: Long = 0L
+
+
+    @ColumnInfo("download_speed")
     var downloadSpeed: Long = 0L
+
+    @ColumnInfo("is_finished")
+    var isFinished = false
+
 
     @Ignore
     var fileItemList = mutableListOf<DownloadFileItemBean>()

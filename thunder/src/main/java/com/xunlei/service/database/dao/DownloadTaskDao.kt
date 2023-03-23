@@ -24,6 +24,25 @@ interface DownloadTaskDao {
     @Insert
     fun insertTask(taskBean: DownloadTaskBean)
 
+    @Query("UPDATE $tbName SET temp_task_id = :tempTaskId WHERE stable_task_id = :stableTaskId")
+    fun updateTaskTempIdByStableId(stableTaskId: String, tempTaskId: Long)
+
+    @Query("UPDATE $tbName " +
+            "SET " +
+            "downloaded_size = :downloadedSize, " +
+            "download_speed = :downloadSpeed," +
+            "download_state = :downloadState, " +
+            "is_finished = :isFinished " +
+            "WHERE " +
+            "stable_task_id = :stableTaskId ")
+    fun updateTaskStatusByStableId(
+        stableTaskId: String,
+        downloadedSize: Long,
+        downloadSpeed: Long,
+        downloadState: Int,
+        isFinished: Boolean
+    )
+
     @Query("DELETE FROM $tbName WHERE temp_task_id=:tempTaskId")
     fun deleteTaskByTempId(tempTaskId: Long)
 

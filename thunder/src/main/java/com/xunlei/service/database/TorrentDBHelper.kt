@@ -3,14 +3,12 @@ package com.xunlei.service.database
 import android.util.Log
 import androidx.room.Room
 import com.xunlei.downloadlib.XLDownloadManager
+import com.xunlei.downloadlib.parameter.BtTaskStatus
 import com.xunlei.service.database.bean.DownloadFileItemBean
 import com.xunlei.service.database.bean.DownloadTaskBean
 import com.xunlei.service.database.table.DownloadTaskDatabase
 import com.xunlei.tool.editor.TorrentEditor
 import com.xunlei.util.toJson
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import java.io.File
 
 /**
@@ -38,12 +36,17 @@ object TorrentDBHelper {
         selectedList: List<Int>
     ) {
         val info = TorrentEditor.parseTorrentFileWithThunder(torrentPath, selectedList)
+        var size = 0L
+        info.filesList.filter { it.isChecked }.forEach {
+            size += it.size
+        }
         downloadDb.downloadTaskDao().insertTask(DownloadTaskBean().apply {
             this.tempTaskId = tempTaskId
             this.stableTaskId = info.hash
             this.taskFirstCreateTime = System.currentTimeMillis()
             this.torrentPath = torrentPath
             this.title = info.torrentTitle
+            this.size = size
         })
         for (item in info.filesList) {
             addDownloadFileItemRecord(
@@ -59,7 +62,7 @@ object TorrentDBHelper {
         Log.i(TAG, "addDownloadTaskRecord , record = ${queryDownloadTaskByStableId(info.hash).toJson()}")
     }
 
-    fun addDownloadFileItemRecord(
+    private fun addDownloadFileItemRecord(
         tempTaskId: Long,
         hash: String,
         fileName: String,
@@ -88,16 +91,18 @@ object TorrentDBHelper {
         downloadDb.downloadFileItemDao().deleteTaskByStableTaskId(stableId)
     }
 
-    fun queryAllDownloadTask(): List<DownloadTaskBean> {
+    fun queryAllDownloadTask(): MutableList<DownloadTaskBean> {
+        Log.i(TAG, "queryAllDownloadTask, start")
         val list = mutableListOf<DownloadTaskBean>()
         downloadDb.downloadTaskDao().getAllTask().map { it.stableTaskId }.forEach {
             list.add(queryDownloadTaskByStableId(it))
         }
+        Log.i(TAG, "queryAllDownloadTask, end")
         return list
     }
 
 
-    fun queryDownloadTaskByStableId(stableId: String): DownloadTaskBean {
+    private fun queryDownloadTaskByStableId(stableId: String): DownloadTaskBean {
         return downloadDb.downloadTaskDao().queryTaskByStableTaskId(stableTaskId = stableId).apply {
             val files = downloadDb.downloadFileItemDao().queryDownloadItemsByStableTaskId(stableId)
             this.fileItemList.addAll(files)
@@ -114,14 +119,30 @@ object TorrentDBHelper {
         fileIndex: Int,
         downloadedSize: Long = 0L,
         downloadSpeed: Long = 0,
-        downloadState: Int = 0
+        downloadState: Int = 0,
+        isFinished: Boolean,
     ) {
+        Log.i(TAG, "updateSingleFileItemState, start")
         downloadDb.downloadFileItemDao().updateDownloadItemByStableIdAndIndex(
             stableTaskId,
             fileIndex,
             downloadedSize,
             downloadSpeed,
             downloadState,
+            isFinished
         )
+        Log.i(TAG, "updateSingleFileItemState, finished")
+    }
+
+    fun updateTaskTempIdByStableId(stableTaskId: String, tempTaskId: Long) {
+        downloadDb.downloadTaskDao().updateTaskTempIdByStableId(stableTaskId, tempTaskId)
+    }
+
+    fun updateTaskStatusByStableId(stableTaskId: String,
+                                   downloadedSize: Long,
+                                   downloadSpeed: Long,
+                                   downloadState: Int,
+                                   isFinished: Boolean) {
+        downloadDb.downloadTaskDao().updateTaskStatusByStableId(stableTaskId, downloadedSize, downloadSpeed, downloadState, isFinished)
     }
 }
