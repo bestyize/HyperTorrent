@@ -8,13 +8,14 @@ import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.common.Player.Listener
+import androidx.media3.exoplayer.ExoPlayer
 import com.thewind.hypertorrent.databinding.FragmentDetailPlayerBinding
 import com.thewind.util.toTime
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import tv.danmaku.ijk.media.player.IjkMediaPlayer
 import java.io.File
 
 private const val PLAY_URL = "play_url"
@@ -23,7 +24,7 @@ class DetailPlayerFragment : Fragment() {
     private lateinit var vm: DetailPlayerViewModel
     private lateinit var binding: FragmentDetailPlayerBinding
     private var playUrl: String = ""
-    private var player = IjkMediaPlayer()
+    private lateinit var player: ExoPlayer
 
     private var showControlPanel = true
 
@@ -31,6 +32,7 @@ class DetailPlayerFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        player = ExoPlayer.Builder(requireContext()).build()
         arguments?.let {
             playUrl = it.getString(PLAY_URL) ?: ""
         }
@@ -54,19 +56,29 @@ class DetailPlayerFragment : Fragment() {
         vm.playListLiveData.observe(viewLifecycleOwner) {
             if (it.isEmpty()) return@observe
             lifecycleScope.launch {
-                withContext(Dispatchers.IO) {
-                    player.dataSource = it[0].url
-                    player.prepareAsync()
-                    player.setOnPreparedListener { player ->
-                        adjustPlayArea(player.videoWidth, player.videoHeight)
-                        setSeekBar(player.duration)
-                        player.start()
-                        monitorPlayState()
+                player.setMediaItem(MediaItem.fromUri(it[0].url))
+                player.addListener(object : Listener {
+
+                    override fun onPlaybackStateChanged(playbackState: Int) {
+                        super.onPlaybackStateChanged(playbackState)
+                        if (playbackState == Player.STATE_READY) {
+                            adjustPlayArea(player.videoSize.width, player.videoSize.height)
+                            setSeekBar(player.duration)
+                            monitorPlayState()
+                        }
                     }
-                    player.setOnCompletionListener {
-                        player.start()
+
+
+                    override fun onIsPlayingChanged(isPlaying: Boolean) {
+                        super.onIsPlayingChanged(isPlaying)
+                        if (!isPlaying && player.currentPosition >= player.duration) {
+                            player.play()
+                        }
                     }
-                }
+                })
+                player.playWhenReady = true
+                player.prepare()
+                player.play()
             }
         }
         binding.svPlayerContainer.surfaceTextureListener = surfaceCallback
@@ -90,10 +102,10 @@ class DetailPlayerFragment : Fragment() {
         }
         binding.volumeSwitch.setOnCheckedChangeListener { _, checked ->
             val volume = if (checked) 1f else 0f
-            player.setVolume(volume, volume)
+            player.volume = volume
         }
         binding.playSwitch.setOnCheckedChangeListener { _, checked ->
-            if (checked) player.start() else player.pause()
+            if (checked) player.play() else player.pause()
         }
 
         binding.playLockSwitch.setOnCheckedChangeListener { _, _ ->
@@ -112,7 +124,7 @@ class DetailPlayerFragment : Fragment() {
     private var surfaceCallback = object : TextureView.SurfaceTextureListener {
         override fun onSurfaceTextureAvailable(surface: SurfaceTexture, width: Int, height: Int) {
             val sf = Surface(surface)
-            player.setSurface(sf)
+            player.setVideoSurface(sf)
             if (playUrl.isNotEmpty()) {
                 vm.loadPlayList(playUrl)
             }
