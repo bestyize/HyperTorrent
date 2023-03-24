@@ -104,12 +104,21 @@
             android:id="@+id/volume_switch"
             android:layout_width="32dp"
             android:layout_height="32dp"/>
+        <ImageView
+            android:id="@+id/iv_video_screenshot"
+            android:src="@drawable/video_screenshot"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            android:layout_gravity="end|center"
+            android:layout_width="32dp"
+            android:layout_height="32dp"/>
 
     </FrameLayout>
 
 
     <androidx.appcompat.widget.AppCompatCheckBox
-        android:layout_marginRight="20dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="20dp"
         android:layout_gravity="end|center"
         android:button="@drawable/ic_play_lock_selector"
         android:checked="true"

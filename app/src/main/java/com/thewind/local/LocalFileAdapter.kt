@@ -3,12 +3,12 @@ package com.thewind.local
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.LocalFileItemBinding
-import com.thewind.util.formatDate
-import com.thewind.util.formatSize
-import com.thewind.util.icon
+import com.thewind.util.*
 import java.io.File
 
 /**
@@ -39,6 +39,10 @@ class LocalFileAdapter(private val files: MutableList<File>) :
         holder.binding.fileSize.text = file.formatSize()
         holder.binding.fileTime.text = file.formatDate()
         holder.binding.fileIcon.setImageResource(file.icon())
+        if (file.isPicture()) {
+            holder.binding.fileIcon.setPadding(5.toPx())
+            Glide.with(holder.binding.fileIcon).load(file).placeholder(file.icon()).fitCenter().into(holder.binding.fileIcon)
+        }
         holder.binding.root.setOnClickListener {
             vmm?.clickItem?.value = position
         }

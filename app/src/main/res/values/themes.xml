@@ -18,15 +18,18 @@
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="layout_constraintBottom_toBottomOf">parent</item>
     </style>
+
     <style name="ConstraintHorizontalCenterAlign">
         <item name="layout_constraintLeft_toLeftOf">parent</item>
         <item name="layout_constraintRight_toRightOf">parent</item>
     </style>
+
     <style name="ConstraintLeftCenterAlign">
         <item name="layout_constraintLeft_toLeftOf">parent</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
         <item name="layout_constraintBottom_toBottomOf">parent</item>
     </style>
+
     <style name="ConstraintRightCenterAlign">
         <item name="layout_constraintRight_toRightOf">parent</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
@@ -66,6 +69,12 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/transport</item>
+    </style>
+
+    <style name="Theme.HyperTorrent.Fullscreen" parent="Theme.HyperTorrent">
+        <item name="android:actionBarStyle">@style/Widget.Theme.HyperTorrent.ActionBar.Fullscreen
+        </item>
+        <item name="android:windowActionBarOverlay">true</item>
     </style>
 
 </resources>

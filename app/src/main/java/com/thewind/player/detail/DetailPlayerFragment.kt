@@ -1,6 +1,7 @@
 package com.thewind.player.detail
 
 import android.content.pm.ActivityInfo
+import android.graphics.Bitmap
 import android.graphics.SurfaceTexture
 import android.os.Bundle
 import android.view.*
@@ -14,9 +15,16 @@ import androidx.media3.common.Player.Listener
 import androidx.media3.exoplayer.ExoPlayer
 import com.thewind.hypertorrent.databinding.FragmentDetailPlayerBinding
 import com.thewind.util.toTime
+import com.thewind.util.toast
+import com.xunlei.download.config.BASE_DIR
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 private const val PLAY_URL = "play_url"
 
@@ -117,6 +125,31 @@ class DetailPlayerFragment : Fragment() {
                 showControlPanel = true
                 binding.controlPanel.visibility = View.VISIBLE
             }
+        }
+        binding.ivVideoScreenshot.setOnClickListener {
+            val bitmap = binding.svPlayerContainer.bitmap
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) {
+                    try {
+                        val baseDir= File(BASE_DIR + File.separator + "screenshot")
+                        if (!baseDir.exists()) {
+                            baseDir.mkdirs()
+                        }
+                        val dateFormat = SimpleDateFormat("yyyy-MM-dd_HH-mm-ss", Locale.CHINA)
+                        val file = File(baseDir, dateFormat.format(System.currentTimeMillis()) + ".png")
+                        val outputStream = FileOutputStream(file)
+                        bitmap?.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                        outputStream.flush()
+                        outputStream.close()
+                        true
+                    } catch (e: java.lang.Exception) {
+                        false
+                    }
+                }.let {
+                    toast(if (it) "截图成功，已保存到本地" else "截图失败")
+                }
+            }
+
         }
         binding.videoTitle.text = File(playUrl).name
     }
