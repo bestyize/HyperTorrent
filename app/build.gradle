@@ -98,6 +98,10 @@ dependencies {
     // https://mvnrepository.com/artifact/com.dmitryborodin/pdfview-android
     implementation 'com.dmitryborodin:pdfview-android:1.1.0'
 
+    // https://mvnrepository.com/artifact/com.tencent/mmkv
+    implementation 'com.tencent:mmkv:1.2.14'
+
+
 
 
 }

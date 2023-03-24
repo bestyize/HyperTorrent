@@ -2,6 +2,7 @@ package com.thewind.torrent.search.recommend
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentTorrentSearchRecommendBinding
+import com.thewind.torrent.search.TorrentSearchFragment
 import com.thewind.torrent.search.model.TorrentSource
 import com.thewind.util.toast
 
@@ -39,6 +41,7 @@ class TorrentSearchRecommendFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.i(TAG, "onViewCreated, start")
         binding.vpContainer.offscreenPageLimit = 20
         binding.vpContainer.adapter =
             TorrentSearchRecommendAdapter(childFragmentManager, lifecycle, sourceList, vm.searchOperatorLiveData)
@@ -67,6 +70,7 @@ class TorrentSearchRecommendFragment : Fragment() {
 
 
         vm.sources.observe(viewLifecycleOwner) {
+            Log.i(TAG, "onViewCreated, source loaded")
             sourceList.clear()
             sourceList.addAll(it)
             if (currTabTitle.isEmpty() && sourceList.size > 0) {
@@ -77,11 +81,14 @@ class TorrentSearchRecommendFragment : Fragment() {
                 tab.text = sourceList[pos].title
             }.attach()
         }
+        Log.i(TAG, "onViewCreated, start load tabs")
         vm.loadSource()
 
     }
 
     companion object {
+
+        private const val TAG = "TorrentSearchRecommendFragment"
 
         @JvmStatic
         fun newInstance() = TorrentSearchRecommendFragment()

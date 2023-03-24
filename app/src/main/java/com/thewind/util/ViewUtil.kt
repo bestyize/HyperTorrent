@@ -104,4 +104,5 @@ fun DialogFragment.fillWidth() {
         WindowManager.LayoutParams.MATCH_PARENT,
         WindowManager.LayoutParams.WRAP_CONTENT
     )
+    dialog?.window?.setWindowAnimations(android.R.style.Animation_InputMethod)
 }

@@ -1,6 +1,7 @@
 package com.thewind.torrent.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,6 +53,7 @@ class TorrentSearchFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.i(TAG, "onViewCreated")
         initVmObserver()
         searchOperatorLiveData.observe(viewLifecycleOwner) {
             searchOperator.title = it.title
@@ -79,11 +81,11 @@ class TorrentSearchFragment(
                     }
                     1 -> {
                         toast("正在为您下载种子文件")
-                        vm.downloadMagnetFile(torrentSource.src, info.detailUrl)
+                        vm.downloadMagnetFile(torrentSource.src, info.detailUrl, title = info.title)
                     }
                     2 -> {
                         toast("正在为您解析磁力文件")
-                        vm.parseOnlineMagnetFile(torrentSource.src, info.detailUrl)
+                        vm.parseOnlineMagnetFile(torrentSource.src, info.detailUrl, title = info.title)
                     }
 
                 }
@@ -163,14 +165,12 @@ class TorrentSearchFragment(
                 TorrentSelectDialogFragment.newInstance(it).showNow(childFragmentManager, it)
             }
         }
-
-        vm.config.observe(viewLifecycleOwner) {
-
-        }
     }
 
 
     companion object {
+
+        private const val TAG = "TorrentDSearchFragment"
         @JvmStatic
         fun newInstance(
             torrentSource: TorrentSource,

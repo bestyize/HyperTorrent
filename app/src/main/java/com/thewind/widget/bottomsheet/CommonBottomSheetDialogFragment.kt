@@ -42,6 +42,7 @@ class CommonBottomSheetDialogFragment private constructor(
     override fun onStart() {
         super.onStart()
         fillWidth()
+
     }
 
     companion object {

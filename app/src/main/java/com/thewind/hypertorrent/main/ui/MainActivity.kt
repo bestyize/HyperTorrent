@@ -19,16 +19,11 @@ import com.thewind.download.page.DownloadFragment
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.ActivityMainBinding
 import com.thewind.local.LocalFileFragment
-import com.thewind.torrent.search.TorrentSearchFragment
 import com.thewind.torrent.search.recommend.TorrentSearchRecommendFragment
 import com.thewind.util.ViewUtils
-import com.thewind.util.spToPx
-import com.thewind.util.toJson
 import com.thewind.util.toast
 import com.xunlei.download.config.TORRENT_DIR
 import com.xunlei.download.config.TORRENT_FILE_DIR
-import com.xunlei.download.provider.TaskInfo
-import com.xunlei.download.provider.TorrentTaskListener
 import java.io.File
 
 
@@ -36,11 +31,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val torrentSearchFragment by lazy { TorrentSearchRecommendFragment.newInstance()}
+    private val torrentSearchFragment by lazy { TorrentSearchRecommendFragment.newInstance() }
     private val localFileFragment by lazy { LocalFileFragment.newInstance() }
     private val downloadFragment by lazy { DownloadFragment.newInstance() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.i(TAG, "onCreate")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         requestPermission()
@@ -49,26 +45,10 @@ class MainActivity : AppCompatActivity() {
         initView()
     }
 
-    private val taskListener = object : TorrentTaskListener {
-        override fun onStart(taskInfo: TaskInfo) {
-            Log.i(TAG, "onStart, taskInfo = ${taskInfo.toJson()}")
-        }
-
-        override fun onDownloading(taskInfo: TaskInfo) {
-            Log.i(TAG, "onStart, taskInfo = ${taskInfo.toJson()}")
-        }
-
-        override fun onError(taskInfo: TaskInfo) {
-            Log.i(TAG, "onError, taskInfo = ${taskInfo.toJson()}")
-        }
-
-        override fun onSuccess(taskInfo: TaskInfo) {
-            Log.i(TAG, "onSuccess, taskInfo = ${taskInfo.toJson()}")
-        }
-    }
 
     private fun initView() {
-        supportFragmentManager.beginTransaction().add(R.id.fragment_container, torrentSearchFragment).commitNowAllowingStateLoss()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, torrentSearchFragment).commitNowAllowingStateLoss()
         binding.mainItemMain.setOnCheckedChangeListener { buttonView, isChecked ->
             handleMainTabChecked(buttonView, isChecked, torrentSearchFragment)
         }
@@ -80,18 +60,23 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
     private fun handleMainTabChecked(button: CompoundButton, checked: Boolean, fragment: Fragment) {
         button.textSize = if (checked) 20f else 18f
-        button.typeface = if (checked) Typeface.create(Typeface.DEFAULT, Typeface.BOLD) else  Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
+        button.typeface =
+            if (checked) Typeface.create(Typeface.DEFAULT, Typeface.BOLD) else Typeface.create(
+                Typeface.DEFAULT,
+                Typeface.NORMAL
+            )
 
         if (checked) {
-            if (!fragment.isAdded) supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commitNowAllowingStateLoss()
+            if (!fragment.isAdded) supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, fragment).commitNowAllowingStateLoss()
             supportFragmentManager.beginTransaction().show(fragment).commitNowAllowingStateLoss()
         } else {
             supportFragmentManager.beginTransaction().hide(fragment).commitNowAllowingStateLoss()
         }
     }
-
 
 
     private fun requestPermission() {

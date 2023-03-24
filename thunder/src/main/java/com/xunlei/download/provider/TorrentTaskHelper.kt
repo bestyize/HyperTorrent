@@ -7,7 +7,7 @@ import com.xunlei.download.config.TORRENT_PREFIX
 import com.xunlei.download.config.TorrentUtil
 import com.xunlei.downloadlib.XLDownloadManager
 import com.xunlei.downloadlib.parameter.*
-import com.xunlei.downloadlib.parameter.XLConstant.XLTaskStatus
+import com.xunlei.downloadlib.parameter.XLConstant.XLErrorCode
 import com.xunlei.service.database.TorrentDBHelper
 import com.xunlei.service.database.bean.DownloadTaskBean
 import com.xunlei.service.schedule.TorrentTaskSchedule
@@ -36,9 +36,12 @@ class TorrentTaskHelper private constructor() {
 
     @Synchronized
     fun addMagnetTask(
-        magnetLink: String?,
-        saveDir: String? = TORRENT_DIR,
-        saveName: String? = null
+        magnetLink: String,
+        saveDir: String = TORRENT_DIR,
+        saveName: String = "",
+        title: String,
+        autoStart: Boolean = true,
+        addToDatabase: Boolean = true
     ): Long {
         val hash = TorrentUtil.getMagnetHash(magnetLink)
         if (hash.isEmpty()) {
@@ -46,11 +49,11 @@ class TorrentTaskHelper private constructor() {
             return -1
         }
         var saveTorrentFileName = saveName
-        if (saveName.isNullOrBlank()) {
+        if (saveName.isBlank()) {
             saveTorrentFileName = "$hash.torrent"
         }
         val magnet =
-            if (magnetLink?.startsWith(TORRENT_PREFIX) == true) magnetLink else TORRENT_PREFIX + magnetLink
+            if (magnetLink.startsWith(TORRENT_PREFIX)) magnetLink else TORRENT_PREFIX + magnetLink
         val magnetTaskParam = MagnetTaskParam().apply {
             setFileName(saveTorrentFileName)
             setFilePath(saveDir)
@@ -60,8 +63,19 @@ class TorrentTaskHelper private constructor() {
         val task = GetTaskId()
         XLDownloadManager.getInstance().createBtMagnetTask(magnetTaskParam, task)
         XLDownloadManager.getInstance().setTaskLxState(task.taskId, 0, 1)
-        val taskState = XLDownloadManager.getInstance().startTask(task.taskId)
-        Log.i(TAG, "downloadMagnet, taskState = $taskState, taskId = ${task.taskId}")
+        if (autoStart) {
+            XLDownloadManager.getInstance().startTask(task.taskId)
+        }
+        if (addToDatabase) {
+            Log.i(TAG, "addMagnetTask")
+            TorrentDBHelper.addMagnetTaskRecord(
+                hash = hash,
+                tempTaskId = task.taskId,
+                magnetLink = magnetLink,
+                savePath = TorrentUtil.getLocalTorrentPath(hash),
+                title = title)
+        }
+
         maxTaskId = if (maxTaskId == -1L) {
             task.taskId
         } else {
@@ -148,13 +162,6 @@ class TorrentTaskHelper private constructor() {
         } else {
             max(task.taskId, maxTaskId)
         }
-        TorrentRecordManager.instance.addTaskRecord(TaskInfo().apply {
-            this.taskType = TaskType.TORRENT
-            this.taskId = task.taskId
-            this.magnetHash = torrentInfo.mInfoHash
-            this.torrentFilePath = fullPath
-            this.xlTaskInfo = getTaskInfo(task.taskId)
-        })
         if (task.taskId >= 1000 && addToDatabase) TorrentDBHelper.addDownloadTaskRecord(task.taskId, fullPath, saveDir, selectedFileList)
         return task.taskId
     }

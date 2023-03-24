@@ -6,6 +6,7 @@ import com.xunlei.downloadlib.XLDownloadManager
 import com.xunlei.downloadlib.parameter.BtTaskStatus
 import com.xunlei.service.database.bean.DownloadFileItemBean
 import com.xunlei.service.database.bean.DownloadTaskBean
+import com.xunlei.service.database.bean.MagnetTaskBean
 import com.xunlei.service.database.table.DownloadTaskDatabase
 import com.xunlei.tool.editor.TorrentEditor
 import com.xunlei.util.toJson
@@ -145,4 +146,39 @@ object TorrentDBHelper {
                                    isFinished: Boolean) {
         downloadDb.downloadTaskDao().updateTaskStatusByStableId(stableTaskId, downloadedSize, downloadSpeed, downloadState, isFinished)
     }
+
+    fun addMagnetTaskRecord(hash: String, tempTaskId: Long, magnetLink: String, savePath: String, title: String, isFinished: Boolean = false, downloadState: Int = 0) {
+        Log.i(TAG, "addMagnetTaskRecord, hash = $hash, tempTaskId = $tempTaskId")
+        downloadDb.magnetTaskDao().insertTask(MagnetTaskBean().apply {
+            this.stableTaskId = hash
+            this.magnetLink = magnetLink
+            this.torrentPath = savePath
+            this.tempTaskId = tempTaskId
+            this.title = title
+            this.isFinished = isFinished
+            this.downloadState = downloadState
+        })
+    }
+
+    fun updateMagnetTaskTempIdByStableId(stableTaskId: String, tempTaskId: Long) {
+        downloadDb.magnetTaskDao().updateMagnetTaskTempIdByStableId(stableTaskId, tempTaskId)
+    }
+
+    fun queryAllMagnetTask(): MutableList<MagnetTaskBean> {
+        return downloadDb.magnetTaskDao().getAllTask().toMutableList()
+    }
+
+    fun queryMagnetTaskByStableId(stableTaskId: String): MagnetTaskBean? {
+        return downloadDb.magnetTaskDao().queryMagnetTaskByStableId(stableTaskId)
+    }
+
+    fun deleteMagnetTaskByStableId(stableTaskId: String) {
+        downloadDb.magnetTaskDao().deleteMagnetTaskByStableId(stableTaskId)
+    }
+
+    fun updateMagnetTaskStatusByStableId(stableTaskId: String, downloadState: Int, isFinished: Boolean) {
+        downloadDb.magnetTaskDao().updateTaskStatusByStableId(stableTaskId, downloadState, isFinished)
+    }
+
+
 }

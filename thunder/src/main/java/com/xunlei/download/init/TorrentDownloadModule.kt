@@ -3,7 +3,6 @@ package com.xunlei.download.init
 import android.content.Context
 import android.os.Build
 import android.util.Log
-import com.xunlei.download.provider.TorrentRecordManager
 import com.xunlei.downloadlib.XLDownloadManager
 import com.xunlei.downloadlib.parameter.InitParam
 import com.xunlei.service.schedule.TorrentTaskSchedule
@@ -38,7 +37,6 @@ object TorrentDownloadModule {
         } else {
             toast("下载器初始化失败")
         }
-        TorrentRecordManager.instance.init()
         Log.i(TAG, "initXl = $initResult")
     }
 }

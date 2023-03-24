@@ -1,6 +1,7 @@
 package com.thewind.hypertorrent.main
 
 import android.app.Application
+//import com.tencent.mmkv.MMKV
 import com.xunlei.download.init.TorrentDownloadModule
 
 /**
@@ -16,6 +17,7 @@ class HyperApplication : Application() {
     override fun onCreate() {
         globalApplication = this
         super.onCreate()
+//        MMKV.initialize(this)
         TorrentDownloadModule.init(this)
     }
 
