@@ -32,6 +32,7 @@ class TorrentTaskSchedule {
         MainScope().launch {
             launch(Dispatchers.IO) {
                 restoreDownloadTask()
+                clearMagnetTask()
                 delay(200)
                 while (true) {
                     handleTorrentTask()
@@ -112,7 +113,6 @@ class TorrentTaskSchedule {
         }
         Log.i(TAG, "restoreDownloadTask, finished, restore task.size = ${downloadTaskList.size}")
 
-        restoreMagnetTask()
     }
 
     @Synchronized
@@ -153,6 +153,10 @@ class TorrentTaskSchedule {
             }
         }
         Log.i(TAG, "handleMagnetTask, end")
+    }
+
+    private fun clearMagnetTask() {
+        TorrentDBHelper.removeAllMagnetTask()
     }
 
     private fun restoreMagnetTask() {

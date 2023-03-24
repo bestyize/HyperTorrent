@@ -16,6 +16,9 @@ interface MagnetTaskDao {
     @Query("SELECT * FROM $tbName")
     fun getAllTask(): List<MagnetTaskBean>
 
+    @Query("DELETE FROM $tbName")
+    fun removeAllRecord()
+
     @Query("SELECT * FROM $tbName WHERE stable_task_id = :stableTaskId")
     fun queryMagnetTaskByStableId(stableTaskId: String): MagnetTaskBean?
 

@@ -168,6 +168,10 @@ object TorrentDBHelper {
         return downloadDb.magnetTaskDao().getAllTask().toMutableList()
     }
 
+    fun removeAllMagnetTask() {
+        return downloadDb.magnetTaskDao().removeAllRecord()
+    }
+
     fun queryMagnetTaskByStableId(stableTaskId: String): MagnetTaskBean? {
         return downloadDb.magnetTaskDao().queryMagnetTaskByStableId(stableTaskId)
     }

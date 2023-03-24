@@ -140,8 +140,8 @@ class TorrentSearchFragment(
             if (currPage == 1) torrentList.clear()
             torrentList.addAll(it.toSet().toMutableList())
             binding.rvSearchResult.adapter?.notifyDataSetChanged()
-            if (searchOperator.keyword.isNotEmpty()) {
-                toast(if (torrentList.size == 0) "没有更多资源了" else "为您搜索到${torrentList.size}条资源")
+            if (searchOperator.keyword.isNotEmpty() && torrentList.isEmpty()) {
+                toast("没有更多资源了")
             }
 
         }
