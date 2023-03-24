@@ -28,12 +28,21 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         ViewUtils.enterFullScreenMode(this, true)
-
-        lifecycleScope.launch {
-            delay(3000)
+        binding.countDown.setOnClickListener {
             val intent = Intent(this@SplashActivity, MainActivity::class.java)
             startActivity(intent)
             finish()
+        }
+        lifecycleScope.launch {
+            repeat(3) {
+                binding.countDown.setText("跳过 ${3 - it}")
+                delay(1000)
+
+            }
+            val intent = Intent(this@SplashActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+
         }
 
 
