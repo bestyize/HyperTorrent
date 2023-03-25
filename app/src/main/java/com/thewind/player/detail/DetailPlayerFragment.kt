@@ -14,6 +14,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Player.Listener
 import androidx.media3.exoplayer.ExoPlayer
+import com.tencent.mmkv.MMKV
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentDetailPlayerBinding
 import com.thewind.hypertorrent.databinding.SpeedAdjustPopupWindowBinding
@@ -86,6 +87,7 @@ class DetailPlayerFragment : Fragment() {
                 player.repeatMode = Player.REPEAT_MODE_ONE
                 player.playWhenReady = true
                 player.prepare()
+                player.seekTo(MMKV.defaultMMKV().getLong(LAST_PLAY_POSITION + playUrl, 0L))
                 player.play()
             }
         }
@@ -228,6 +230,7 @@ class DetailPlayerFragment : Fragment() {
                     val position = player.currentPosition
                     binding.seekBar.progress = (position / 1000).toInt()
                     binding.tvPlayedTime.text = position.toTime()
+                    MMKV.defaultMMKV().encode(LAST_PLAY_POSITION + playUrl, position)
                 }
                 delay(1000)
             }
@@ -299,6 +302,7 @@ class DetailPlayerFragment : Fragment() {
     }
 
     companion object {
+        private const val LAST_PLAY_POSITION = "last_play_position"
         @JvmStatic
         fun newInstance(playUrl: String) =
             DetailPlayerFragment().apply {
