@@ -103,7 +103,7 @@ object TorrentDBHelper {
     }
 
 
-    private fun queryDownloadTaskByStableId(stableId: String): DownloadTaskBean {
+    fun queryDownloadTaskByStableId(stableId: String): DownloadTaskBean {
         return downloadDb.downloadTaskDao().queryTaskByStableTaskId(stableTaskId = stableId).apply {
             val files = downloadDb.downloadFileItemDao().queryDownloadItemsByStableTaskId(stableId)
             this.fileItemList.addAll(files)

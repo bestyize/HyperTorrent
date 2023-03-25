@@ -13,9 +13,12 @@ class DownloadActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDownloadBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewUtils.enterImmersiveFullScreenMode(this)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, DownloadFragment.newInstance()).commitNow()
+        ViewUtils.enterFullScreenMode(this, false)
+        intent.getStringExtra("stable_task_id")?.let {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, DownloadDetailFragment.newInstance(it)).commitNow()
+        }
+
 
     }
 }

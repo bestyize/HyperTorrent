@@ -123,7 +123,7 @@ class TorrentTaskHelper private constructor() {
 
         val task = GetTaskId()
         val ret = XLDownloadManager.getInstance().createBtTask(btTaskParam, task)
-        if (ret != XLConstant.XLErrorCode.NO_ERROR) {
+        if (ret != XLErrorCode.NO_ERROR) {
             return -1
         }
         if (torrentInfo.mSubFileInfo.isNotEmpty()) {

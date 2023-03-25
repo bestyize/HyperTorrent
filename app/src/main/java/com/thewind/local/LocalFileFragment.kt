@@ -1,5 +1,6 @@
 package com.thewind.local
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -75,43 +77,7 @@ class LocalFileFragment : Fragment() {
                     vm.path.value = path
 
                 }
-                file.isVideo() -> {
-                    val intent = Intent(activity, DetailPlayerActivity::class.java)
-                    intent.putExtra("play_url", file.absolutePath)
-                    startActivity(intent)
-                }
-                file.isJson() -> {
-                    val intent = Intent(activity, FileViewerActivity::class.java)
-                    intent.putExtra("type", "json")
-                    intent.putExtra("path", file.absolutePath)
-                    startActivity(intent)
-                }
-                file.isPdf() -> {
-                    val intent = Intent(activity, FileViewerActivity::class.java)
-                    intent.putExtra("type", "pdf")
-                    intent.putExtra("path", file.absolutePath)
-                    startActivity(intent)
-                }
-
-                file.isTextFile() -> {
-                    val intent = Intent(activity, FileViewerActivity::class.java)
-                    intent.putExtra("type", "code")
-                    intent.putExtra("path", file.absolutePath)
-                    startActivity(intent)
-                }
-                else -> {
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        FileProvider.getUriForFile(
-                            requireContext(),
-                            "com.thewind.hypertorrent.provider",
-                            file
-                        )
-                    ).apply {
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        startActivity(this)
-                    }
-                }
+                else -> LocalFileUtil.openFile(activity, file)
             }
         }
 

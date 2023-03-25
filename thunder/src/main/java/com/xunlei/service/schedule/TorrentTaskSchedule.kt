@@ -52,6 +52,10 @@ class TorrentTaskSchedule {
                     TorrentTaskHelper.instance.getSubTaskInfo(it.tempTaskId, it.index)
 
                 var needUpdate = false
+                if (it.size != subTaskInfo.mTaskInfo.mFileSize) {
+                    it.size = subTaskInfo.mTaskInfo.mFileSize
+                    needUpdate = true
+                }
                 if (it.downloadedSize != subTaskInfo.mTaskInfo.mDownloadSize) {
                     it.downloadedSize = subTaskInfo.mTaskInfo.mDownloadSize
                     needUpdate = true
@@ -72,7 +76,7 @@ class TorrentTaskSchedule {
                         it.downloadedSize,
                         it.downloadSpeed,
                         it.downloadState,
-                        it.downloadedSize == it.size
+                        it.downloadedSize > 0 && it.downloadedSize == it.size
                     )
                 }
             }

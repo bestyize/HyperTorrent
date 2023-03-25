@@ -1,5 +1,6 @@
 package com.thewind.download.page
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -47,17 +48,12 @@ class DownloadFragment : Fragment() {
         binding.rvItems.adapter = DownloadListAdapter(list) {
             if (it >= list.size) return@DownloadListAdapter
             val item = list[it]
-            CommonBottomSheetDialogFragment.newInstance(mutableListOf("删除", "继续下载", "暂停下载", "取消")){ pos ->
+            CommonBottomSheetDialogFragment.newInstance(mutableListOf( "查看详情", "继续下载", "暂停下载", "删除", "取消")){ pos ->
                 when (pos) {
                     0 -> {
-                        lifecycleScope.launch {
-                            withContext(Dispatchers.IO) {
-                                TorrentDBHelper.removeDownloadTaskRecord(item.stableTaskId)
-                            }
-                            list.remove(item)
-                            binding.rvItems.adapter?.notifyItemRemoved(it)
-                        }
-
+                        val intent = Intent(activity, DownloadActivity::class.java)
+                        intent.putExtra("stable_task_id", item.stableTaskId)
+                        startActivity(intent)
                     }
                     1 -> {
                         TorrentTaskHelper.instance.startTask(item.tempTaskId)
@@ -67,6 +63,16 @@ class DownloadFragment : Fragment() {
                         TorrentTaskHelper.instance.pauseTask(item) {
                             binding.rvItems.adapter?.notifyItemChanged(it)
                         }
+                    }
+                    3 -> {
+                        lifecycleScope.launch {
+                            withContext(Dispatchers.IO) {
+                                TorrentDBHelper.removeDownloadTaskRecord(item.stableTaskId)
+                            }
+                            list.remove(item)
+                            binding.rvItems.adapter?.notifyItemRemoved(it)
+                        }
+
                     }
                 }
             }.showNow(childFragmentManager, "")
@@ -92,6 +98,10 @@ class DownloadFragment : Fragment() {
                 delay(1000)
             }
         }
+    }
+
+    private fun actionDownload() {
+
     }
 
     companion object {
