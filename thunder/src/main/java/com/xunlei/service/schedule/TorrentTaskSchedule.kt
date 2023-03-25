@@ -118,11 +118,16 @@ class TorrentTaskSchedule {
     @Synchronized
     fun restoreSingleTask(task: DownloadTaskBean) {
         val torrentInfo = TorrentTaskHelper.instance.getTorrentInfo(task.torrentPath)
+        if (torrentInfo.mInfoHash.isNullOrBlank()) {
+            TorrentDBHelper.removeDownloadTaskRecord(task.stableTaskId)
+            return
+        }
         val selectedList =
             task.fileItemList.filter { it.isChecked }.map { it.index }.toMutableList()
         task.tempTaskId = TorrentTaskHelper.instance.addTorrentTask(
             torrentInfo = torrentInfo,
             selectedFileList = selectedList,
+            torrentFilePath = task.torrentPath,
             autoStart = false,
             addToDatabase = false
         )

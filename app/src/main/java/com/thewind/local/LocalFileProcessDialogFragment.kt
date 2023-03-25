@@ -52,7 +52,18 @@ class LocalFileProcessDialogFragment private constructor(
         binding.tvDelete.setOnClickListener {
             Log.i(TAG, "delete file , path = $path")
             lock.lock()
-            val isSuccess = File(path).delete()
+            val isSuccess = try {
+                File(path).let {
+                    if (it.isFile) {
+                        FileUtils.delete(it)
+                    } else {
+                        FileUtils.deleteDirectory(it)
+                    }
+                }
+                true
+            } catch (_: java.lang.Exception) {
+                false
+            }
             lock.unlock()
             dismissAllowingStateLoss()
             if (isSuccess) action.invoke(DialogAction.DELETE, path) else toast("删除失败")
