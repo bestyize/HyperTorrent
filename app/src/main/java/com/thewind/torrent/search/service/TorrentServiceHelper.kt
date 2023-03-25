@@ -6,6 +6,7 @@ import com.thewind.torrent.search.model.TorrentUrlResponse
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.net.Proxy
 import java.util.concurrent.TimeUnit
 
 /**
@@ -19,6 +20,7 @@ private val okHttpClient = OkHttpClient.Builder()
     .connectTimeout(8, TimeUnit.SECONDS)
     .readTimeout(8, TimeUnit.SECONDS)
     .writeTimeout(8, TimeUnit.SECONDS)
+    .proxy(Proxy.NO_PROXY)
     .build()
 
 private val RetrofitDefault: Retrofit by lazy {
