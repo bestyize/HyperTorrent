@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.xunlei.service.database.TorrentDBHelper
 import com.xunlei.service.database.bean.DownloadTaskBean
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

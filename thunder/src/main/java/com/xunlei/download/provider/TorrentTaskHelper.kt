@@ -116,7 +116,7 @@ class TorrentTaskHelper private constructor() {
         val btTaskParam = BtTaskParam().apply {
             setCreateMode(1)
             setFilePath(saveDir)
-            setMaxConcurrent(3)
+            setMaxConcurrent(4)
             setSeqId(0)
             setTorrentPath(fullPath)
         }
@@ -127,30 +127,7 @@ class TorrentTaskHelper private constructor() {
             return -1
         }
         if (torrentInfo.mSubFileInfo.isNotEmpty()) {
-            val arrayList = ArrayList<Any>()
-            for (torrentFileInfo in torrentInfo.mSubFileInfo) {
-                val length = selectedFileList.size
-                var i = 0
-                while (true) {
-                    if (i >= length) {
-                        z = false
-                        break
-                    } else if (selectedFileList[i] == torrentFileInfo.mFileIndex) {
-                        z = true
-                        break
-                    } else {
-                        i++
-                    }
-                }
-                if (!z) {
-                    arrayList.add(Integer.valueOf(torrentFileInfo.mFileIndex))
-                }
-            }
-            val btIndexSet = BtIndexSet(arrayList.size)
-            for (i2 in 0 until arrayList.size) {
-                btIndexSet.mIndexSet[i2] = (arrayList[i2] as Int).toInt()
-            }
-            XLDownloadManager.getInstance().deselectBtSubTask(task.taskId, btIndexSet)
+            XLDownloadManager.getInstance().deselectBtSubTask(task.taskId, getBtSet(torrentInfo, selectedFileList))
         }
         XLDownloadManager.getInstance().setTaskLxState(task.taskId, 0, 1)
         if (autoStart) {
@@ -164,6 +141,35 @@ class TorrentTaskHelper private constructor() {
         }
         if (task.taskId >= 1000 && addToDatabase) TorrentDBHelper.addDownloadTaskRecord(task.taskId, fullPath, saveDir, selectedFileList)
         return task.taskId
+    }
+
+    fun getBtSet(torrentInfo: TorrentInfo, selectedFileList: MutableList<Int>): BtIndexSet {
+        var z = false
+        val arrayList = ArrayList<Any>()
+        for (torrentFileInfo in torrentInfo.mSubFileInfo) {
+            val length = selectedFileList.size
+            var i = 0
+            while (true) {
+                if (i >= length) {
+                    z = false
+                    break
+                } else if (selectedFileList[i] == torrentFileInfo.mFileIndex) {
+                    z = true
+                    break
+                } else {
+                    i++
+                }
+            }
+            if (!z) {
+                arrayList.add(Integer.valueOf(torrentFileInfo.mFileIndex))
+            }
+        }
+        val btIndexSet = BtIndexSet(arrayList.size)
+        for (i2 in 0 until arrayList.size) {
+            btIndexSet.mIndexSet[i2] = (arrayList[i2] as Int).toInt()
+        }
+
+        return btIndexSet
     }
 
     @Synchronized

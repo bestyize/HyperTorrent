@@ -113,6 +113,18 @@
             android:layout_width="32dp"
             android:layout_height="32dp"/>
 
+        <TextView
+            android:id="@+id/tv_speed_adjust"
+            android:gravity="center"
+            android:layout_gravity="bottom|end"
+            android:textColor="@color/bili_pink"
+            android:text="1倍速"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_width="40dp"
+            android:layout_height="32dp"/>
+
     </FrameLayout>
 
 

@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.SurfaceTexture
 import android.os.Bundle
 import android.view.*
+import android.widget.PopupWindow
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -13,7 +14,11 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Player.Listener
 import androidx.media3.exoplayer.ExoPlayer
+import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentDetailPlayerBinding
+import com.thewind.hypertorrent.databinding.SpeedAdjustPopupWindowBinding
+import com.thewind.util.ViewUtils
+import com.thewind.util.toPx
 import com.thewind.util.toTime
 import com.thewind.util.toast
 import com.xunlei.download.config.BASE_DIR
@@ -37,6 +42,8 @@ class DetailPlayerFragment : Fragment() {
     private var showControlPanel = true
 
     private var notAllowControlPanelClick = false
+
+    private var speedSelectPopupWindow: PopupWindow?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,15 +82,8 @@ class DetailPlayerFragment : Fragment() {
                             monitorPlayState()
                         }
                     }
-
-
-                    override fun onIsPlayingChanged(isPlaying: Boolean) {
-                        super.onIsPlayingChanged(isPlaying)
-                        if (!isPlaying && player.currentPosition >= player.duration) {
-                            player.play()
-                        }
-                    }
                 })
+                player.repeatMode = Player.REPEAT_MODE_ONE
                 player.playWhenReady = true
                 player.prepare()
                 player.play()
@@ -92,6 +92,7 @@ class DetailPlayerFragment : Fragment() {
         binding.svPlayerContainer.surfaceTextureListener = surfaceCallback
 
         binding.svPlayerContainer.setOnClickListener {
+            ViewUtils.enterImmersiveFullScreenMode(activity)
             if (notAllowControlPanelClick) {
                 val isPlayLockVisible = binding.playLockSwitch.visibility != View.VISIBLE
                 binding.playLockSwitch.visibility =
@@ -103,6 +104,9 @@ class DetailPlayerFragment : Fragment() {
             showControlPanel = !showControlPanel
             binding.controlPanel.visibility = if (showControlPanel) View.VISIBLE else View.GONE
             binding.playLockSwitch.visibility = if (showControlPanel) View.VISIBLE else View.GONE
+            if (binding.controlPanel.visibility == View.GONE) {
+                speedSelectPopupWindow?.dismiss()
+            }
         }
 
         binding.ivBack.setOnClickListener {
@@ -152,6 +156,14 @@ class DetailPlayerFragment : Fragment() {
 
         }
         binding.videoTitle.text = File(playUrl).name
+
+        binding.tvSpeedAdjust.setOnClickListener {
+            if (speedSelectPopupWindow?.isShowing == true) {
+                speedSelectPopupWindow?.dismiss()
+            } else {
+                showPopupWindow(binding.tvSpeedAdjust)
+            }
+        }
     }
 
     private var surfaceCallback = object : TextureView.SurfaceTextureListener {
@@ -231,6 +243,59 @@ class DetailPlayerFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         player.release()
+    }
+
+
+    private fun showPopupWindow(view: View) {
+        val bind = SpeedAdjustPopupWindowBinding.bind(layoutInflater.inflate(R.layout.speed_adjust_popup_window, null))
+        speedSelectPopupWindow = PopupWindow(
+            bind.root,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        bind.tvSpeed05.setOnClickListener {
+            binding.tvSpeedAdjust.text = "0.5倍"
+            player.setPlaybackSpeed(0.5f)
+            speedSelectPopupWindow?.dismiss()
+        }
+
+        bind.tvSpeed1.setOnClickListener {
+            binding.tvSpeedAdjust.text = "1.0倍"
+            player.setPlaybackSpeed(1.0f)
+            speedSelectPopupWindow?.dismiss()
+        }
+
+        bind.tvSpeed15.setOnClickListener {
+            binding.tvSpeedAdjust.text = "1.5倍"
+            player.setPlaybackSpeed(1.5f)
+            speedSelectPopupWindow?.dismiss()
+        }
+
+        bind.tvSpeed2.setOnClickListener {
+            binding.tvSpeedAdjust.text = "2.0倍"
+            player.setPlaybackSpeed(2.0f)
+            speedSelectPopupWindow?.dismiss()
+        }
+
+        bind.tvSpeed25.setOnClickListener {
+            binding.tvSpeedAdjust.text = "2.5倍"
+            player.setPlaybackSpeed(2.5f)
+            speedSelectPopupWindow?.dismiss()
+        }
+
+        bind.tvSpeed3.setOnClickListener {
+            binding.tvSpeedAdjust.text = "3.0倍"
+            player.setPlaybackSpeed(3.0f)
+            speedSelectPopupWindow?.dismiss()
+
+        }
+
+        // Calculate x and y offset
+        val xOffset = -(20.toPx())
+        val yOffset = -(300.toPx())
+
+        // Show the popup window with the calculated offset
+        speedSelectPopupWindow?.showAsDropDown(view, xOffset, yOffset)
     }
 
     companion object {

@@ -8,7 +8,9 @@ import com.thewind.download.page.util.DownloadFormat
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FileDownloadItemBinding
 import com.thewind.util.formatSize
+import com.xunlei.downloadlib.parameter.XLConstant.XLTaskStatus
 import com.xunlei.service.database.bean.DownloadTaskBean
+import java.io.File
 
 /**
  * @author: read
@@ -38,6 +40,9 @@ class DownloadListAdapter(private val list: MutableList<DownloadTaskBean>, priva
 
     override fun onBindViewHolder(holder: DownloadDetailListViewHolder, position: Int) {
         val item = list[position]
+        if (item.isFinished) {
+            item.downloadState = XLTaskStatus.TASK_SUCCESS
+        }
         holder.binding.tvDownloadState.text = DownloadFormat.formatDownloadState(item.downloadState)
         holder.binding.tvFileSize.text = "/" + item.size.formatSize()
         holder.binding.tvDownloadedSize.text = item.downloadedSize.formatSize()

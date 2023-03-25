@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thewind.hypertorrent.databinding.FragmentDownloadDetailBinding
 import com.thewind.util.LocalFileUtil
 import com.xunlei.download.provider.TorrentTaskHelper
 import com.xunlei.downloadlib.XLDownloadManager
 import com.xunlei.service.database.bean.DownloadTaskBean
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 
 class DownloadDetailFragment(private var stableTaskId: String) : Fragment() {
@@ -56,11 +59,18 @@ class DownloadDetailFragment(private var stableTaskId: String) : Fragment() {
 
         vm.downloadTaskLiveData.observe(viewLifecycleOwner) {
             task.fileItemList.clear()
-            task.fileItemList.addAll(it.fileItemList)
+            task.fileItemList.addAll(it.fileItemList.filter { it.isChecked })
             binding.rvItems.adapter?.notifyDataSetChanged()
         }
 
-        vm.loadDetailList(stableTaskId)
+        lifecycleScope.launch {
+            while (true) {
+                vm.loadDetailList(stableTaskId)
+                delay(1000)
+            }
+        }
+
+
     }
 
     companion object {

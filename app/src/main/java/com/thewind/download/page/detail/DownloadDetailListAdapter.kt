@@ -39,6 +39,7 @@ class DownloadDetailListAdapter(private val list: MutableList<DownloadFileItemBe
 
     override fun onBindViewHolder(holder: DownloadDetailListViewHolder, position: Int) {
         val item = list[position]
+        if (item.isFinished) item.downloadState = XLTaskStatus.TASK_SUCCESS
         holder.binding.tvDownloadState.text = DownloadFormat.formatDownloadState(item.downloadState)
         holder.binding.tvFileSize.text = "/" + item.size.formatSize()
         holder.binding.tvDownloadedSize.text = item.downloadedSize.formatSize()

@@ -2,6 +2,8 @@ package com.xunlei.service.schedule
 
 import android.util.Log
 import com.xunlei.download.provider.TorrentTaskHelper
+import com.xunlei.downloadlib.XLDownloadManager
+import com.xunlei.downloadlib.parameter.BtIndexSet
 import com.xunlei.downloadlib.parameter.XLConstant.XLTaskStatus
 import com.xunlei.service.database.TorrentDBHelper
 import com.xunlei.service.database.bean.DownloadTaskBean
@@ -50,7 +52,17 @@ class TorrentTaskSchedule {
             task.fileItemList.filter { it.isChecked && !it.isFinished }.forEach {
                 val subTaskInfo =
                     TorrentTaskHelper.instance.getSubTaskInfo(it.tempTaskId, it.index)
+                if (!subTaskInfo.mIsSelect) {
+                    val list = task.fileItemList.filter { it.isChecked }.map { it.index }.toMutableList()
+                    val btIndexSet = BtIndexSet()
+                    btIndexSet.mIndexSet = IntArray(list.size)
+                    list.forEachIndexed { index, i -> btIndexSet.mIndexSet[index] = i }
+                    XLDownloadManager.getInstance().selectBtSubTask(it.tempTaskId, btIndexSet)
 
+                }
+                if (it.isFinished) {
+                    subTaskInfo.mTaskInfo.mTaskStatus = XLTaskStatus.TASK_SUCCESS
+                }
                 var needUpdate = false
                 if (it.size != subTaskInfo.mTaskInfo.mFileSize) {
                     it.size = subTaskInfo.mTaskInfo.mFileSize
@@ -102,7 +114,7 @@ class TorrentTaskSchedule {
                     task.downloadedSize,
                     task.downloadSpeed,
                     task.downloadState,
-                    task.downloadState == 2
+                    task.downloadState == XLTaskStatus.TASK_SUCCESS
                 )
             }
         }
