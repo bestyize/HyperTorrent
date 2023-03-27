@@ -5,6 +5,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.net.HttpURLConnection
+import java.net.Proxy
 import java.net.URL
 import java.nio.charset.StandardCharsets
 
@@ -52,15 +53,16 @@ fun get(link: String?, headerMap: Map<String?, String?>? = null): String {
  * @param headerMap 请求头
  * @return 请求结果
  */
-fun post(link: String?, params: String?, headerMap: Map<String?, String?>?): String? {
+fun post(link: String?, params: String?, headerMap: Map<String?, String?>?= null): String {
     if (link == null || !link.startsWith("http")) {
         return ""
     }
-    var response: String? = null
+    var response: String = ""
     try {
         val url = URL(link)
         val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
         conn.requestMethod = "POST"
+        conn.addRequestProperty("Content-Type", "text/plain")
         conn.doInput = true
         conn.doOutput = true
         conn.connectTimeout = 10000
@@ -88,4 +90,25 @@ fun post(link: String?, params: String?, headerMap: Map<String?, String?>?): Str
         e.printStackTrace()
     }
     return response
+}
+
+fun urlToKv(link: String): Map<String?, String?>? {
+    var url = link
+    val map: MutableMap<String?, String?> = HashMap()
+    if (url.isEmpty() == true) return map
+    var start = url.indexOf("?")
+    if (start == -1) {
+        start = 0
+    }
+    url = url.substring(start)
+    val pairs = url.split("&".toRegex()).dropLastWhile { it.isEmpty() }
+        .toTypedArray()
+    for (s in pairs) {
+        val pair = s.split("=".toRegex()).dropLastWhile { it.isEmpty() }
+            .toTypedArray()
+        if (pair.size == 2) {
+            map[pair[0]] = pair[1]
+        }
+    }
+    return map
 }

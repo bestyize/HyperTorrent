@@ -111,7 +111,7 @@ class DetailPlayerFragment : Fragment() {
             }
         }
 
-        binding.ivBack.setOnClickListener {
+        binding.ivUser.setOnClickListener {
             activity?.onBackPressedDispatcher?.onBackPressed()
         }
         binding.volumeSwitch.setOnCheckedChangeListener { _, checked ->

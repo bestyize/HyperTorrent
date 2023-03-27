@@ -7,12 +7,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
-        android:id="@+id/iv_back"
+        android:layout_margin="2dp"
+        android:visibility="gone"
+        android:id="@+id/iv_user"
+        android:padding="5dp"
+        android:layout_gravity="center|start"
+        android:src="@drawable/header"
+        android:layout_width="40dp"
+        android:layout_height="40dp"/>
+
+    <TextView
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:id="@+id/tv_user"
         android:padding="5dp"
         android:layout_gravity="center|start"
         android:src="@drawable/ic_left_arrow"
-        android:layout_width="48dp"
+        android:text="@string/login"
+        android:gravity="center"
+        android:layout_width="60dp"
         android:layout_height="48dp"/>
+
 
     <com.google.android.material.card.MaterialCardView
         android:layout_marginTop="5dp"
@@ -22,7 +37,7 @@
         app:cardElevation="0dp"
         android:backgroundTint="#10000000"
         app:cardCornerRadius="100dp"
-        android:layout_marginStart="54dp"
+        android:layout_marginStart="60dp"
         android:layout_marginEnd="60dp"
         android:layout_width="300dp"
         android:layout_height="36dp">

@@ -26,7 +26,7 @@
             <ImageView
                 android:padding="4dp"
                 android:src="@drawable/ic_back_pink"
-                android:id="@+id/iv_back"
+                android:id="@+id/iv_user"
                 android:layout_width="32dp"
                 android:layout_height="32dp"/>
 

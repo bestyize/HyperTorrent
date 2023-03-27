@@ -1,5 +1,6 @@
 package com.thewind.torrent.search.recommend
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
@@ -15,6 +18,8 @@ import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentTorrentSearchRecommendBinding
 import com.thewind.torrent.search.TorrentSearchFragment
 import com.thewind.torrent.search.model.TorrentSource
+import com.thewind.user.login.AccountHelper
+import com.thewind.user.login.LoginActivity
 import com.thewind.util.toast
 
 class TorrentSearchRecommendFragment : Fragment() {
@@ -83,7 +88,24 @@ class TorrentSearchRecommendFragment : Fragment() {
         }
         Log.i(TAG, "onViewCreated, start load tabs")
         vm.loadSource()
-
+        AccountHelper.loadUserInfo().let {
+            if (it.isValid) {
+                binding.topSearchBar.tvUser.visibility = View.GONE
+                binding.topSearchBar.ivUser.visibility = View.VISIBLE
+                Glide.with(binding.root.context).load(it.headerUrl).placeholder(R.drawable.header).transform(CircleCrop()).into(binding.topSearchBar.ivUser)
+            } else {
+                binding.topSearchBar.tvUser.visibility = View.VISIBLE
+                binding.topSearchBar.ivUser.visibility = View.GONE
+            }
+        }
+        binding.topSearchBar.tvUser.setOnClickListener {
+            val intent = Intent(activity, LoginActivity::class.java)
+            startActivity(intent)
+        }
+        binding.topSearchBar.ivUser.setOnClickListener {
+            val intent = Intent(activity, LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     companion object {
