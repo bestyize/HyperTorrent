@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets
  */
 private const val TAG: String = "HttpUtil"
 
-fun get(link: String?, headerMap: Map<String?, String?>? = null): String {
+fun get(link: String?, headerMap: Map<String, String> = HashMap()): String {
     if (link == null || !link.startsWith("http")) {
         return ""
     }
@@ -27,10 +27,8 @@ fun get(link: String?, headerMap: Map<String?, String?>? = null): String {
         conn.requestMethod = "GET"
         conn.readTimeout = 5000
         conn.connectTimeout = 5000
-        if (headerMap != null) {
-            for (key in headerMap.keys) {
-                conn.addRequestProperty(key, headerMap[key])
-            }
+        for (key in headerMap.keys) {
+            conn.addRequestProperty(key, headerMap[key])
         }
         val reader = BufferedReader(InputStreamReader(conn.inputStream))
         var line: String?

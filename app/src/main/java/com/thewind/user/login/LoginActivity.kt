@@ -1,10 +1,9 @@
 package com.thewind.user.login
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.ActivityLoginBinding
 import com.thewind.util.ViewUtils
 import com.thewind.util.toast
@@ -30,10 +29,12 @@ class LoginActivity : AppCompatActivity() {
             if (isPageInLoginMode) {
                 binding.registerArea.visibility = View.GONE
                 binding.tvLogin.text = "登录"
+                binding.btnLogin.text = "登录"
                 binding.tvSwitchRegister.text = "注册账号"
             } else {
                 binding.registerArea.visibility = View.VISIBLE
                 binding.tvLogin.text = "注册"
+                binding.btnLogin.text = "注册"
                 binding.tvSwitchRegister.text = "登录"
             }
         }
@@ -45,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
                 vm.login(userName, token)
                 return@setOnClickListener
             }
-            val verifyCode = binding.etVerifyCode.toString()
+            val verifyCode = binding.etVerifyCode.text.toString()
             vm.register(userName, token, verifyCode)
         }
 

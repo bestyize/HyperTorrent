@@ -47,7 +47,7 @@ class TorrentSearchRecommendFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.i(TAG, "onViewCreated, start")
-        binding.vpContainer.offscreenPageLimit = 20
+        binding.vpContainer.offscreenPageLimit = 10
         binding.vpContainer.adapter =
             TorrentSearchRecommendAdapter(childFragmentManager, lifecycle, sourceList, vm.searchOperatorLiveData)
         context?.resources?.getColor(R.color.bili_pink_transport)?.let { biliPink ->

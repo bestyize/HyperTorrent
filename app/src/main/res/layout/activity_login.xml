@@ -108,7 +108,7 @@
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="@color/gray_shadow"
-
+                android:visibility="gone"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 android:minHeight="60dp"
@@ -178,7 +178,7 @@
         <Button
             android:id="@+id/btn_login"
             android:layout_margin="30dp"
-            android:text="登陆/注册"
+            android:text="登录"
             android:layout_width="match_parent"
             android:layout_height="60dp"/>
     </LinearLayout>

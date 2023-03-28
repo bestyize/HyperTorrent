@@ -3,19 +3,13 @@ package com.thewind.user.login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.thewind.hypertorrent.BuildConfig
 import com.thewind.user.bean.User
-import com.thewind.util.EncryptUtil
-import com.thewind.util.fromJson
-import com.thewind.util.post
-import com.thewind.util.toast
+import com.thewind.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.RequestBody
-import okhttp3.ResponseBody
-import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.POST
+import java.net.URLEncoder
 
 /**
  * @author: read
@@ -57,13 +51,17 @@ object LoginService {
     private const val registerUrl = "https://thewind.xyz/user/api/register"
     fun login(userName: String, token: String): User {
         try {
-            val resp = post(loginUrl, EncryptUtil.encrypt("userName=$userName&token=$token")).fromJson<CommonResponse>()
+            val resp = post(
+                loginUrl,
+                EncryptUtil.encrypt("userName=$userName&token=$token")
+            ).fromJson<CommonResponse>()
             if (resp.code != 0) {
                 toast(resp.message ?: "发生未知错误,若您忘记密码，请去微信公众号回复：找回账号")
             } else {
                 return resp.message?.fromJson<User>() ?: User()
             }
-        } catch (_:java.lang.Exception){}
+        } catch (_: java.lang.Exception) {
+        }
 
         return User()
     }
@@ -74,13 +72,22 @@ object LoginService {
                 toast("用户名或密码格式不符合要求")
                 return false
             }
-            val resp = post(registerUrl, EncryptUtil.encrypt("userName=$userName&token=$token&verifyCode=$verifyCode")).fromJson<CommonResponse>()
+            val resp = get(
+                "$registerUrl?userName=${URLEncoder.encode(userName)}&token=$token&verifyCode=$verifyCode",
+                hashMapOf("Content-Type" to "x-www-form-urlencoded")
+            ).fromJson<CommonResponse>()
             if (resp.code != 0) {
                 toast(resp.message ?: "发生未知错误")
+                return false
             } else {
                 return true
             }
-        } catch (_:java.lang.Exception){}
+        } catch (e: java.lang.Exception) {
+            if (BuildConfig.DEBUG) {
+                toast("register error, e = $e")
+            }
+        }
+        toast("注册失败！")
         return false
     }
 
@@ -96,12 +103,6 @@ object LoginService {
     }
 
 
-
-}
-
-interface ApiService {
-    @POST("your/endpoint")
-    suspend fun postData(@Body data: RequestBody): Response<ResponseBody>
 }
 
 class CommonResponse {
