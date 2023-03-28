@@ -20,6 +20,7 @@ import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.ActivityMainBinding
 import com.thewind.local.LocalFileFragment
 import com.thewind.torrent.search.recommend.TorrentSearchRecommendFragment
+import com.thewind.user.center.UserCenterFragment
 import com.thewind.util.ViewUtils
 import com.thewind.util.toast
 import com.xunlei.download.config.TORRENT_DIR
@@ -34,13 +35,14 @@ class MainActivity : AppCompatActivity() {
     private val torrentSearchFragment by lazy { TorrentSearchRecommendFragment.newInstance() }
     private val localFileFragment by lazy { LocalFileFragment.newInstance() }
     private val downloadFragment by lazy { DownloadFragment.newInstance() }
+    private val userCenterFragment by lazy { UserCenterFragment.newInstance(12345) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i(TAG, "onCreate")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         requestPermission()
-        ViewUtils.setStatusBarColor(this, true)
+        ViewUtils.enterFullScreenMode(this, true)
         supportActionBar?.hide()
         initView()
     }
@@ -56,6 +58,9 @@ class MainActivity : AppCompatActivity() {
             handleMainTabChecked(buttonView, isChecked, localFileFragment)
         }
         binding.mainItemMy.setOnCheckedChangeListener { buttonView, isChecked ->
+            handleMainTabChecked(buttonView, isChecked, userCenterFragment)
+        }
+        binding.mainItemDown.setOnCheckedChangeListener { buttonView, isChecked ->
             handleMainTabChecked(buttonView, isChecked, downloadFragment)
         }
 

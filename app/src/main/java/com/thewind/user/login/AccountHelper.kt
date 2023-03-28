@@ -28,7 +28,7 @@ object AccountHelper {
                 }.let {
                     saveUserInfo(it)
                     if (!it.isValid) {
-                        toast("登陆状态失效，请重新登录")
+                        toast("登录状态失效，请重新登录")
                     }
                 }
             }
@@ -48,6 +48,10 @@ object AccountHelper {
 
         }
         return User()
+    }
+
+    fun isLogin(): Boolean {
+        return loadUserInfo().isValid
     }
 
     fun logout() {
