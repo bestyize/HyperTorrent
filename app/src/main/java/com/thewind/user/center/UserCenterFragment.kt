@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.thewind.hypertorrent.databinding.FragmentUserCenterBinding
+import com.thewind.user.bean.FeedChannel
 import com.thewind.util.ViewUtils
 
 // TODO: Rename parameter arguments, choose names that match
@@ -20,7 +21,7 @@ class UserCenterFragment : Fragment() {
     private lateinit var binding: FragmentUserCenterBinding
     private lateinit var vm: UserCenterViewModel
 
-    private val tabs: List<String> = listOf()
+    private val channels: MutableList<FeedChannel> = mutableListOf()
 
     private var uid: Long = -1L
 
@@ -55,21 +56,29 @@ class UserCenterFragment : Fragment() {
     }
 
     private fun initView() {
+        binding.vpContainer.offscreenPageLimit = 10
+        binding.vpContainer.adapter = UserFeedAdapter(childFragmentManager, lifecycle, channels)
         vm.tabsListData.observe(viewLifecycleOwner) {
-//            TabLayoutMediator(binding.userUgcTab, binding.vpContainer, false) { tab, pos ->
-//                tab.text = tabs[pos]
-//            }.attach()
+            TabLayoutMediator(binding.userUgcTab, binding.vpContainer, false) { tab, pos ->
+                tab.text = channels[pos].title
+            }.attach()
         }
 
         vm.loadTabs()
         vm.userInfoLiveData.observe(viewLifecycleOwner) {
             Glide.with(binding.root.context).load(it.headerUrl).into(binding.ivHeader)
             binding.tvUserName.text = it.userName
-            binding.tvFans.text = it.fansCount.toString()
+            binding.tvFansCount.text = it.fansCount.toString()
             binding.tvFollowingCount.text = it.followCount.toString()
             binding.tvSelfDesc.text = it.selfDesc
         }
         vm.loadUserInfo(uid)
+        vm.tabsListData.observe(viewLifecycleOwner) {
+            channels.clear()
+            channels.addAll(it)
+            binding.vpContainer.adapter?.notifyDataSetChanged()
+        }
+        vm.loadTabs()
 
     }
 

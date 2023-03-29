@@ -3,8 +3,8 @@ package com.thewind.user.center
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.thewind.user.bean.FeedChannel
 import com.thewind.user.bean.UserInfo
-import com.thewind.user.login.AccountHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -14,9 +14,9 @@ import kotlinx.coroutines.withContext
  * @date: 2023/3/29 上午2:16
  * @description:
  */
-class UserCenterViewModel: ViewModel() {
+class UserCenterViewModel : ViewModel() {
 
-    val tabsListData: MutableLiveData<MutableList<String>> = MutableLiveData()
+    val tabsListData: MutableLiveData<MutableList<FeedChannel>> = MutableLiveData()
 
     val userInfoLiveData: MutableLiveData<UserInfo> = MutableLiveData()
 
@@ -43,10 +43,15 @@ class UserCenterViewModel: ViewModel() {
 
 }
 
-
 object UserCenterService {
-    fun loadTabs(): MutableList<String> {
-        return mutableListOf("笔记", "收藏")
+    fun loadTabs(): MutableList<FeedChannel> {
+        return mutableListOf(FeedChannel().apply {
+            title = "笔记"
+            channelId = "0"
+        }, FeedChannel().apply {
+            title = "收藏"
+            channelId = "1"
+        })
     }
 
     fun loadUserInfo(uid: Long): UserInfo {
