@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
+    <FrameLayout
+        android:layout_marginTop="30dp"
         android:layout_gravity="top"
         android:layout_width="match_parent"
         android:layout_height="48dp">
@@ -52,7 +53,13 @@
             android:layout_gravity="end|center"
             android:layout_width="32dp"
             android:layout_height="32dp"/>
-    </androidx.cardview.widget.CardView>
+    </FrameLayout>
+
+    <View
+        android:layout_marginTop="78dp"
+        android:background="@color/gray_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_marginTop="48dp"

@@ -1,5 +1,6 @@
 package com.thewind.community.feed.page
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,7 @@ import com.thewind.hypertorrent.databinding.RecommendFeedCardBinding
  * @date: 2023/3/30 上午1:27
  * @description:
  */
-class RecommendCardAdapter(var list: MutableList<RecommendFeetCard>): RecyclerView.Adapter<RecommendCardViewHolder>() {
+class RecommendCardAdapter(var list: MutableList<RecommendFeetCard>, private val action: (Int) -> Unit): RecyclerView.Adapter<RecommendCardViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendCardViewHolder {
         return RecommendCardViewHolder(RecommendFeedCardBinding.bind(LayoutInflater.from(parent.context).inflate(
             R.layout.recommend_feed_card, parent, false)))
@@ -31,6 +32,9 @@ class RecommendCardAdapter(var list: MutableList<RecommendFeetCard>): RecyclerVi
         holder.binding.tvUpName.text = item.upName
         Glide.with(holder.binding.root).load(item.rightIcon).placeholder(R.drawable.like).centerCrop().into(holder.binding.ivRight)
         holder.binding.tvRight.text = item.rightText
+        holder.binding.root.setOnClickListener {
+            action.invoke(0)
+        }
 
     }
 

@@ -1,5 +1,6 @@
 package com.thewind.community.feed.page
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.thewind.community.feed.model.RecommendFeetCard
+import com.thewind.community.post.page.PostActivity
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentRecommendFeedBinding
 
@@ -63,7 +65,12 @@ class RecommendFeedFragment : Fragment() {
         binding.rvItems.layoutManager = StaggeredGridLayoutManager(column, StaggeredGridLayoutManager.VERTICAL).apply {
             gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
         }
-        binding.rvItems.adapter = RecommendCardAdapter(cardList)
+        binding.rvItems.adapter = RecommendCardAdapter(cardList) { action ->
+            if (action == 0) {
+                val intent = Intent(activity, PostActivity::class.java)
+                startActivity(intent)
+            }
+        }
         binding.rvItems.addOnScrollListener(object :RecyclerView.OnScrollListener() {
             private var lastPos: Int = 0
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

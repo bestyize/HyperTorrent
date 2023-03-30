@@ -27,8 +27,8 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
-            android:name=".PostActivity"
-            android:exported="false" />
+            android:name="com.thewind.community.post.page.PostActivity"
+            android:exported="true" />
         <activity
             android:name="com.thewind.user.login.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
