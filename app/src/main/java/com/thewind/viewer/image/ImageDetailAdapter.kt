@@ -20,7 +20,7 @@ class ImageDetailAdapter(fragmentManager: FragmentManager,
 
     override fun createFragment(position: Int): Fragment {
         val item = list[position].apply {
-            title = "$position + 1/${list.size}"
+            title = "${position + 1}/${list.size}"
         }
         return ImageDetailFragment.newInstance(item)
     }

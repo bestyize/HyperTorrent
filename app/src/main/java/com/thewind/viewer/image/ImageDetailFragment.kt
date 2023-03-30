@@ -49,15 +49,13 @@ class ImageDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         imageDetail?.title?.let {
             binding.tvTitle.text = it
-            binding.tvTitle.visibility = View.VISIBLE
         }
         imageDetail?.desc?.let {
             binding.tvImageDesc.text = it
-            binding.flImageDescContainer.visibility = View.VISIBLE
         }
         Glide.with(binding.root).load(imageDetail?.url).fitCenter().into(binding.ivImageDetail)
 
-        binding.root.setOnClickListener {
+        binding.ivImageDetail.setOnClickListener {
             val isVisible = binding.tvTitle.isVisible
             binding.tvTitle.visibility = if (isVisible) View.GONE else View.VISIBLE
             binding.flImageDescContainer.visibility = if (isVisible) View.GONE else View.VISIBLE
