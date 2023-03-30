@@ -40,6 +40,12 @@ object LocalFileUtil {
                 intent.putExtra("path", file.absolutePath)
                 activity.startActivity(intent)
             }
+            file.isPicture() -> {
+                val intent = Intent(activity, FileViewerActivity::class.java)
+                intent.putExtra("type", "image")
+                intent.putExtra("path", file.absolutePath)
+                activity.startActivity(intent)
+            }
             else -> {
                 Intent(
                     Intent.ACTION_VIEW,

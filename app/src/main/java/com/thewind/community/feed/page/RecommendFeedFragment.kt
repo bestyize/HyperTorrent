@@ -92,6 +92,7 @@ class RecommendFeedFragment : Fragment() {
         }
 
         vm.cardListLiveData.observe(viewLifecycleOwner) {
+            isLoading = false
             binding.srfRefresh.isRefreshing = false
             cardList.addAll(it)
             binding.rvItems.adapter?.notifyDataSetChanged()
