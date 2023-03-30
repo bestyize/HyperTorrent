@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_gravity="top"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+        <ImageView
+            android:layout_marginStart="15dp"
+            android:layout_gravity="start|center"
+            app:tint="@color/gray_medium"
+            android:src="@drawable/ic_back_pink"
+            android:layout_width="32dp"
+            android:layout_height="32dp"/>
+
+        <ImageView
+            android:id="@+id/up_header"
+            android:layout_marginLeft="55dp"
+            android:layout_gravity="start|center"
+            app:tint="@color/gray_medium"
+            android:src="@drawable/header"
+            android:layout_width="32dp"
+            android:layout_height="32dp"/>
+
+        <TextView
+            android:id="@+id/up_name"
+            android:text="九月的风"
+            android:layout_gravity="start|center"
+            android:layout_marginStart="96dp"
+            android:maxLines="1"
+            android:maxEms="15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:textStyle="bold"
+            android:textColor="@color/bili_pink"
+            android:layout_marginRight="55dp"
+            android:layout_gravity="center|end"
+            android:text="关注"
+            android:id="@+id/tv_follow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:layout_marginRight="15dp"
+            android:src="@drawable/send"
+            android:layout_gravity="end|center"
+            android:layout_width="32dp"
+            android:layout_height="32dp"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.cardview.widget.CardView
+        app:cardElevation="2dp"
+        app:cardCornerRadius="2dp"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_comment_area"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.card.MaterialCardView
+
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                app:cardElevation="0dp"
+                android:backgroundTint="#10000000"
+                app:cardCornerRadius="100dp"
+                android:layout_weight="1"
+                android:minHeight="48dp"
+                android:layout_width="0dp"
+                android:layout_marginStart="15dp"
+                android:layout_height="36dp">
+                <TextView
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center"
+                    android:text="说点什么"
+                    android:textSize="16sp"
+                    android:gravity="left|center"
+                    android:textColor="@color/gray_medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.card.MaterialCardView>
+            <LinearLayout
+                android:layout_weight="1"
+                android:gravity="center"
+                android:minHeight="48dp"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    app:tint="@color/gray_medium"
+                    android:src="@drawable/like"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"/>
+                <TextView
+                    android:text="999+"
+                    android:id="@+id/tv_like_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:paddingLeft="5dp"
+                    app:tint="@color/gray_medium"
+                    android:src="@drawable/collection"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"/>
+                <TextView
+                    android:text="103"
+                    android:id="@+id/tv_comment_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:paddingLeft="5dp"
+                    app:tint="@color/gray_medium"
+                    android:src="@drawable/commend"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"/>
+                <TextView
+                    android:text="87"
+                    android:id="@+id/tv_collection_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
+</FrameLayout>
