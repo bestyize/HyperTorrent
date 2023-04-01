@@ -27,6 +27,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
+            android:name="com.thewind.community.editor.page.EditorActivity"
+            android:exported="false" />
+        <activity
             android:name="com.thewind.community.user.UserDetailActivity"
             android:exported="true" />
         <activity

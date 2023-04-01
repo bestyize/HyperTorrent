@@ -21,7 +21,7 @@
             app:tint="@color/white" />
         <ImageView
             android:layout_marginTop="30dp"
-            android:id="@+id/iv_share"
+            android:id="@+id/iv_publish"
             android:layout_gravity="end|top"
             android:src="@drawable/send"
             android:layout_width="32dp"
