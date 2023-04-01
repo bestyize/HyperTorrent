@@ -20,6 +20,6 @@ class PostContent {
 
     var upName: String? = null
     var upHeaderUrl: String? = null
-    var upId: String? = null
+    var upId: Long = -1
 }
 
