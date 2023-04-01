@@ -21,28 +21,24 @@ import java.io.File
  */
 
 private const val IMAGE_LIST = "image_list"
+private const val INNER_MODE = "inner_mode"
 
 class ImageViewerFragment : Fragment() {
 
     private var imageList: java.util.ArrayList<ImageDetail>? = null
+    private var innerMode: Boolean = true
 
     private lateinit var binding: ImageViewerFragmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ViewUtils.enterFullScreenMode(activity, false)
+
+        imageList = getImageDetail(arguments)
+        innerMode = arguments?.getBoolean(INNER_MODE, true)?:true
+        ViewUtils.enterFullScreenMode(activity, innerMode)
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
-        if (savedInstanceState != null) {
-            imageList = getImageDetail(savedInstanceState)
-        } else {
-            imageList = getImageDetail(arguments)
-        }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelableArrayList(IMAGE_LIST, imageList)
-    }
 
 
     override fun onCreateView(
@@ -58,7 +54,7 @@ class ImageViewerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.vpContainer.offscreenPageLimit = 5
         binding.vpContainer.adapter =
-            ImageDetailAdapter(childFragmentManager, lifecycle, imageList ?: mutableListOf())
+            ImageDetailAdapter(childFragmentManager, lifecycle, imageList ?: mutableListOf(), innerMode)
         TabLayoutMediator(binding.tbImages, binding.vpContainer, false) { tab, pos ->
             tab.text = ""
         }.attach()
@@ -74,6 +70,16 @@ class ImageViewerFragment : Fragment() {
     }
 
     companion object {
+
+        @JvmStatic
+        fun newInstance(list: ArrayList<ImageDetail>, innerMode: Boolean): Fragment {
+            return ImageViewerFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelableArrayList(IMAGE_LIST, list)
+                    putBoolean(INNER_MODE, innerMode)
+                }
+            }
+        }
         @JvmStatic
         fun newInstance(path: String): Fragment {
             val arrList = ArrayList<ImageDetail>()

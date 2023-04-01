@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/gray_shadow"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -22,7 +23,6 @@
             android:id="@+id/up_header"
             android:layout_marginLeft="55dp"
             android:layout_gravity="start|center"
-            app:tint="@color/gray_medium"
             android:src="@drawable/header"
             android:layout_width="32dp"
             android:layout_height="32dp"/>
@@ -62,10 +62,65 @@
         android:layout_height="1dp"/>
 
     <androidx.core.widget.NestedScrollView
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="79dp"
         android:layout_marginBottom="48dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"/>
+            <TextView
+                android:textIsSelectable="true"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:id="@+id/tv_title"
+                android:maxLines="2"
+                android:textColor="@color/black"
+                android:ellipsize="end"
+                android:visibility="visible"
+                android:text="文章标题"
+                android:gravity="center|start"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"/>
+
+            <TextView
+                android:textIsSelectable="true"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:id="@+id/tv_content"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:visibility="visible"
+                android:text="文章内容"
+                android:gravity="center|start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:textSize="11sp"
+                android:id="@+id/tv_post_date"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:visibility="visible"
+                android:text="2022-03-12"
+                android:gravity="center|start"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"/>
+            <View
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:background="@color/gray_shadow"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 
@@ -129,7 +184,7 @@
                     android:layout_height="32dp"/>
                 <TextView
                     android:text="103"
-                    android:id="@+id/tv_comment_count"
+                    android:id="@+id/tv_collection_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <ImageView
@@ -140,7 +195,7 @@
                     android:layout_height="32dp"/>
                 <TextView
                     android:text="87"
-                    android:id="@+id/tv_collection_count"
+                    android:id="@+id/tv_comment_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>

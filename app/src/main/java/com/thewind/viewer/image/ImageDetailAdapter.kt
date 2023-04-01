@@ -13,7 +13,8 @@ import com.thewind.viewer.image.model.ImageDetail
  */
 class ImageDetailAdapter(fragmentManager: FragmentManager,
                          lifecycle: Lifecycle,
-                         private val list: MutableList<ImageDetail>): FragmentStateAdapter(fragmentManager, lifecycle) {
+                         private val list: MutableList<ImageDetail>,
+                         innerMode: Boolean): FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
         return list.size
     }

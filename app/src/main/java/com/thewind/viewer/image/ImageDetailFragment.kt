@@ -2,41 +2,38 @@ package com.thewind.viewer.image
 
 import android.os.Build
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.thewind.hypertorrent.databinding.FragmentImageDetailBinding
+import com.thewind.util.toPx
 import com.thewind.viewer.image.model.ImageDetail
+import com.thewind.viewer.image.model.ImageDisplayStyle
 import java.io.File
 
 private const val IMAGE_DETAIL = "image_detail"
+private const val INNER_MODE = "inner_mode"
 
 class ImageDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentImageDetailBinding
 
     private var imageDetail: ImageDetail? = null
+    private var innerMode: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState != null) {
-            imageDetail = getImageDetail(savedInstanceState)
-        } else {
-            arguments?.let {
-                imageDetail = getImageDetail(it)
-            }
+        arguments?.let {
+            imageDetail = getImageDetail(it)
+            innerMode = it.getBoolean(INNER_MODE, false)
         }
 
     }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable(IMAGE_DETAIL, imageDetail)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,13 +44,28 @@ class ImageDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (innerMode) {
+            binding.tvTitle.minHeight = 30.toPx()
+            binding.tvTitle.gravity = Gravity.CENTER
+            binding.flImageDescContainer.minimumHeight = 30.toPx()
+        }
         imageDetail?.title?.let {
             binding.tvTitle.text = it
         }
         imageDetail?.desc?.let {
             binding.tvImageDesc.text = it
         }
-        Glide.with(binding.root).load(imageDetail?.url).fitCenter().into(binding.ivImageDetail)
+        when(imageDetail?.style?:0) {
+            ImageDisplayStyle.CENTER_CROP.style -> {
+                binding.ivImageDetail.scaleType = ImageView.ScaleType.CENTER_CROP
+                Glide.with(binding.root).load(imageDetail?.url).centerCrop().into(binding.ivImageDetail)
+            }
+            else -> {
+                binding.ivImageDetail.scaleType = ImageView.ScaleType.FIT_CENTER
+                Glide.with(binding.root).load(imageDetail?.url).fitCenter().into(binding.ivImageDetail)
+            }
+        }
+
 
         binding.ivImageDetail.setOnClickListener {
             val isVisible = binding.tvTitle.isVisible

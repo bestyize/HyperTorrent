@@ -6,7 +6,7 @@ package com.thewind.community.feed.model
  * @description:
  */
 class RecommendFeetCard {
-    var contentId: String? = null
+    var postId: String? = null
     var cover: String? = null
     var title: String? = null
     var content: String? = null

@@ -13,16 +13,20 @@ class ImageDetail() : Parcelable {
     var title: String? = null
     var desc: String? = null
 
+    var style:Int = 0
+
     constructor(parcel: Parcel) : this() {
         url = parcel.readString()
         title = parcel.readString()
         desc = parcel.readString()
+        style = parcel.readInt()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(url)
         parcel.writeString(title)
         parcel.writeString(desc)
+        parcel.writeInt(style)
     }
 
     override fun describeContents(): Int {
@@ -38,4 +42,12 @@ class ImageDetail() : Parcelable {
             return arrayOfNulls(size)
         }
     }
+
+
+}
+
+enum class ImageDisplayStyle(val style: Int) {
+    FIT_CENTER(0),
+    FIT_XY(1),
+    CENTER_CROP(2)
 }

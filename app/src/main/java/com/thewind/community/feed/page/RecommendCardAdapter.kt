@@ -14,7 +14,7 @@ import com.thewind.hypertorrent.databinding.RecommendFeedCardBinding
  * @date: 2023/3/30 上午1:27
  * @description:
  */
-class RecommendCardAdapter(var list: MutableList<RecommendFeetCard>, private val action: (Int) -> Unit): RecyclerView.Adapter<RecommendCardViewHolder>() {
+class RecommendCardAdapter(var list: MutableList<RecommendFeetCard>, private val action: (String?) -> Unit): RecyclerView.Adapter<RecommendCardViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendCardViewHolder {
         return RecommendCardViewHolder(RecommendFeedCardBinding.bind(LayoutInflater.from(parent.context).inflate(
             R.layout.recommend_feed_card, parent, false)))
@@ -33,7 +33,7 @@ class RecommendCardAdapter(var list: MutableList<RecommendFeetCard>, private val
         Glide.with(holder.binding.root).load(item.rightIcon).placeholder(R.drawable.like).centerCrop().into(holder.binding.ivRight)
         holder.binding.tvRight.text = item.rightText
         holder.binding.root.setOnClickListener {
-            action.invoke(0)
+            action.invoke(item.postId)
         }
 
     }

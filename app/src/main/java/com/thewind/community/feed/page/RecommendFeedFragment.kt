@@ -65,11 +65,10 @@ class RecommendFeedFragment : Fragment() {
         binding.rvItems.layoutManager = StaggeredGridLayoutManager(column, StaggeredGridLayoutManager.VERTICAL).apply {
             gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
         }
-        binding.rvItems.adapter = RecommendCardAdapter(cardList) { action ->
-            if (action == 0) {
-                val intent = Intent(activity, PostActivity::class.java)
-                startActivity(intent)
-            }
+        binding.rvItems.adapter = RecommendCardAdapter(cardList) { id ->
+            val intent = Intent(activity, PostActivity::class.java)
+            intent.putExtra("post_id", id)
+            startActivity(intent)
         }
         binding.rvItems.addOnScrollListener(object :RecyclerView.OnScrollListener() {
             private var lastPos: Int = 0
