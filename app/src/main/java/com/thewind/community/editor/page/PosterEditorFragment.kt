@@ -53,6 +53,10 @@ class PosterEditorFragment : Fragment() {
         }
         binding.tvPublish.setOnClickListener {
             if (binding.etContent.text.toString().isNotBlank()) {
+                if (binding.etContent.text.toString().length > 5000) {
+                    toast("暂不支持5000字以上的文章")
+                    return@setOnClickListener
+                }
                 val images = imageList.filter { it.isChecked }.map { it.path + "" }
                 imagePickerVm.publish(binding.etTitle.text.toString(),binding.etContent.text.toString(), images = images)
             } else {

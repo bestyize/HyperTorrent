@@ -38,6 +38,9 @@ class PostActivity : AppCompatActivity() {
         vm.postContentLiveData.observe(this) { content ->
             postContent = content
             binding.upName.text = postContent?.upName
+            if (postContent?.images?.isEmpty() == true) {
+                binding.fragmentContainer.visibility = View.GONE
+            }
             postContent?.images?.let { imageList ->
                 supportFragmentManager.beginTransaction().replace(
                     R.id.fragment_container,
