@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thewind.base.glide.fillCenterCrop
+import com.thewind.community.editor.model.ImagePickerItem
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.ItemImagePickerBinding
 
@@ -12,7 +13,7 @@ import com.thewind.hypertorrent.databinding.ItemImagePickerBinding
  * @date: 2023/4/2 上午2:47
  * @description:
  */
-class ImagePickerAdapter(private val list: MutableList<String>): RecyclerView.Adapter<ImagePickerViewHolder>() {
+class ImagePickerAdapter(private val list: MutableList<ImagePickerItem>): RecyclerView.Adapter<ImagePickerViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImagePickerViewHolder {
         return ImagePickerViewHolder(ItemImagePickerBinding.bind(LayoutInflater.from(parent.context).inflate(R.layout.item_image_picker, parent, false)))
     }
@@ -23,7 +24,15 @@ class ImagePickerAdapter(private val list: MutableList<String>): RecyclerView.Ad
 
     override fun onBindViewHolder(holder: ImagePickerViewHolder, position: Int) {
         val item = list[position]
-        holder.binding.ivImagePreview.fillCenterCrop(item)
+        holder.binding.ivImagePreview.fillCenterCrop(item.path)
+        holder.binding.cbCheckbutton.isChecked = item.isChecked
+        holder.binding.root.setOnClickListener {
+            holder.binding.cbCheckbutton.isChecked = !holder.binding.cbCheckbutton.isChecked
+            item.isChecked = holder.binding.cbCheckbutton.isChecked
+        }
+        holder.binding.cbCheckbutton.checkChangeListener = { isChecked ->
+            item.isChecked = holder.binding.cbCheckbutton.isChecked
+        }
     }
 }
 

@@ -3,6 +3,9 @@ package com.thewind.community.editor.page
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.thewind.community.editor.model.ImagePickerItem
+import com.thewind.community.editor.service.PosterService
+import com.thewind.community.editor.tool.LocalPhotoReader
 import com.thewind.viewer.image.model.ImageDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,27 +17,33 @@ import kotlinx.coroutines.withContext
  * @description:
  */
 class ImagePickerViewModel: ViewModel() {
-    val imageListLiveData: MutableLiveData<List<String>> = MutableLiveData()
-    val publishStatusLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val imageListLiveData: MutableLiveData<List<ImagePickerItem>> = MutableLiveData()
+    val publishStatusLiveData: MutableLiveData<String> = MutableLiveData()
 
 
     fun loadImageList() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                mutableListOf<String>()
+                LocalPhotoReader.loadLocalPhotoList()
             }.let {
                 imageListLiveData.value = it
             }
         }
     }
 
-    fun publish(title: String, content: String, arrayList: ArrayList<ImageDetail>) {
+    fun publish(title: String, content: String, images: List<String>) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                true
+                val list = PosterService.uploadImages(images)
+                if (list.isNotEmpty()) {
+                    PosterService.publish(title, content, list)
+                } else {
+                    ""
+                }
             }.let {
                 publishStatusLiveData.value = it
             }
         }
     }
+
 }

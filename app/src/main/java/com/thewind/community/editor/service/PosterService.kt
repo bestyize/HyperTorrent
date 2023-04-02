@@ -11,12 +11,16 @@ import com.thewind.viewer.image.model.ImageDetail
  */
 object PosterService {
 
-    fun publish(title: String, content: String, arrayList: ArrayList<ImageDetail>): Boolean {
+    fun publish(title: String, content: String, arrayList: ArrayList<ImageDetail>): String {
         val content = PostContent().apply {
             this.title = title
             this.content = content
             this.images = arrayList
         }
-        return true
+        return "12344"
+    }
+
+    fun uploadImages(list: List<String>): ArrayList<ImageDetail> {
+        return arrayListOf()
     }
 }
