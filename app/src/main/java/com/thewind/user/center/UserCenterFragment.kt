@@ -67,7 +67,7 @@ class UserCenterFragment : Fragment() {
             }.attach()
         }
 
-        vm.loadTabs()
+        vm.loadTabs(uid)
         vm.userInfoLiveData.observe(viewLifecycleOwner) {
             Glide.with(binding.root.context).load(it.headerUrl).into(binding.ivHeader)
             binding.tvUserName.text = it.userName
@@ -81,7 +81,7 @@ class UserCenterFragment : Fragment() {
             channels.addAll(it)
             binding.vpContainer.adapter?.notifyDataSetChanged()
         }
-        vm.loadTabs()
+        vm.loadTabs(uid)
 
         binding.ivPublish.setOnClickListener {
             val intent = Intent(activity, EditorActivity::class.java)

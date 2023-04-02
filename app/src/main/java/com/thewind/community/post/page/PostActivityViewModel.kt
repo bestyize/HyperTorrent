@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thewind.community.post.model.PostContent
-import com.thewind.community.post.service.PostService
+import com.thewind.community.post.service.PostServiceHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -22,7 +22,7 @@ class PostActivityViewModel : ViewModel() {
     fun loadContent(postId: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO){
-                PostService.loadPostContent(postId)
+                PostServiceHelper.loadPostContent(postId).data
             }.let {
                 postContentLiveData.value = it
             }

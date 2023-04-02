@@ -1,10 +1,13 @@
 package com.thewind.community.comment.model
 
+import androidx.annotation.Keep
+
 /**
  * @author: read
  * @date: 2023/4/1 下午10:38
  * @description:
  */
+@Keep
 class Comment {
     var id: String? = null
     var content: String? = null

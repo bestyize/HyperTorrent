@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thewind.user.bean.FeedChannel
 import com.thewind.user.bean.UserInfo
+import com.thewind.user.service.UserCenterServiceHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -16,15 +17,15 @@ import kotlinx.coroutines.withContext
  */
 class UserCenterViewModel : ViewModel() {
 
-    val tabsListData: MutableLiveData<MutableList<FeedChannel>> = MutableLiveData()
+    val tabsListData: MutableLiveData<List<FeedChannel>> = MutableLiveData()
 
     val userInfoLiveData: MutableLiveData<UserInfo> = MutableLiveData()
 
 
-    fun loadTabs() {
+    fun loadTabs(uid: Long) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                UserCenterService.loadTabs()
+                UserCenterServiceHelper.loadUserTabs(uid).data
             }.let {
                 tabsListData.value = it
             }
@@ -34,7 +35,7 @@ class UserCenterViewModel : ViewModel() {
     fun loadUserInfo(uid: Long) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                UserCenterService.loadUserInfo(uid)
+                UserCenterServiceHelper.loadUserInfo(uid).data
             }.let {
                 userInfoLiveData.value = it
             }
@@ -52,16 +53,5 @@ object UserCenterService {
             title = "收藏"
             channelId = "1"
         })
-    }
-
-    fun loadUserInfo(uid: Long): UserInfo {
-        return UserInfo().apply {
-            this.uid = uid
-            this.headerUrl = "https://th.bing.com/th/id/OIG.E5XHeQf4XBhsxhHToj3K?pid=ImgGn"
-            this.userName = "亦泽"
-            this.fansCount = 8888
-            this.followCount = 66
-            this.selfDesc = "资深开发"
-        }
     }
 }

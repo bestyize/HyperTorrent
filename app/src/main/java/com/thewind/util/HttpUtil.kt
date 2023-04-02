@@ -1,6 +1,9 @@
 package com.thewind.util
 
 import android.util.Log
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.PrintWriter
@@ -8,6 +11,7 @@ import java.net.HttpURLConnection
 import java.net.Proxy
 import java.net.URL
 import java.nio.charset.StandardCharsets
+import java.util.concurrent.TimeUnit
 
 /**
  * @author: read
@@ -58,7 +62,7 @@ fun post(link: String?, params: String?, headerMap: Map<String?, String?>?= null
     var response: String = ""
     try {
         val url = URL(link)
-        val conn: HttpURLConnection = url.openConnection() as HttpURLConnection
+        val conn: HttpURLConnection = url.openConnection(Proxy.NO_PROXY) as HttpURLConnection
         conn.requestMethod = "POST"
         conn.addRequestProperty("Content-Type", "text/plain")
         conn.doInput = true
@@ -109,4 +113,19 @@ fun urlToKv(link: String): Map<String?, String?>? {
         }
     }
     return map
+}
+
+const val BASE_URL = "https://thewind.xyz"
+
+private val okHttpClient = OkHttpClient.Builder()
+    .connectTimeout(8, TimeUnit.SECONDS)
+    .readTimeout(8, TimeUnit.SECONDS)
+    .writeTimeout(8, TimeUnit.SECONDS)
+    .proxy(Proxy.NO_PROXY)
+    .build()
+
+val RetrofitDefault: Retrofit by lazy {
+    Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(
+        GsonConverterFactory.create()
+    ).client(okHttpClient).build()
 }

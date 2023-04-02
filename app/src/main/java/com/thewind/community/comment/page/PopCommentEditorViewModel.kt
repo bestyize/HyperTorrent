@@ -3,8 +3,7 @@ package com.thewind.community.comment.page
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.thewind.community.comment.service.CommentService
-import com.thewind.util.toast
+import com.thewind.community.comment.service.CommentServiceHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -21,7 +20,7 @@ class PopCommentEditorViewModel : ViewModel() {
     fun sendComment(postId: String, comment: String) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                CommentService.sendComment(postId, comment)
+                CommentServiceHelper.sendComment(postId, comment)
             }
             commentStatus.value = true
         }

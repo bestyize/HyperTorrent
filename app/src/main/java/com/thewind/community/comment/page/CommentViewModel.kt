@@ -4,8 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thewind.community.comment.model.Comment
-import com.thewind.community.comment.service.CommentService
-import com.thewind.util.toast
+import com.thewind.community.comment.service.CommentServiceHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -23,7 +22,7 @@ class CommentViewModel : ViewModel() {
     fun loadCommentList(postId: String, currPage: Int = 1) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                CommentService.loadCommentList(postId, currPage)
+                CommentServiceHelper.loadCommentList(postId, currPage).data
             }.let {
                 commentLiveData.value = it
             }
