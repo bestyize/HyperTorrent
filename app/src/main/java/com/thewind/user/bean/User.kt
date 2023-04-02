@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName
  * @description:
  */
 class User {
+    var uid: Long = -1
     var userName: String? = null
 
     var token: String? = null

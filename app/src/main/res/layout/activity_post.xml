@@ -37,6 +37,16 @@
             android:maxEms="15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <TextView
+            android:visibility="gone"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginRight="100dp"
+            android:layout_gravity="center|end"
+            android:text="删除"
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:textStyle="bold"
@@ -172,6 +182,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content">
                 <ImageView
+                    android:id="@+id/iv_like"
                     android:padding="2dp"
                     app:tint="@color/gray_medium"
                     android:src="@drawable/like"
@@ -183,6 +194,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <ImageView
+                    android:id="@+id/iv_collect"
                     android:paddingLeft="5dp"
                     app:tint="@color/gray_medium"
                     android:src="@drawable/collection"

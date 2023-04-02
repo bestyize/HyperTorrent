@@ -2,6 +2,7 @@ package com.thewind.community.post.page
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -12,11 +13,15 @@ import com.thewind.community.post.model.PostContent
 import com.thewind.community.user.UserDetailActivity
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.ActivityPostBinding
-import com.thewind.user.center.UserCenterFragment
+import com.thewind.user.login.AccountHelper
 import com.thewind.util.ViewUtils
+import com.thewind.util.toJson
+import com.thewind.util.toast
 import com.thewind.viewer.image.ImageViewerFragment
 import java.util.*
 
+
+private const val TAG = "PostActivity"
 class PostActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPostBinding
     private lateinit var vm: PostActivityViewModel
@@ -37,7 +42,7 @@ class PostActivity : AppCompatActivity() {
     private fun initData() {
         vm.postContentLiveData.observe(this) { content ->
             postContent = content
-            binding.upName.text = postContent?.upName
+            binding.upName.text = postContent?.userName
             if (postContent?.images?.isEmpty() == true) {
                 binding.fragmentContainer.visibility = View.GONE
             }
@@ -61,6 +66,46 @@ class PostActivity : AppCompatActivity() {
                 binding.tvPostDate.text = Date().toGMTString()
             }
 
+            content?.uid?.let {
+                val isOwner = AccountHelper.loadUserInfo().uid == it || AccountHelper.loadUserInfo().level >= 100
+                if (isOwner) {
+                    binding.tvDelete.visibility = View.VISIBLE
+                }
+                binding.tvDelete.setOnClickListener {
+                    content.id?.let { postId ->
+                        vm.delete(postId)
+                    }
+                }
+                vm.deletePostLiveData.observe(this@PostActivity) {
+                    if (it.data) {
+                        toast("删除成功")
+                        onBackPressed()
+                    }
+                }
+
+            }
+
+            binding.ivLike.setOnClickListener {
+                vm.like(content.id?:"-1")
+            }
+            vm.likeLiveData.observe(this@PostActivity) {
+                Log.i(TAG, "likeData = ${it.toJson()}")
+                if (it.data) {
+                    content.likeCount++
+                    binding.tvLikeCount.text = content.likeCount.toString()
+                }
+            }
+
+            binding.ivCollect.setOnClickListener {
+                vm.collect(content.id ?:"-1")
+            }
+            vm.collectLiveData.observe(this@PostActivity) {
+                if (it.data) {
+                    content.collectCount++
+                    binding.tvCollectionCount.text = content.collectCount.toString()
+                }
+            }
+
             postContent?.likeCount?.let {
                 binding.tvLikeCount.text = it.toString()
             }
@@ -72,8 +117,8 @@ class PostActivity : AppCompatActivity() {
             postContent?.collectCount?.let {
                 binding.tvCollectionCount.text = it.toString()
             }
-            postContent?.upHeaderUrl?.let {
-                Glide.with(binding.upHeader).load(postContent?.upHeaderUrl).circleCrop()
+            postContent?.userHeaderUrl?.let {
+                Glide.with(binding.upHeader).load(postContent?.userHeaderUrl).circleCrop()
                     .into(binding.upHeader)
             }
             binding.llCommentArea.setOnClickListener {
@@ -92,9 +137,20 @@ class PostActivity : AppCompatActivity() {
 
             binding.upHeader.setOnClickListener {
                 val intent = Intent(this@PostActivity, UserDetailActivity::class.java)
-                intent.putExtra("uid", content.upId)
+                intent.putExtra("uid", content.uid)
                 startActivity(intent)
 
+            }
+            binding.tvFollow.text = if (content.follow) "已关注" else "关注"
+            vm.attentionLiveData.observe(this@PostActivity) {
+                binding.tvFollow.text = if (it.follow) "已关注" else "关注"
+            }
+            binding.tvFollow.setOnClickListener {
+                if (vm.attentionLiveData.value?.follow == true) {
+                    vm.attentionUser(content.uid, query = false, follow = false)
+                } else {
+                    vm.attentionUser(content.uid, query = false, follow = true)
+                }
             }
         }
         binding.ivBack.setOnClickListener {

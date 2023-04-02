@@ -18,8 +18,11 @@ class PostContent {
     var postDate: Long = 0
 
 
-    var upName: String? = null
-    var upHeaderUrl: String? = null
-    var upId: Long = -1
+    var userName: String? = null
+    var userHeaderUrl: String? = null
+    var uid: Long = -1
+    var follow: Boolean = false
+    var like: Boolean = false
+    var collect: Boolean = false
 }
 
