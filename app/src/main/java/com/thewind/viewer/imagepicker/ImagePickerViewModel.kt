@@ -1,4 +1,4 @@
-package com.thewind.community.editor.page
+package com.thewind.viewer.imagepicker
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.thewind.community.editor.model.ImagePickerItem
 import com.thewind.community.editor.service.PosterService
 import com.thewind.community.editor.tool.LocalPhotoReader
-import com.thewind.viewer.image.model.ImageDetail
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

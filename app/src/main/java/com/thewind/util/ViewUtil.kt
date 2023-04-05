@@ -106,3 +106,13 @@ fun DialogFragment.fillWidth() {
     )
     dialog?.window?.setWindowAnimations(android.R.style.Animation_InputMethod)
 }
+
+fun DialogFragment.fillFullScreen() {
+    dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialog?.window?.attributes?.gravity = Gravity.TOP
+    dialog?.window?.setLayout(
+        WindowManager.LayoutParams.MATCH_PARENT,
+        WindowManager.LayoutParams.MATCH_PARENT
+    )
+    dialog?.window?.setWindowAnimations(android.R.style.Animation_InputMethod)
+}

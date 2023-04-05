@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.thewind.community.editor.model.ImagePickerItem
 import com.thewind.hypertorrent.databinding.FragmentPosterEditorBinding
 import com.thewind.util.toast
-import com.thewind.viewer.image.model.ImageDetail
+import com.thewind.viewer.imagepicker.ImagePickerAdapter
+import com.thewind.viewer.imagepicker.ImagePickerViewModel
 
 class PosterEditorFragment : Fragment() {
     private lateinit var binding: FragmentPosterEditorBinding
@@ -65,7 +66,7 @@ class PosterEditorFragment : Fragment() {
         }
 
         binding.tvCancel.setOnClickListener {
-            activity?.onBackPressed()
+            activity?.finish()
         }
 
 

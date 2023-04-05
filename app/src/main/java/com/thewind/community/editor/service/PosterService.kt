@@ -61,6 +61,10 @@ interface UploadService {
     @Multipart
     @POST("/api/community/picture/upload")
     fun uploadFile(@Part files: List<MultipartBody.Part>): Call<UploadResponse>
+
+    @Multipart
+    @POST("/api/community/picture/upload")
+    fun uploadFile(@Part files: MultipartBody.Part): Call<UploadResponse>
 }
 
 class UploadResponse {

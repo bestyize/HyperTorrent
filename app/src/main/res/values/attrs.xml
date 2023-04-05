@@ -9,4 +9,11 @@
         <attr name="checkedIcon" format="reference" />
         <attr name="unCheckedIcon" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="OptionItemView">
+        <attr name="key" format="string"/>
+        <attr name="desc" format="string" />
+        <attr name="icon" format="reference" />
+        <attr name="goIcon" format="reference"/>
+    </declare-styleable>
 </resources>

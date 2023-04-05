@@ -13,7 +13,10 @@ import com.thewind.community.editor.page.EditorActivity
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentUserCenterBinding
 import com.thewind.user.bean.FeedChannel
+import com.thewind.user.setting.user.page.UserSettingFragment
 import com.thewind.util.ViewUtils
+import com.thewind.widget.activity.FullScreenContainerActivity
+import java.util.UUID
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,6 +90,10 @@ class UserCenterFragment : Fragment() {
             val intent = Intent(activity, EditorActivity::class.java)
             startActivity(intent)
             activity?.overridePendingTransition(R.anim.activity_bottom_in, R.anim.activity_bottom_out)
+        }
+
+        binding.ivSetting.setOnClickListener {
+            FullScreenContainerActivity.startWithFragment(activity = activity, UserSettingFragment.newInstance())
         }
 
     }

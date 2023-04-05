@@ -1,7 +1,10 @@
 package com.thewind.util
 
 import android.util.Log
+import com.thewind.user.login.AccountHelper
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.BufferedReader
@@ -117,10 +120,19 @@ fun urlToKv(link: String): Map<String?, String?>? {
 
 const val BASE_URL = "https://thewind.xyz"
 
+private val interceptor = Interceptor { chain ->
+    val req = chain.request()
+    val user = AccountHelper.loadUserInfo()
+    chain.proceed(req.newBuilder().header("uid", "${user.uid}").addHeader("token",
+        user.token?:""
+    ).build())
+}
+
 private val okHttpClient = OkHttpClient.Builder()
     .connectTimeout(8, TimeUnit.SECONDS)
     .readTimeout(8, TimeUnit.SECONDS)
     .writeTimeout(8, TimeUnit.SECONDS)
+    .addInterceptor(interceptor)
     .proxy(Proxy.NO_PROXY)
     .build()
 
