@@ -63,6 +63,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <TextView
+        android:id="@+id/tv_logout"
+        android:minHeight="48dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@color/bili_pink"
+        android:text="退出登录"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 
 
 

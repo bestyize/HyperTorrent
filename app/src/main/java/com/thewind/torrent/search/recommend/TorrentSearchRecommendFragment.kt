@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
+import com.thewind.download.page.DownloadFragment
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentTorrentSearchRecommendBinding
 import com.thewind.torrent.search.TorrentSearchFragment
@@ -21,6 +22,7 @@ import com.thewind.torrent.search.model.TorrentSource
 import com.thewind.user.login.AccountHelper
 import com.thewind.user.login.LoginActivity
 import com.thewind.util.toast
+import com.thewind.widget.activity.FullScreenContainerActivity
 
 class TorrentSearchRecommendFragment : Fragment() {
 
@@ -88,23 +90,12 @@ class TorrentSearchRecommendFragment : Fragment() {
         }
         Log.i(TAG, "onViewCreated, start load tabs")
         vm.loadSource()
-        AccountHelper.loadUserInfo().let {
-            if (it.isValid) {
-                binding.topSearchBar.tvUser.visibility = View.GONE
-                binding.topSearchBar.ivUser.visibility = View.VISIBLE
-                Glide.with(binding.root.context).load(it.headerUrl).placeholder(R.drawable.header).transform(CircleCrop()).into(binding.topSearchBar.ivUser)
-            } else {
-                binding.topSearchBar.tvUser.visibility = View.VISIBLE
-                binding.topSearchBar.ivUser.visibility = View.GONE
-            }
-        }
         binding.topSearchBar.tvUser.setOnClickListener {
-            val intent = Intent(activity, LoginActivity::class.java)
-            startActivity(intent)
+            FullScreenContainerActivity.startWithFragment(activity, DownloadFragment.newInstance())
         }
+        binding.topSearchBar.tvUser.text = "下载"
         binding.topSearchBar.ivUser.setOnClickListener {
-            val intent = Intent(activity, LoginActivity::class.java)
-            startActivity(intent)
+            FullScreenContainerActivity.startWithFragment(activity, DownloadFragment.newInstance())
         }
     }
 

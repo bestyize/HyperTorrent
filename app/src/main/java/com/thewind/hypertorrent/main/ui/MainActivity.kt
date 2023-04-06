@@ -15,12 +15,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.thewind.community.index.page.CommunityFragment
 import com.thewind.download.page.DownloadFragment
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.ActivityMainBinding
 import com.thewind.local.LocalFileFragment
 import com.thewind.torrent.search.recommend.TorrentSearchRecommendFragment
 import com.thewind.user.center.UserCenterFragment
+import com.thewind.user.login.AccountHelper
+import com.thewind.user.login.LoginActivity
 import com.thewind.util.ViewUtils
 import com.thewind.util.toast
 import com.xunlei.download.config.TORRENT_DIR
@@ -34,8 +37,8 @@ class MainActivity : AppCompatActivity() {
 
     private val torrentSearchFragment by lazy { TorrentSearchRecommendFragment.newInstance() }
     private val localFileFragment by lazy { LocalFileFragment.newInstance() }
-    private val downloadFragment by lazy { DownloadFragment.newInstance() }
-    private val userCenterFragment by lazy { UserCenterFragment.newInstance(12345) }
+    private val userCenterFragment by lazy { UserCenterFragment.newInstance() }
+    private val communityFragment by lazy { CommunityFragment.newInstance() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i(TAG, "onCreate")
@@ -50,7 +53,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, torrentSearchFragment).commitNowAllowingStateLoss()
+            .add(R.id.fragment_container, communityFragment).commitNowAllowingStateLoss()
+        binding.mainItemRecommend.setOnCheckedChangeListener { buttonView, isChecked ->
+            handleMainTabChecked(buttonView, isChecked, communityFragment)
+        }
         binding.mainItemMain.setOnCheckedChangeListener { buttonView, isChecked ->
             handleMainTabChecked(buttonView, isChecked, torrentSearchFragment)
         }
@@ -58,10 +64,13 @@ class MainActivity : AppCompatActivity() {
             handleMainTabChecked(buttonView, isChecked, localFileFragment)
         }
         binding.mainItemMy.setOnCheckedChangeListener { buttonView, isChecked ->
-            handleMainTabChecked(buttonView, isChecked, userCenterFragment)
-        }
-        binding.mainItemDown.setOnCheckedChangeListener { buttonView, isChecked ->
-            handleMainTabChecked(buttonView, isChecked, downloadFragment)
+            if (!AccountHelper.isLogin()) {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+            } else {
+                handleMainTabChecked(buttonView, isChecked, userCenterFragment)
+            }
+
         }
 
     }

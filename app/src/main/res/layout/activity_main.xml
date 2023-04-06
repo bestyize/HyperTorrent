@@ -32,10 +32,17 @@
             android:orientation="horizontal"
             tools:ignore="MissingConstraints">
             <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/main_item_main"
-                android:text="主页"
+                android:id="@+id/main_item_recommend"
+                android:text="首页"
                 android:textColor="@drawable/main_tab_text_color_selector"
                 android:checked="true"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                style="@style/MainTabTextStyle"/>
+            <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/main_item_main"
+                android:text="磁力"
+                android:textColor="@drawable/main_tab_text_color_selector"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 style="@style/MainTabTextStyle"/>
@@ -44,12 +51,6 @@
                 android:textSize="18sp"
                 android:textColor="@drawable/main_tab_text_color_selector"
                 android:text="本地"
-                style="@style/MainTabTextStyle"/>
-            <androidx.appcompat.widget.AppCompatRadioButton
-                android:textSize="18sp"
-                android:textColor="@drawable/main_tab_text_color_selector"
-                android:id="@+id/main_item_down"
-                android:text="下载"
                 style="@style/MainTabTextStyle"/>
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:textSize="18sp"

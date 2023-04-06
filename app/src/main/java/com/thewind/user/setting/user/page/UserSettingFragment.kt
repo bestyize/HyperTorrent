@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.thewind.hypertorrent.databinding.FragmentUserSettingBinding
+import com.thewind.user.login.AccountHelper
 import com.thewind.util.toast
 import com.thewind.viewer.imagepicker.ImagePickerFragment
 import com.thewind.widget.inputdialog.InputDialogFragment
@@ -72,6 +73,11 @@ class UserSettingFragment : Fragment() {
                 }
             }
             frag.showNow(childFragmentManager, frag.hashCode().toString())
+        }
+
+        binding.tvLogout.setOnClickListener {
+            AccountHelper.logout()
+            toast("您已退出登录")
         }
 
         vm.userNameLiveData.observe(viewLifecycleOwner) {

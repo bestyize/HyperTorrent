@@ -13,6 +13,7 @@ import com.thewind.community.editor.page.EditorActivity
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentUserCenterBinding
 import com.thewind.user.bean.FeedChannel
+import com.thewind.user.login.AccountHelper
 import com.thewind.user.setting.user.page.UserSettingFragment
 import com.thewind.util.ViewUtils
 import com.thewind.widget.activity.FullScreenContainerActivity
@@ -33,19 +34,10 @@ class UserCenterFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState != null) {
-            uid = savedInstanceState.getLong(UID)
-        } else {
-            uid = arguments?.getLong(UID) ?: -1
-        }
+        uid = arguments?.getLong(UID) ?: -1
         ViewUtils.enterFullScreenMode(activity, true)
         vm = ViewModelProvider(requireActivity())[UserCenterViewModel::class.java]
 
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putLong(UID, uid)
     }
 
     override fun onCreateView(
@@ -62,6 +54,9 @@ class UserCenterFragment : Fragment() {
     }
 
     private fun initView() {
+        if (AccountHelper.isLogin() && uid == -1L) {
+            uid = AccountHelper.loadUserInfo().uid
+        }
         binding.vpContainer.offscreenPageLimit = 10
         binding.vpContainer.adapter = UserFeedAdapter(childFragmentManager, lifecycle, channels)
         vm.tabsListData.observe(viewLifecycleOwner) {
@@ -100,7 +95,7 @@ class UserCenterFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(uid: Long) =
+        fun newInstance(uid: Long = -1) =
             UserCenterFragment().apply {
                 arguments = Bundle().apply {
                     putLong(UID, uid)
