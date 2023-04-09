@@ -10,7 +10,6 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.create
 import retrofit2.http.GET
 import retrofit2.http.Query
 import java.io.File
@@ -49,8 +48,8 @@ interface UpdateUserInfoService {
 
     @GET("/user/api/update/name")
     fun updateUserName(@Query("userName") userName: String) : Call<UpdateUserInfoResponse>
-    @GET("/user/api/update/password")
-    fun updatePassword(@Query("password") password: String) : Call<UpdateUserInfoResponse>
+    @GET("/user/api/update/token")
+    fun updatePassword(@Query("token") password: String) : Call<UpdateUserInfoResponse>
 
     @GET("/user/api/update/header")
     fun updateHeader(@Query("header") header: String) : Call<UpdateUserInfoResponse>
