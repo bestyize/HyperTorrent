@@ -9,13 +9,14 @@ import com.thewind.community.index.model.RecommendTopicItem
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.ImageTextItemBinding
 import com.thewind.util.toast
+import com.thewind.widget.activity.FullScreenContainerActivity
 
 /**
  * @author: read
  * @date: 2023/4/7 上午1:48
  * @description:
  */
-class RecommendTopicAdapter(private val list: List<RecommendTopicItem>) :
+class RecommendTopicAdapter(private val list: List<RecommendTopicItem>, val action: ((RecommendTopicItem) -> Unit)? = null) :
     RecyclerView.Adapter<RecommendTopicViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendTopicViewHolder {
         return RecommendTopicViewHolder(
@@ -36,7 +37,8 @@ class RecommendTopicAdapter(private val list: List<RecommendTopicItem>) :
         Glide.with(holder.binding.root).load(item.icon).into(holder.binding.ivIcon)
         holder.binding.tvDesc.text = item.title
         holder.binding.root.setOnClickListener {
-            toast(item.url ?: "")
+            action?.invoke(item)
+
         }
     }
 

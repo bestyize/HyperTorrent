@@ -13,6 +13,8 @@ import com.thewind.community.index.page.recommend.RecommendTopicAdapter
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentCommunityBinding
 import com.thewind.hypertorrent.databinding.FragmentRecommendFeedBinding
+import com.thewind.viewer.h5.H5PageFragment
+import com.thewind.widget.activity.FullScreenContainerActivity
 
 
 class CommunityFragment : Fragment() {
@@ -37,7 +39,12 @@ class CommunityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.rvRecommendTopics.layoutManager = StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
-        binding.rvRecommendTopics.adapter = RecommendTopicAdapter(recommendTopicList)
+        binding.rvRecommendTopics.adapter = RecommendTopicAdapter(recommendTopicList) { item ->
+            if (item.url?.startsWith("http") == true) {
+                FullScreenContainerActivity.startWithFragment(activity, H5PageFragment.newInstance(item.url!!))
+            }
+
+        }
 
         vm.recommendTopicLiveData.observe(viewLifecycleOwner) {
             recommendTopicList.clear()
