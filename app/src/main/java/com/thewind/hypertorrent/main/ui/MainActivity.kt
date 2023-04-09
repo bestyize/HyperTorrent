@@ -64,11 +64,10 @@ class MainActivity : AppCompatActivity() {
             handleMainTabChecked(buttonView, isChecked, localFileFragment)
         }
         binding.mainItemMy.setOnCheckedChangeListener { buttonView, isChecked ->
+            handleMainTabChecked(buttonView, isChecked, userCenterFragment)
             if (!AccountHelper.isLogin()) {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
-            } else {
-                handleMainTabChecked(buttonView, isChecked, userCenterFragment)
             }
 
         }

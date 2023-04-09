@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.thewind.hypertorrent.databinding.FragmentUserSettingBinding
+import com.thewind.user.bean.User
 import com.thewind.user.login.AccountHelper
+import com.thewind.user.login.LoginStateChangeListener
 import com.thewind.util.toast
 import com.thewind.viewer.imagepicker.ImagePickerFragment
 import com.thewind.widget.inputdialog.InputDialogFragment
@@ -17,6 +19,16 @@ class UserSettingFragment : Fragment() {
 
     private lateinit var binding: FragmentUserSettingBinding
     private lateinit var vm: UserSettingViewModel
+
+    private var localLoginStateChangerListener = object : LoginStateChangeListener {
+        override fun onLoginStateChange(user: User) {
+            binding.optionName.desc = user.userName
+            binding.optionHeader.icon = user.headerUrl
+            binding.optionUid.desc = user.uid.toString()
+            binding.optionDesc.desc = user.desc?:""
+        }
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vm = ViewModelProvider(this)[UserSettingViewModel::class.java]
@@ -32,6 +44,24 @@ class UserSettingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        AccountHelper.registerChangeListener(localLoginStateChangerListener)
+        val user = AccountHelper.loadUserInfo()
+        binding.optionName.desc = user.userName
+        binding.optionHeader.icon = user.headerUrl
+        binding.optionUid.desc = user.uid.toString()
+        binding.optionDesc.desc = user.desc?:""
+        binding.optionDesc.setOnClickListener {
+            InputDialogFragment.newInstance(InputDialogModel().apply {
+                title = "修改个人简介"
+                hint = binding.optionDesc.desc.toString()
+            }) { action, data ->
+                when (action) {
+                    1 -> {
+                        vm.updateDesc(data)
+                    }
+                }
+            }.showNow(childFragmentManager, "mod")
+        }
         binding.optionName.setOnClickListener {
             InputDialogFragment.newInstance(InputDialogModel().apply {
                 title = "修改用户名"

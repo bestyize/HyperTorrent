@@ -57,6 +57,12 @@
         android:layout_height="wrap_content"/>
 
     <com.thewind.widget.option.OptionItemView
+        android:id="@+id/option_desc"
+        app:key="修改简介"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.thewind.widget.option.OptionItemView
         android:id="@+id/option_uid"
         app:key="uid"
         app:desc="1000001"

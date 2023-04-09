@@ -13,7 +13,9 @@ import com.thewind.community.editor.page.EditorActivity
 import com.thewind.hypertorrent.R
 import com.thewind.hypertorrent.databinding.FragmentUserCenterBinding
 import com.thewind.user.bean.FeedChannel
+import com.thewind.user.bean.User
 import com.thewind.user.login.AccountHelper
+import com.thewind.user.login.LoginStateChangeListener
 import com.thewind.user.setting.user.page.UserSettingFragment
 import com.thewind.util.ViewUtils
 import com.thewind.widget.activity.FullScreenContainerActivity
@@ -31,6 +33,16 @@ class UserCenterFragment : Fragment() {
     private val channels: MutableList<FeedChannel> = mutableListOf()
 
     private var uid: Long = -1L
+    private var isSelfUser = true
+
+    private var localLoginStateChangerListener = object : LoginStateChangeListener {
+        override fun onLoginStateChange(user: User) {
+            if (isSelfUser) {
+                vm.loadLocalUserInfo()
+            }
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +66,7 @@ class UserCenterFragment : Fragment() {
     }
 
     private fun initView() {
+        AccountHelper.registerChangeListener(localLoginStateChangerListener)
         if (AccountHelper.isLogin() && uid == -1L) {
             uid = AccountHelper.loadUserInfo().uid
         }
@@ -73,7 +86,23 @@ class UserCenterFragment : Fragment() {
             binding.tvFollowingCount.text = it.followCount.toString()
             binding.tvSelfDesc.text = it.selfDesc
         }
-        vm.loadUserInfo(uid)
+
+        vm.localUserInfo.observe(viewLifecycleOwner) {
+            Glide.with(binding.root.context).load(it.headerUrl).into(binding.ivHeader)
+            binding.tvUserName.text = it.userName
+            binding.tvUid.text = "uid:${it.uid}"
+            binding.tvSelfDesc.text = it.desc?:""
+        }
+
+        if (AccountHelper.loadUserInfo().uid == uid) {
+            isSelfUser = true
+            vm.loadLocalUserInfo()
+
+        } else {
+            isSelfUser = false
+            vm.loadUserInfo(uid)
+        }
+
         vm.tabsListData.observe(viewLifecycleOwner) {
             channels.clear()
             channels.addAll(it)

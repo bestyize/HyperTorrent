@@ -24,7 +24,9 @@ class UserSettingViewModel : ViewModel() {
             withContext(Dispatchers.IO) {
                 UpdateUserInfoServiceHelper.updateUserName(userName)
             }.let {
-                if (it.code == 0 && it.data != null) AccountHelper.saveUserInfo(it.data!!)
+                if (it.code == 0 && it.data != null) {
+                    AccountHelper.saveUserInfo(it.data!!)
+                }
                 userNameLiveData.value = it
             }
 
@@ -36,7 +38,9 @@ class UserSettingViewModel : ViewModel() {
             withContext(Dispatchers.IO) {
                 UpdateUserInfoServiceHelper.updatePassword(password)
             }.let {
-                if (it.code == 0 && it.data != null) AccountHelper.saveUserInfo(it.data!!)
+                if (it.code == 0 && it.data != null) {
+                    AccountHelper.saveUserInfo(it.data!!)
+                }
                 passwordLiveData.value = it
             }
         }
@@ -46,7 +50,23 @@ class UserSettingViewModel : ViewModel() {
             withContext(Dispatchers.IO) {
                 UpdateUserInfoServiceHelper.updateHeader(headerFilePath)
             }.let {
+                if (it.code == 0 && it.data != null) {
+                    AccountHelper.saveUserInfo(it.data!!)
+                }
                 headerLiveData.value = it
+            }
+        }
+    }
+
+    fun updateDesc(desc: String) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                UpdateUserInfoServiceHelper.updateDesc(desc)
+            }.let {
+                if (it.code == 0 && it.data != null) {
+                    AccountHelper.saveUserInfo(it.data!!)
+                }
+                passwordLiveData.value = it
             }
         }
     }

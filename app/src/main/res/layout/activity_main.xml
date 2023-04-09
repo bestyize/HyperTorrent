@@ -8,6 +8,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.fragment.app.FragmentContainerView
+        android:background="@color/white"
         style="@style/ConstraintTop"
         app:layout_constraintBottom_toTopOf="@id/bottom_bar_container"
         android:id="@+id/fragment_container"

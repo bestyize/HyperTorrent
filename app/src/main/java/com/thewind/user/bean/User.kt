@@ -13,6 +13,8 @@ class User {
 
     var token: String? = null
 
+    var desc: String? = null
+
     val email: String? = null
 
     val nickName: String? = null

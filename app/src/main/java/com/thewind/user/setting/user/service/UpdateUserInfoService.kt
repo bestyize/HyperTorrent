@@ -24,6 +24,10 @@ object UpdateUserInfoServiceHelper {
         return RetrofitDefault.create(UpdateUserInfoService::class.java).updatePassword(password).execute().body() ?: UpdateUserInfoResponse()
     }
 
+    fun updateDesc(desc: String): UpdateUserInfoResponse {
+        return RetrofitDefault.create(UpdateUserInfoService::class.java).updateDesc(desc).execute().body() ?: UpdateUserInfoResponse()
+    }
+
     fun updateHeader(filePath: String): UpdateUserInfoResponse {
         val file = File(filePath)
         if (!file.exists() || !file.isPicture()) return UpdateUserInfoResponse()
@@ -50,6 +54,9 @@ interface UpdateUserInfoService {
     fun updateUserName(@Query("userName") userName: String) : Call<UpdateUserInfoResponse>
     @GET("/user/api/update/token")
     fun updatePassword(@Query("token") password: String) : Call<UpdateUserInfoResponse>
+
+    @GET("/user/api/update/desc")
+    fun updateDesc(@Query("desc") desc: String) : Call<UpdateUserInfoResponse>
 
     @GET("/user/api/update/header")
     fun updateHeader(@Query("header") header: String) : Call<UpdateUserInfoResponse>

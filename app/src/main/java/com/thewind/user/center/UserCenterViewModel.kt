@@ -4,7 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thewind.user.bean.FeedChannel
+import com.thewind.user.bean.User
 import com.thewind.user.bean.UserInfo
+import com.thewind.user.login.AccountHelper
 import com.thewind.user.service.UserCenterServiceHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,6 +22,8 @@ class UserCenterViewModel : ViewModel() {
     val tabsListData: MutableLiveData<List<FeedChannel>> = MutableLiveData()
 
     val userInfoLiveData: MutableLiveData<UserInfo> = MutableLiveData()
+
+    val localUserInfo: MutableLiveData<User> = MutableLiveData()
 
 
     fun loadTabs(uid: Long) {
@@ -38,6 +42,16 @@ class UserCenterViewModel : ViewModel() {
                 UserCenterServiceHelper.loadUserInfo(uid).data
             }.let {
                 userInfoLiveData.value = it
+            }
+        }
+    }
+
+    fun loadLocalUserInfo() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                AccountHelper.loadUserInfo()
+            }.let {
+                localUserInfo.value = it
             }
         }
     }

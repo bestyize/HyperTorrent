@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.ref.WeakReference
 
 /**
  * @author: read
@@ -19,6 +20,13 @@ object AccountHelper {
 
     private const val USER_INFO = "user_info"
 
+    private val changeListeners: MutableList<WeakReference<LoginStateChangeListener?>> = mutableListOf()
+
+    fun registerChangeListener(listener: LoginStateChangeListener) {
+        changeListeners.add(WeakReference(listener))
+    }
+
+
     fun updateUserInfo() {
         val user = loadUserInfo()
         if (user.isValid) {
@@ -26,7 +34,9 @@ object AccountHelper {
                 withContext(Dispatchers.IO) {
                     LoginService.login(user.userName?:"", user.token?:"")
                 }.let {
-                    saveUserInfo(it)
+                    if (it.isValid) {
+                        saveUserInfo(it)
+                    }
                     if (!it.isValid) {
                         toast("登录状态失效，请重新登录")
                     }
@@ -37,6 +47,9 @@ object AccountHelper {
 
     fun saveUserInfo(user: User) {
         MMKV.defaultMMKV().encode(USER_INFO, user.toJson())
+        changeListeners.forEach {
+            it.get()?.onLoginStateChange(user)
+        }
     }
 
     fun loadUserInfo(): User {
@@ -56,6 +69,12 @@ object AccountHelper {
 
     fun logout() {
         MMKV.defaultMMKV().remove(USER_INFO)
+        changeListeners.forEach { it.get()?.onLoginStateChange(User()) }
     }
 
+}
+
+
+interface LoginStateChangeListener {
+    fun onLoginStateChange(user: User)
 }
