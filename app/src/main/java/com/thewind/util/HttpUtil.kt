@@ -1,6 +1,8 @@
 package com.thewind.util
 
 import android.util.Log
+import com.thewind.hypertorrent.BuildConfig
+import com.thewind.hypertorrent.main.globalApplication
 import com.thewind.user.login.AccountHelper
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -23,10 +25,11 @@ import java.util.concurrent.TimeUnit
  */
 private const val TAG: String = "HttpUtil"
 
-fun get(link: String?, headerMap: Map<String, String> = HashMap()): String {
+fun get(link: String?, headerMap: MutableMap<String, String> = HashMap()): String {
     if (link == null || !link.startsWith("http")) {
         return ""
     }
+    headerMap.putAll(getCommonHeader())
     val sb = StringBuilder()
     try {
         val url = URL(link)
@@ -58,10 +61,11 @@ fun get(link: String?, headerMap: Map<String, String> = HashMap()): String {
  * @param headerMap 请求头
  * @return 请求结果
  */
-fun post(link: String?, params: String?, headerMap: Map<String?, String?>?= null): String {
+fun post(link: String?, params: String?, headerMap: MutableMap<String, String> = HashMap()): String {
     if (link == null || !link.startsWith("http")) {
         return ""
     }
+    headerMap.putAll(getCommonHeader())
     var response: String = ""
     try {
         val url = URL(link)
@@ -118,14 +122,25 @@ fun urlToKv(link: String): Map<String?, String?>? {
     return map
 }
 
+private fun getCommonHeader(): Map<String, String> {
+    val user = AccountHelper.loadUserInfo()
+    val versionCode = BuildConfig.VERSION_CODE
+    return mapOf(
+        "uid" to user.uid.toString(),
+        "token" to (user.token?:""),
+        "versionCode" to versionCode.toString()
+    )
+}
+
 const val BASE_URL = "https://thewind.xyz"
 
 private val interceptor = Interceptor { chain ->
     val req = chain.request()
     val user = AccountHelper.loadUserInfo()
+    val versionCode = BuildConfig.VERSION_CODE
     chain.proceed(req.newBuilder().header("uid", "${user.uid}").addHeader("token",
         user.token?:""
-    ).build())
+    ).addHeader("versionCode", versionCode.toString()).build())
 }
 
 private val okHttpClient = OkHttpClient.Builder()
