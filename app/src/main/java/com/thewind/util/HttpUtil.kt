@@ -2,11 +2,10 @@ package com.thewind.util
 
 import android.util.Log
 import com.thewind.hypertorrent.BuildConfig
-import com.thewind.hypertorrent.main.globalApplication
+import com.thewind.hypertorrent.config.ConfigManager
 import com.thewind.user.login.AccountHelper
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.BufferedReader
@@ -76,7 +75,7 @@ fun post(link: String?, params: String?, headerMap: MutableMap<String, String> =
         conn.doOutput = true
         conn.connectTimeout = 10000
         conn.readTimeout = 10000
-        if (headerMap != null && headerMap.keys.isNotEmpty()) {
+        if (headerMap.keys.isNotEmpty()) {
             for (key in headerMap.keys) {
                 conn.setRequestProperty(key, headerMap[key])
             }
@@ -104,7 +103,7 @@ fun post(link: String?, params: String?, headerMap: MutableMap<String, String> =
 fun urlToKv(link: String): Map<String?, String?>? {
     var url = link
     val map: MutableMap<String?, String?> = HashMap()
-    if (url.isEmpty() == true) return map
+    if (url.isEmpty()) return map
     var start = url.indexOf("?")
     if (start == -1) {
         start = 0
@@ -132,8 +131,6 @@ private fun getCommonHeader(): Map<String, String> {
     )
 }
 
-const val BASE_URL = "https://thewind.xyz"
-
 private val interceptor = Interceptor { chain ->
     val req = chain.request()
     val user = AccountHelper.loadUserInfo()
@@ -152,7 +149,12 @@ private val okHttpClient = OkHttpClient.Builder()
     .build()
 
 val RetrofitDefault: Retrofit by lazy {
-    Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(
+    Retrofit.Builder().baseUrl(baseUrl()).addConverterFactory(
         GsonConverterFactory.create()
     ).client(okHttpClient).build()
+}
+
+fun baseUrl(): String {
+    val url = ConfigManager.appConfig?.baseUrl?:""
+    return if (url.startsWith("http")) url else "https://thewind.xyz"
 }

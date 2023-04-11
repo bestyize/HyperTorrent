@@ -22,7 +22,7 @@ import java.io.File
 object PosterService {
 
     fun publish(title: String, content: String, arrayList: ArrayList<ImageDetail>): String {
-        return post("$BASE_URL/api/community/poster/publish", PostContent().apply {
+        return post("${baseUrl()}/api/community/poster/publish", PostContent().apply {
             this.title = title
             this.content = content
             this.images = arrayList

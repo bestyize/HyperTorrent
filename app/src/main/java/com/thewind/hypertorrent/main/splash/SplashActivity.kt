@@ -9,9 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.thewind.hypertorrent.databinding.ActivitySplashBinding
 import com.thewind.hypertorrent.main.ui.MainActivity
-import com.thewind.util.BASE_URL
 import com.thewind.util.ViewUtils
-import com.thewind.util.toast
+import com.thewind.util.baseUrl
 import com.thewind.viewer.h5.H5PageFragment
 import com.thewind.widget.actiondialog.ButtonActionType
 import com.thewind.widget.actiondialog.ButtonData
@@ -95,7 +94,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun handleNotifyButtonClick(buttonData: ButtonData) {
         when(buttonData.actionType) {
-            ButtonActionType.INNER_H5 -> FullScreenContainerActivity.startWithFragment(this, H5PageFragment.newInstance(buttonData.actionUrl?: BASE_URL))
+            ButtonActionType.INNER_H5 -> FullScreenContainerActivity.startWithFragment(this, H5PageFragment.newInstance(buttonData.actionUrl?: baseUrl()))
             ButtonActionType.OUTER_JUMP -> {
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(buttonData.actionUrl)
