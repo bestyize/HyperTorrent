@@ -1,5 +1,6 @@
 package com.thewind.user.login
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -47,8 +48,9 @@ class LoginViewModel : ViewModel() {
 
 
 object LoginService {
-    private const val loginUrl = "https://thewind.xyz/user/api/login"
-    private const val registerUrl = "https://thewind.xyz/user/api/register"
+    private var TAG = "LoginService"
+    private var loginUrl = "${baseUrl()}/user/api/login"
+    private var registerUrl = "${baseUrl()}/user/api/register"
     fun login(userName: String, token: String): User {
         try {
             val resp = post(
@@ -60,7 +62,8 @@ object LoginService {
             } else {
                 return resp.message?.fromJson<User>() ?: User()
             }
-        } catch (_: java.lang.Exception) {
+        } catch (e: java.lang.Exception) {
+            Log.i(TAG, "login failed, e = ${e.message}")
         }
 
         return User()

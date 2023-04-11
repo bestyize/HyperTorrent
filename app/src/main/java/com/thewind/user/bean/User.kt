@@ -1,7 +1,5 @@
 package com.thewind.user.bean
 
-import com.google.gson.annotations.SerializedName
-
 /**
  * @author: read
  * @date: 2023/3/28 上午12:04
@@ -13,7 +11,7 @@ class User {
 
     var token: String? = null
 
-    var desc: String? = null
+    var userDesc: String? = null
 
     val email: String? = null
 

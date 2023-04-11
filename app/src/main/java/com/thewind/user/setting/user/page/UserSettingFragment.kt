@@ -25,7 +25,7 @@ class UserSettingFragment : Fragment() {
             binding.optionName.desc = user.userName
             binding.optionHeader.icon = user.headerUrl
             binding.optionUid.desc = user.uid.toString()
-            binding.optionDesc.desc = user.desc?:""
+            binding.optionDesc.desc = user.userDesc?:""
         }
 
     }
@@ -49,7 +49,7 @@ class UserSettingFragment : Fragment() {
         binding.optionName.desc = user.userName
         binding.optionHeader.icon = user.headerUrl
         binding.optionUid.desc = user.uid.toString()
-        binding.optionDesc.desc = user.desc?:""
+        binding.optionDesc.desc = user.userDesc?:""
         binding.optionDesc.setOnClickListener {
             InputDialogFragment.newInstance(InputDialogModel().apply {
                 title = "修改个人简介"
@@ -129,6 +129,14 @@ class UserSettingFragment : Fragment() {
             if (it.code == -1) toast(it.msg ?: "修改头像失败，未知错误")
             if (it.code == 0) {
                 toast(it.msg ?: "修改头像成功!")
+            }
+        }
+
+        vm.descLiveData.observe(viewLifecycleOwner) {
+            if (it.code == -1) toast(it.msg ?: "修改简介失败，未知错误")
+            if (it.code == 0) {
+                binding.optionDesc.desc = it.data?.userDesc
+                toast(it.msg ?: "修改简介成功!")
             }
         }
     }

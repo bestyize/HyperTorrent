@@ -18,6 +18,7 @@ class UserSettingViewModel : ViewModel() {
 
     val headerLiveData: MutableLiveData<UpdateUserInfoResponse> = MutableLiveData()
 
+    val descLiveData: MutableLiveData<UpdateUserInfoResponse> = MutableLiveData()
 
     fun updateUserName(userName: String) {
         viewModelScope.launch {
@@ -66,7 +67,7 @@ class UserSettingViewModel : ViewModel() {
                 if (it.code == 0 && it.data != null) {
                     AccountHelper.saveUserInfo(it.data!!)
                 }
-                passwordLiveData.value = it
+                descLiveData.value = it
             }
         }
     }

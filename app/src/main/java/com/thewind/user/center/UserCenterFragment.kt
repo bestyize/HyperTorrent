@@ -19,7 +19,6 @@ import com.thewind.user.login.LoginStateChangeListener
 import com.thewind.user.setting.user.page.UserSettingFragment
 import com.thewind.util.ViewUtils
 import com.thewind.widget.activity.FullScreenContainerActivity
-import java.util.UUID
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -91,7 +90,7 @@ class UserCenterFragment : Fragment() {
             Glide.with(binding.root.context).load(it.headerUrl).into(binding.ivHeader)
             binding.tvUserName.text = it.userName
             binding.tvUid.text = "uid:${it.uid}"
-            binding.tvSelfDesc.text = it.desc?:""
+            binding.tvSelfDesc.text = it.userDesc?:""
         }
 
         if (AccountHelper.loadUserInfo().uid == uid) {
