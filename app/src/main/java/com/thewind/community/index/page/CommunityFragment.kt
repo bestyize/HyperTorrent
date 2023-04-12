@@ -1,18 +1,15 @@
 package com.thewind.community.index.page
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.thewind.community.index.model.RecommendTopicItem
-import com.thewind.community.index.page.recommend.RecommendTopicAdapter
-import com.thewind.hypertorrent.R
+import com.thewind.community.topic.model.TopicCardItem
+import com.thewind.community.topic.page.TopicCardAdapter
 import com.thewind.hypertorrent.databinding.FragmentCommunityBinding
-import com.thewind.hypertorrent.databinding.FragmentRecommendFeedBinding
 import com.thewind.viewer.h5.H5PageFragment
 import com.thewind.widget.activity.FullScreenContainerActivity
 
@@ -20,7 +17,7 @@ import com.thewind.widget.activity.FullScreenContainerActivity
 class CommunityFragment : Fragment() {
     private lateinit var binding: FragmentCommunityBinding
     private lateinit var vm: CommunityFragmentViewModel
-    private val recommendTopicList: MutableList<RecommendTopicItem> = mutableListOf()
+    private val recommendTopicList: MutableList<TopicCardItem> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,18 +35,21 @@ class CommunityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvRecommendTopics.layoutManager = StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
-        binding.rvRecommendTopics.adapter = RecommendTopicAdapter(recommendTopicList) { item ->
-            if (item.url?.startsWith("http") == true) {
-                FullScreenContainerActivity.startWithFragment(activity, H5PageFragment.newInstance(item.url!!))
-            }
-
-        }
-
         vm.recommendTopicLiveData.observe(viewLifecycleOwner) {
+            binding.rvTopic.layoutManager =
+                StaggeredGridLayoutManager(it.columnCount, StaggeredGridLayoutManager.VERTICAL)
+            binding.rvTopic.adapter = TopicCardAdapter(recommendTopicList, aspectRadio = it.aspectRadio) { item ->
+                if (item.actionUrl?.startsWith("http") == true) {
+                    FullScreenContainerActivity.startWithFragment(
+                        activity,
+                        H5PageFragment.newInstance(item.actionUrl!!)
+                    )
+                }
+
+            }
             recommendTopicList.clear()
-            recommendTopicList.addAll(it)
-            binding.rvRecommendTopics.adapter?.notifyDataSetChanged()
+            recommendTopicList.addAll(it.cardList)
+            binding.rvTopic.adapter?.notifyDataSetChanged()
         }
         vm.loadRecommendTopic()
     }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="5dp"
+    android:layout_marginStart="2dp"
+    android:layout_marginEnd="2dp"
+    android:layout_marginBottom="4dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/transport"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_cover"
+        android:scaleType="centerCrop"
+        android:src="@drawable/topic_bg"
+        android:layout_width="match_parent"
+        android:maxHeight="250dp"
+        android:layout_height="250dp"/>
+    <View
+        android:id="@+id/v_cover_mask"
+        android:background="#11000000"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"/>
+    <TextView
+        android:textColor="@color/white"
+        android:layout_gravity="top|start"
+        android:textSize="11sp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:text="无损音乐尽情下"
+        android:id="@+id/tv_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:textSize="16sp"
+        android:text="无名音乐"
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="bottom|start"
+        android:src="@drawable/visit"
+        android:id="@+id/iv_left_bottom"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+    <TextView
+        android:id="@+id/tv_left_bottom"
+        android:text="热度9999+"
+        android:gravity="center"
+        android:textSize="11sp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="28dp"
+        android:textColor="@color/white"
+        android:layout_gravity="bottom|start"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"/>
+
+</androidx.cardview.widget.CardView>
