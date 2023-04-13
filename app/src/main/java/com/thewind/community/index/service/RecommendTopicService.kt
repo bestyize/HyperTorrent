@@ -37,11 +37,11 @@ object RecommendTopicServiceHelper {
                 this.actionUrl = "hyper://torrent/search"
             },
             TopicCardItem().apply {
-                this.title = "ChatGPT"
-                this.desc = "强大的人工智能"
+                this.title = "种子编辑"
+                this.desc = "洗白你的种子"
                 this.leftBottomText = "7k热度"
                 this.cover = "https://th.bing.com/th/id/OIG.TevKrWWtt7RIYMuQ.SSJ?pid=ImgGn"
-                this.actionUrl = "https://chat.openai.com/chat"
+                this.actionUrl = "https://sdjdd.github.io/whitewash-torrent/demo/"
             },
             TopicCardItem().apply {
                 this.title = "必应绘图"

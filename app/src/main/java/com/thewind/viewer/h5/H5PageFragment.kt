@@ -8,6 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 
 import com.thewind.hyper.databinding.H5PageFragmentBinding
@@ -22,10 +25,18 @@ class H5PageFragment : Fragment() {
 
     private var url: String? = null
     private lateinit var binding: H5PageFragmentBinding
+    private var mFilePathCallback: ValueCallback<Array<Uri>>? = null
+    private val callback: ActivityResultCallback<Uri?>  =
+        ActivityResultCallback<Uri?> { result ->
+            result?.let {
+                mFilePathCallback?.onReceiveValue(arrayOf(it))
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         url = arguments?.getString("url")?:""
+        registerForActivityResult(ActivityResultContracts.GetContent(), callback)
     }
 
     override fun onCreateView(
@@ -54,17 +65,6 @@ class H5PageFragment : Fragment() {
                 return false
             }
 
-            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                super.onPageStarted(view, url, favicon)
-                var title: String = view?.title?:""
-                if (title.length > 15) {
-                    title = ""
-                    binding.tvTitle.visibility = View.GONE
-                }
-                binding.tvTitle.text = title
-                binding.ivFavicon.setImageBitmap(favicon)
-            }
-
             override fun shouldInterceptRequest(
                 view: WebView?,
                 request: WebResourceRequest?
@@ -78,12 +78,43 @@ class H5PageFragment : Fragment() {
                 return super.shouldInterceptRequest(view, request)
             }
 
+        }
 
 
+        binding.wvContainer.webChromeClient = object : WebChromeClient(){
+            override fun onShowFileChooser(
+                webView: WebView?,
+                filePathCallback: ValueCallback<Array<Uri>>?,
+                fileChooserParams: FileChooserParams?
+            ): Boolean {
+                // Create an intent to open the file picker
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                intent.type = "*/*"
+
+                mFilePathCallback = filePathCallback
+                startActivity(intent)
+                return true
+            }
+
+            override fun onReceivedTitle(view: WebView?, title: String?) {
+                super.onReceivedTitle(view, title)
+                var webTitle: String = view?.title?:""
+                if (webTitle.length > 15) {
+                    webTitle = ""
+                    binding.tvTitle.visibility = View.GONE
+                }
+                binding.tvTitle.text = webTitle
+            }
+
+            override fun onReceivedIcon(view: WebView?, icon: Bitmap?) {
+                super.onReceivedIcon(view, icon)
+                binding.ivFavicon.setImageBitmap(icon)
+            }
         }
 
         binding.wvContainer.settings.javaScriptEnabled = true
-        binding.wvContainer.settings.setSupportZoom(true)
+        binding.wvContainer.settings.setSupportZoom(false)
         binding.wvContainer.settings.loadWithOverviewMode = true
         binding.wvContainer.settings.javaScriptCanOpenWindowsAutomatically = true
         binding.wvContainer.settings.builtInZoomControls = true
@@ -92,12 +123,29 @@ class H5PageFragment : Fragment() {
         binding.wvContainer.settings.allowFileAccess = true
         binding.wvContainer.settings.loadsImagesAutomatically = true
         binding.wvContainer.settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+        binding.wvContainer.settings.allowFileAccessFromFileURLs = true
+        binding.wvContainer.settings.blockNetworkImage = false
+        binding.wvContainer.settings.blockNetworkLoads = false
+        binding.wvContainer.settings.domStorageEnabled = true
+        binding.wvContainer.settings.userAgentString = "Mozilla/5.0 (Linux; Android 10; SM-G981B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.162 Mobile Safari/537.36 Edg/112.0.0.0"
+
         url?.let {
             binding.wvContainer.loadUrl(it)
         }
         binding.ivClose.setOnClickListener {
             activity?.onBackPressed()
         }
+
+        activity?.onBackPressedDispatcher?.addCallback(object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if (binding.wvContainer.canGoBack()) {
+                    binding.wvContainer.goBack()
+                } else {
+                    isEnabled = false
+                    activity?.onBackPressedDispatcher?.onBackPressed()
+                }
+            }
+        })
 
 
     }
