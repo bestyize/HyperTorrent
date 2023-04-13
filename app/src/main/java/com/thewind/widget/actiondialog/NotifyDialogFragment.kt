@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.thewind.hypertorrent.databinding.NotifyDialogFragmentBinding
+import com.thewind.hyper.databinding.NotifyDialogFragmentBinding
 
 
 /**

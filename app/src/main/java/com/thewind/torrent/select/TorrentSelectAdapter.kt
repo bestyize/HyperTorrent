@@ -3,8 +3,8 @@ package com.thewind.torrent.select
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.TorrentSelectItemBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.TorrentSelectItemBinding
 import com.thewind.util.formatSize
 import com.thewind.util.icon
 import com.xunlei.tool.editor.TorrentFileSimpleInfo

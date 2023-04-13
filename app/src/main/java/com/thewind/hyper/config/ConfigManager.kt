@@ -1,8 +1,8 @@
-package com.thewind.hypertorrent.config
+package com.thewind.hyper.config
 
 import com.tencent.mmkv.MMKV
-import com.thewind.hypertorrent.config.model.AppConfig
-import com.thewind.hypertorrent.config.service.AppConfigServiceHelper
+import com.thewind.hyper.config.model.AppConfig
+import com.thewind.hyper.config.service.AppConfigServiceHelper
 import com.thewind.util.fromJson
 import com.thewind.util.toJson
 

@@ -51,7 +51,7 @@ object LocalFileUtil {
                     Intent.ACTION_VIEW,
                     FileProvider.getUriForFile(
                         activity,
-                        "com.thewind.hypertorrent.provider",
+                        "com.thewind.hyper.provider",
                         file
                     )
                 ).apply {

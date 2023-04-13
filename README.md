@@ -1,3 +1,3 @@
-# HyperTorrent
+# hyper
 
 a torrent download tool

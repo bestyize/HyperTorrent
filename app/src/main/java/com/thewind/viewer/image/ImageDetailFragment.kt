@@ -10,7 +10,7 @@ import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.thewind.hypertorrent.databinding.FragmentImageDetailBinding
+import com.thewind.hyper.databinding.FragmentImageDetailBinding
 import com.thewind.util.toPx
 import com.thewind.viewer.image.model.ImageDetail
 import com.thewind.viewer.image.model.ImageDisplayStyle

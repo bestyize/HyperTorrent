@@ -7,7 +7,7 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.thewind.hypertorrent.R
+import com.thewind.hyper.R
 
 /**
  * @author: read

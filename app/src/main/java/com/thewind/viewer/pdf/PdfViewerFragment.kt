@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.thewind.hypertorrent.databinding.FragmentPdfViewerBinding
+import com.thewind.hyper.databinding.FragmentPdfViewerBinding
 import com.thewind.util.postfix
 import java.io.File
 

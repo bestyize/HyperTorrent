@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.FragmentJsonViewerBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.FragmentJsonViewerBinding
 import com.thewind.util.toast
 import com.thewind.viewer.code.CodeViewerFragment
 

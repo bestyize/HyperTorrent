@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.app.ComponentActivity
 import androidx.fragment.app.Fragment
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.ActivityFullScreenContainerBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.ActivityFullScreenContainerBinding
 import com.thewind.util.ViewUtils
 import java.util.*
 import kotlin.collections.HashMap

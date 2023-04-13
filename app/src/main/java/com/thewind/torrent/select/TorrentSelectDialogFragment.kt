@@ -8,7 +8,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.thewind.hypertorrent.databinding.TorrentSelectDialogFragmentBinding
+import com.thewind.hyper.databinding.TorrentSelectDialogFragmentBinding
 import com.thewind.util.fillWidth
 import com.thewind.util.toJson
 import com.xunlei.download.config.TorrentUtil

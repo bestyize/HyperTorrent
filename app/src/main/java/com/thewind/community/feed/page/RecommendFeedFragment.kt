@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.thewind.community.feed.model.RecommendFeetCard
 import com.thewind.community.post.page.PostActivity
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.FragmentRecommendFeedBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.FragmentRecommendFeedBinding
 
 
 private const val KEY_CHANNEL = "channel"

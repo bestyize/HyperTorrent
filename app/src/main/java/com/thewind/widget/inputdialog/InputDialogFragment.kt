@@ -13,7 +13,7 @@ import android.view.inputmethod.InputMethodManager.SHOW_FORCED
 import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
-import com.thewind.hypertorrent.databinding.InputDialogFragmentBinding
+import com.thewind.hyper.databinding.InputDialogFragmentBinding
 import com.thewind.util.fillWidth
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

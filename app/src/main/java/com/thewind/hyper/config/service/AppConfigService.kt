@@ -1,8 +1,8 @@
-package com.thewind.hypertorrent.config.service
+package com.thewind.hyper.config.service
 
 import com.tencent.mmkv.MMKV
-import com.thewind.hypertorrent.config.model.AppConfig
-import com.thewind.hypertorrent.config.model.AppConfigResponse
+import com.thewind.hyper.config.model.AppConfig
+import com.thewind.hyper.config.model.AppConfigResponse
 import com.thewind.util.RetrofitDefault
 import com.thewind.util.toJson
 import retrofit2.Call

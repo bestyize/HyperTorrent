@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.thewind.community.comment.model.Comment
 import com.thewind.community.user.UserDetailActivity
-import com.thewind.hypertorrent.databinding.FragmentCommentBinding
+import com.thewind.hyper.databinding.FragmentCommentBinding
 private const val POST_ID = "post_id"
 class CommentFragment : Fragment() {
     private var postId: String? = null

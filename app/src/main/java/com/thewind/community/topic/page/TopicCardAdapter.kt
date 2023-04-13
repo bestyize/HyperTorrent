@@ -6,8 +6,8 @@ import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.thewind.community.topic.model.TopicCardItem
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.TopicCardItemBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.TopicCardItemBinding
 
 /**
  * @author: read

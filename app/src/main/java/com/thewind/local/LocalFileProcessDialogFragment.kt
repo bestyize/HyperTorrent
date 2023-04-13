@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
-import com.thewind.hypertorrent.databinding.LocalFileProcessDialogFragmentBinding
+import com.thewind.hyper.databinding.LocalFileProcessDialogFragmentBinding
 import com.thewind.util.fillWidth
 import com.thewind.util.isTorrent
 import com.thewind.util.toast
@@ -87,7 +87,7 @@ class LocalFileProcessDialogFragment private constructor(
                 Intent.ACTION_VIEW,
                 FileProvider.getUriForFile(
                     requireContext(),
-                    "com.thewind.hypertorrent.provider",
+                    "com.thewind.hyper.provider",
                     File(path)
                 )
             ).apply {

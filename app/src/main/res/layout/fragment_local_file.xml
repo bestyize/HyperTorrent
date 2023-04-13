@@ -21,7 +21,7 @@
         android:layout_height="30dp"
         android:maxLines="1"
         android:ellipsize="start"
-        android:text="HyperTorrent/download/files" />
+        android:text="hyper/download/files" />
     <View
         android:background="@color/gray_shadow"
         android:layout_width="match_parent"

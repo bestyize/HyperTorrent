@@ -13,8 +13,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.FragmentLocalFileBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.FragmentLocalFileBinding
 import com.thewind.player.detail.DetailPlayerActivity
 import com.thewind.torrent.select.TorrentSelectDialogFragment
 import com.thewind.util.*

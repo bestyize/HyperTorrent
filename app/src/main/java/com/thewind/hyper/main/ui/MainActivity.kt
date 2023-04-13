@@ -1,4 +1,4 @@
-package com.thewind.hypertorrent.main.ui
+package com.thewind.hyper.main.ui
 
 import android.Manifest
 import android.content.Intent
@@ -16,9 +16,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.thewind.community.index.page.CommunityFragment
-import com.thewind.download.page.DownloadFragment
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.ActivityMainBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.ActivityMainBinding
 import com.thewind.local.LocalFileFragment
 import com.thewind.torrent.search.recommend.TorrentSearchRecommendFragment
 import com.thewind.user.center.UserCenterFragment

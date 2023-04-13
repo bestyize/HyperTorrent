@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.thewind.base.glide.fillCircle
 import com.thewind.community.comment.model.Comment
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.CommentItemDetailBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.CommentItemDetailBinding
 
 /**
  * @author: read

@@ -1,4 +1,4 @@
-package com.thewind.hypertorrent.main.splash.model
+package com.thewind.hyper.main.splash.model
 
 import com.thewind.widget.actiondialog.NotifyData
 

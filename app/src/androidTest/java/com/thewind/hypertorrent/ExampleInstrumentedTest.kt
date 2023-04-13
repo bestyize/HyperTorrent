@@ -1,4 +1,4 @@
-package com.thewind.hypertorrent
+package com.thewind.hyper
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.thewind.hypertorrent", appContext.packageName)
+        assertEquals("com.thewind.hyper", appContext.packageName)
     }
 }

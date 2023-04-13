@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.thewind.community.editor.model.ImagePickerItem
-import com.thewind.hypertorrent.databinding.FragmentPosterEditorBinding
+import com.thewind.hyper.databinding.FragmentPosterEditorBinding
 import com.thewind.util.toast
 import com.thewind.viewer.imagepicker.ImagePickerAdapter
 import com.thewind.viewer.imagepicker.ImagePickerViewModel

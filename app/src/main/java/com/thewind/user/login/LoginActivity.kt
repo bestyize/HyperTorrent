@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.thewind.hypertorrent.databinding.ActivityLoginBinding
+import com.thewind.hyper.databinding.ActivityLoginBinding
 import com.thewind.util.ViewUtils
 import com.thewind.util.toast
 

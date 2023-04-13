@@ -1,6 +1,6 @@
 package com.thewind.util
 
-import com.thewind.hypertorrent.R
+import com.thewind.hyper.R
 import java.io.File
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat

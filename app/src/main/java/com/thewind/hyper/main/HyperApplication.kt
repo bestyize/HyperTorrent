@@ -1,8 +1,8 @@
-package com.thewind.hypertorrent.main
+package com.thewind.hyper.main
 
 import android.app.Application
 import com.tencent.mmkv.MMKV
-import com.thewind.hypertorrent.config.ConfigManager
+import com.thewind.hyper.config.ConfigManager
 import com.thewind.user.login.AccountHelper
 import com.xunlei.download.init.TorrentDownloadModule
 

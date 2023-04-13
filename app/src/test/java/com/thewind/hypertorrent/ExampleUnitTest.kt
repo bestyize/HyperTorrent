@@ -1,4 +1,4 @@
-package com.thewind.hypertorrent
+package com.thewind.hyper
 
 import org.junit.Test
 

@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.LocalFileItemBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.LocalFileItemBinding
 import com.thewind.util.*
 import java.io.File
 

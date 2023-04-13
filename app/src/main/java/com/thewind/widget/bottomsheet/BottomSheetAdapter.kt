@@ -3,8 +3,8 @@ package com.thewind.widget.bottomsheet
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.BottomSheetItemBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.BottomSheetItemBinding
 
 /**
  * @author: read

@@ -4,10 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import com.thewind.hypertorrent.R
+import com.thewind.hyper.R
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
-import com.thewind.hypertorrent.databinding.ItemOptionLayoutBinding
+import com.thewind.hyper.databinding.ItemOptionLayoutBinding
 
 class OptionItemView(context: Context, attr: AttributeSet): ConstraintLayout(context, attr) {
     private var binding: ItemOptionLayoutBinding

@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thewind.base.glide.fillCenterCrop
 import com.thewind.community.editor.model.ImagePickerItem
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.ItemImagePickerBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.ItemImagePickerBinding
 
 /**
  * @author: read

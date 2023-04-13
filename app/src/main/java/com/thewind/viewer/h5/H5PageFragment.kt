@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.webkit.*
 import androidx.fragment.app.Fragment
 
-import com.thewind.hypertorrent.databinding.H5PageFragmentBinding
+import com.thewind.hyper.databinding.H5PageFragmentBinding
 import com.thewind.user.login.AccountHelper
 
 /**

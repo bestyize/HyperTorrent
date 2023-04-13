@@ -6,7 +6,7 @@ plugins {
 
 
 android {
-    namespace 'com.thewind.hypertorrent'
+    namespace 'com.thewind.hyper'
     compileSdk 33
 
     defaultConfig {

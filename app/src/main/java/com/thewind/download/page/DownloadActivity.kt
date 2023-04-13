@@ -3,8 +3,8 @@ package com.thewind.download.page
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.thewind.download.page.detail.DownloadDetailFragment
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.ActivityDownloadBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.ActivityDownloadBinding
 import com.thewind.util.ViewUtils
 
 class DownloadActivity : AppCompatActivity() {

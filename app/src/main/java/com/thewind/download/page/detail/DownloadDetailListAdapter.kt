@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.thewind.download.page.util.DownloadFormat
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.FileDownloadItemBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.FileDownloadItemBinding
 import com.thewind.util.formatSize
 import com.thewind.util.isVideo
 import com.xunlei.downloadlib.parameter.XLConstant.XLTaskStatus

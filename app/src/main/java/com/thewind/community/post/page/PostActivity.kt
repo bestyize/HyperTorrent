@@ -11,8 +11,8 @@ import com.thewind.community.comment.page.PopCommentDialogFragment
 import com.thewind.community.comment.page.PopCommentEditorDialogFragment
 import com.thewind.community.post.model.PostContent
 import com.thewind.community.user.UserDetailActivity
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.ActivityPostBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.ActivityPostBinding
 import com.thewind.user.login.AccountHelper
 import com.thewind.util.ViewUtils
 import com.thewind.util.toJson

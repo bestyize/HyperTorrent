@@ -12,7 +12,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.DialogFragment
-import com.thewind.hypertorrent.main.globalApplication
+import com.thewind.hyper.main.globalApplication
 
 /**
  * @author: read

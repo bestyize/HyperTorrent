@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.thewind.hypertorrent.databinding.FragmentDownloadDetailBinding
+import com.thewind.hyper.databinding.FragmentDownloadDetailBinding
 import com.thewind.util.LocalFileUtil
 import com.xunlei.download.provider.TorrentTaskHelper
 import com.xunlei.downloadlib.XLDownloadManager

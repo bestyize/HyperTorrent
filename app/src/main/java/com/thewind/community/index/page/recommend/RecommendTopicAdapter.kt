@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.thewind.base.glide.fillCenterCrop
 import com.thewind.community.index.model.RecommendTopicItem
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.ImageTextItemBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.ImageTextItemBinding
 import com.thewind.util.toast
 import com.thewind.widget.activity.FullScreenContainerActivity
 

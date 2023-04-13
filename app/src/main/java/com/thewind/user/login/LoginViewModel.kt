@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.thewind.hypertorrent.BuildConfig
+import com.thewind.hyper.BuildConfig
 import com.thewind.user.bean.User
 import com.thewind.util.*
 import kotlinx.coroutines.Dispatchers

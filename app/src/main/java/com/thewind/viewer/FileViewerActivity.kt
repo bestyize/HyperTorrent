@@ -2,8 +2,8 @@ package com.thewind.viewer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.ActivityFileViewerBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.ActivityFileViewerBinding
 import com.thewind.viewer.code.CodeViewerFragment
 import com.thewind.viewer.image.ImageDetailFragment
 import com.thewind.viewer.image.ImageViewerFragment

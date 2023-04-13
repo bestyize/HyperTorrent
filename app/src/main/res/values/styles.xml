@@ -1,10 +1,10 @@
 <resources>
 
-    <style name="Widget.Theme.HyperTorrent.ButtonBar.Fullscreen" parent="">
+    <style name="Widget.Theme.hyper.ButtonBar.Fullscreen" parent="">
         <item name="android:background">@color/black_overlay</item>
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
-    <style name="Widget.Theme.HyperTorrent.ActionBar.Fullscreen"
+    <style name="Widget.Theme.hyper.ActionBar.Fullscreen"
         parent="Widget.AppCompat.ActionBar">
         <item name="android:background">@color/black_overlay</item>
     </style>

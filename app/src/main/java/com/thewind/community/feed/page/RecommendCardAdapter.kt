@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.thewind.community.feed.model.RecommendFeetCard
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.RecommendFeedCardBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.RecommendFeedCardBinding
 
 /**
  * @author: read

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.thewind.hypertorrent.databinding.BottomSheetCommonBinding
+import com.thewind.hyper.databinding.BottomSheetCommonBinding
 import com.thewind.util.fillWidth
 
 /**

@@ -15,8 +15,8 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.thewind.download.page.DownloadFragment
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.FragmentTorrentSearchRecommendBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.FragmentTorrentSearchRecommendBinding
 import com.thewind.torrent.search.TorrentSearchFragment
 import com.thewind.torrent.search.model.TorrentSource
 import com.thewind.user.login.AccountHelper

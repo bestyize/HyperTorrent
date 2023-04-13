@@ -3,8 +3,8 @@ package com.thewind.torrent.search
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.TorrentSearchItemBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.TorrentSearchItemBinding
 import com.thewind.torrent.search.model.TorrentInfo
 
 /**

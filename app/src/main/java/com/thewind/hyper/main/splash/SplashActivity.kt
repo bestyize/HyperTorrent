@@ -1,4 +1,4 @@
-package com.thewind.hypertorrent.main.splash
+package com.thewind.hyper.main.splash
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -7,8 +7,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.thewind.hypertorrent.databinding.ActivitySplashBinding
-import com.thewind.hypertorrent.main.ui.MainActivity
+import com.thewind.hyper.databinding.ActivitySplashBinding
+import com.thewind.hyper.main.ui.MainActivity
 import com.thewind.util.ViewUtils
 import com.thewind.util.baseUrl
 import com.thewind.viewer.h5.H5PageFragment

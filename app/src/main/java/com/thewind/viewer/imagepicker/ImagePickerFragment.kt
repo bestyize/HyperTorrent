@@ -8,7 +8,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.thewind.community.editor.model.ImagePickerItem
-import com.thewind.hypertorrent.databinding.FragmentImagePickerBinding
+import com.thewind.hyper.databinding.FragmentImagePickerBinding
 import com.thewind.util.fillFullScreen
 
 /**

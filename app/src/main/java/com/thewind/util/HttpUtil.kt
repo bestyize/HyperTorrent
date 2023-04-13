@@ -1,8 +1,8 @@
 package com.thewind.util
 
 import android.util.Log
-import com.thewind.hypertorrent.BuildConfig
-import com.thewind.hypertorrent.config.ConfigManager
+import com.thewind.hyper.BuildConfig
+import com.thewind.hyper.config.ConfigManager
 import com.thewind.user.login.AccountHelper
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import com.thewind.hypertorrent.databinding.PopCommentEditorDialogFragmentBinding
+import com.thewind.hyper.databinding.PopCommentEditorDialogFragmentBinding
 import com.thewind.util.fillWidth
 import com.thewind.util.toast
 

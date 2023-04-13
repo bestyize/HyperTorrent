@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.thewind.community.editor.page.EditorActivity
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.FragmentUserCenterBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.FragmentUserCenterBinding
 import com.thewind.user.bean.FeedChannel
 import com.thewind.user.bean.User
 import com.thewind.user.login.AccountHelper

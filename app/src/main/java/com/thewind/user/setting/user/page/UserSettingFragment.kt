@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.thewind.hypertorrent.databinding.FragmentUserSettingBinding
+import com.thewind.hyper.databinding.FragmentUserSettingBinding
 import com.thewind.user.bean.User
 import com.thewind.user.login.AccountHelper
 import com.thewind.user.login.LoginStateChangeListener

@@ -1,6 +1,6 @@
-package com.thewind.hypertorrent.main.splash.service
+package com.thewind.hyper.main.splash.service
 
-import com.thewind.hypertorrent.main.splash.model.StartCheckResponse
+import com.thewind.hyper.main.splash.model.StartCheckResponse
 import com.thewind.util.RetrofitDefault
 import retrofit2.Call
 import retrofit2.http.POST

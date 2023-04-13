@@ -23,7 +23,7 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HyperTorrent"
+        android:theme="@style/Theme.hyper"
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
@@ -51,7 +51,7 @@
             android:label="@string/title_activity_fullscreen"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.HyperTorrent.Fullscreen"
+            android:theme="@style/Theme.hyper.Fullscreen"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

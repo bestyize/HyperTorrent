@@ -2,8 +2,8 @@ package com.thewind.community.user
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.ActivityUserDetailBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.ActivityUserDetailBinding
 import com.thewind.user.center.UserCenterFragment
 
 class UserDetailActivity : AppCompatActivity() {

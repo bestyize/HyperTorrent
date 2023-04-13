@@ -4,7 +4,7 @@ import com.thewind.community.index.model.RecommendTopicItem
 import com.thewind.community.topic.model.TopicCardData
 import com.thewind.community.topic.model.TopicCardItem
 import com.thewind.community.topic.model.TopicListResponse
-import com.thewind.hypertorrent.R
+import com.thewind.hyper.R
 
 /**
  * @author: read

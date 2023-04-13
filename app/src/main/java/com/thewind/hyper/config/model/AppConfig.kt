@@ -1,4 +1,4 @@
-package com.thewind.hypertorrent.config.model
+package com.thewind.hyper.config.model
 
 /**
  * @author: read

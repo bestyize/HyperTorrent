@@ -1,10 +1,10 @@
-package com.thewind.hypertorrent.main.splash
+package com.thewind.hyper.main.splash
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.thewind.hypertorrent.main.splash.model.StartCheckResponse
-import com.thewind.hypertorrent.main.splash.service.SplashServiceHelper
+import com.thewind.hyper.main.splash.model.StartCheckResponse
+import com.thewind.hyper.main.splash.service.SplashServiceHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

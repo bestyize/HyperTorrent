@@ -22,7 +22,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "HyperTorrent"
+rootProject.name = "hyper"
 include ':app'
 include ':thunder'
 include ':thirdlib'

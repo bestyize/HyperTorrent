@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
-import com.thewind.hypertorrent.databinding.ImageViewerFragmentBinding
+import com.thewind.hyper.databinding.ImageViewerFragmentBinding
 import com.thewind.util.ViewUtils
 import com.thewind.util.isPicture
 import com.thewind.viewer.image.model.ImageDetail

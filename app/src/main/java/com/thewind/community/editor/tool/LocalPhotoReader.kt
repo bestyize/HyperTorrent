@@ -2,7 +2,7 @@ package com.thewind.community.editor.tool
 
 import android.provider.MediaStore
 import com.thewind.community.editor.model.ImagePickerItem
-import com.thewind.hypertorrent.main.globalApplication
+import com.thewind.hyper.main.globalApplication
 
 /**
  * @author: read

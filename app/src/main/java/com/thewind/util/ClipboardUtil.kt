@@ -5,8 +5,8 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.main.globalApplication
+import com.thewind.hyper.R
+import com.thewind.hyper.main.globalApplication
 
 /**
  * @author: read

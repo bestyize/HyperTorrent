@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.PopCommentDialogFragmentBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.PopCommentDialogFragmentBinding
 import com.thewind.util.fillWidth
 
 /**

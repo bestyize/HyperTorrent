@@ -15,9 +15,9 @@ import androidx.media3.common.Player
 import androidx.media3.common.Player.Listener
 import androidx.media3.exoplayer.ExoPlayer
 import com.tencent.mmkv.MMKV
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.FragmentDetailPlayerBinding
-import com.thewind.hypertorrent.databinding.SpeedAdjustPopupWindowBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.FragmentDetailPlayerBinding
+import com.thewind.hyper.databinding.SpeedAdjustPopupWindowBinding
 import com.thewind.util.ViewUtils
 import com.thewind.util.toPx
 import com.thewind.util.toTime

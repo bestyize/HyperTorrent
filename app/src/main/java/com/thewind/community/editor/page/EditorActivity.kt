@@ -2,8 +2,8 @@ package com.thewind.community.editor.page
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.ActivityEditorBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.ActivityEditorBinding
 import com.thewind.util.ViewUtils
 
 class EditorActivity : AppCompatActivity() {

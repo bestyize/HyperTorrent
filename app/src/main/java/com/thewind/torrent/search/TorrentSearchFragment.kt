@@ -10,8 +10,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.FragmentTorrentSearchBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.FragmentTorrentSearchBinding
 import com.thewind.torrent.search.model.TorrentInfo
 import com.thewind.torrent.search.model.TorrentSource
 import com.thewind.torrent.search.recommend.TorrentSearchOperator

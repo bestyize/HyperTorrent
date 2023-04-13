@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.thewind.community.topic.model.TopicCardItem
 import com.thewind.community.topic.page.TopicCardAdapter
-import com.thewind.hypertorrent.databinding.FragmentCommunityBinding
+import com.thewind.hyper.databinding.FragmentCommunityBinding
 import com.thewind.viewer.h5.H5PageFragment
 import com.thewind.widget.activity.FullScreenContainerActivity
 

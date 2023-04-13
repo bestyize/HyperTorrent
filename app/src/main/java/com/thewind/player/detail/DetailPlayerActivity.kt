@@ -2,8 +2,8 @@ package com.thewind.player.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.ActivityDetailPlayerBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.ActivityDetailPlayerBinding
 import com.thewind.util.ViewUtils
 
 class DetailPlayerActivity : AppCompatActivity() {

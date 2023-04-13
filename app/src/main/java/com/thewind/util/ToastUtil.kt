@@ -1,7 +1,7 @@
 package com.thewind.util
 
 import android.widget.Toast
-import com.thewind.hypertorrent.main.globalApplication
+import com.thewind.hyper.main.globalApplication
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 

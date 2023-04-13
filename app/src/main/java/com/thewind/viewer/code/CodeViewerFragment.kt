@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.FragmentCodeViewerBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.FragmentCodeViewerBinding
 import com.thewind.util.postfix
 import io.github.kbiakov.codeview.adapters.Options
 import io.github.kbiakov.codeview.highlight.ColorTheme

@@ -1,6 +1,6 @@
-package com.thewind.hypertorrent.config.model
+package com.thewind.hyper.config.model
 
-import com.thewind.hypertorrent.config.model.AppConfig
+import com.thewind.hyper.config.model.AppConfig
 
 /**
  * @author: read

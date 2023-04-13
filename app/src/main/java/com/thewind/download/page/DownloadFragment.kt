@@ -11,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.thewind.download.page.detail.DownloadDetailListAdapter
 import com.thewind.download.page.model.DownloadDisplayItem
-import com.thewind.hypertorrent.R
-import com.thewind.hypertorrent.databinding.FragmentDownloadBinding
+import com.thewind.hyper.R
+import com.thewind.hyper.databinding.FragmentDownloadBinding
 import com.thewind.widget.bottomsheet.CommonBottomSheetDialogFragment
 import com.xunlei.download.provider.TorrentTaskHelper
 import com.xunlei.service.database.TorrentDBHelper
