@@ -15,6 +15,11 @@ android {
         versionCode 101
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -96,6 +101,9 @@ dependencies {
     implementation 'com.tencent:mmkv:1.2.14'
 
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    implementation 'com.alibaba:arouter-api:1.5.2'
+    kapt 'com.alibaba:arouter-compiler:1.5.2'
 
 
 
