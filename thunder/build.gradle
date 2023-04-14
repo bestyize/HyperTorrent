@@ -60,4 +60,8 @@ dependencies {
 
     // To use Kotlin annotation processing tool (kapt)
     kapt("androidx.room:room-compiler:$room_version")
+
+    // https://mvnrepository.com/artifact/com.dampcake/bencode
+    implementation 'com.dampcake:bencode:1.4'
+
 }
