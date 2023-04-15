@@ -57,7 +57,7 @@ class H5PageFragment : Fragment() {
             ): Boolean {
                 request?: return false
                 val link = request.url?.path
-                if (link?.contains(".mp3") == true || link?.contains("flac") == true) {
+                if (isDownloadedResource((link?:"").lowercase())) {
                     val intent = Intent(Intent.ACTION_VIEW, request.url)
                     view?.context?.startActivity(intent)
                     return true
@@ -148,6 +148,10 @@ class H5PageFragment : Fragment() {
         })
 
 
+    }
+
+    private fun isDownloadedResource(link: String): Boolean {
+        return link.contains(".mp3") || link.contains(".mp4") || link.contains(".flac") || link.contains(".png") || link.contains("jpeg") || link.contains("webp")
     }
 
 

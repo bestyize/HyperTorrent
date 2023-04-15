@@ -3,6 +3,7 @@ package com.thewind.community.index.service
 import com.thewind.community.index.model.RecommendTopicItem
 import com.thewind.community.topic.model.TopicCardData
 import com.thewind.community.topic.model.TopicCardItem
+import com.thewind.community.topic.model.TopicId
 import com.thewind.community.topic.model.TopicListResponse
 import com.thewind.hyper.R
 
@@ -23,11 +24,11 @@ object RecommendTopicServiceHelper {
                 this.actionUrl = "https://thewind.xyz"
             },
             TopicCardItem().apply {
-                this.title = "PixBay"
-                this.desc = "海量精美图片"
+                this.topicId = TopicId.PICTURE.topic
+                this.title = "免费图片"
+                this.desc = "来自Pixbay的百万精美图片"
                 this.leftBottomText = "1000+热度"
                 this.cover = "https://cdn.pixabay.com/photo/2013/04/03/21/25/flower-100263_960_720.jpg"
-                this.actionUrl = "https://pixabay.com/zh/photos/"
             },
             TopicCardItem().apply {
                 this.title = "聚合磁力"

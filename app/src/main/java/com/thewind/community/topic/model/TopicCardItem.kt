@@ -18,3 +18,8 @@ class TopicCardItem {
     var topicType: Int = 0
     var actionUrl: String? = null
 }
+
+
+enum class TopicId(val topic: Int) {
+    PICTURE(1)
+}

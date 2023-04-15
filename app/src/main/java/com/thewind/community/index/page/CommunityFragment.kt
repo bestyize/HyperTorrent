@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.thewind.community.topic.model.TopicCardItem
+import com.thewind.community.topic.model.TopicId
 import com.thewind.community.topic.page.TopicCardAdapter
 import com.thewind.hyper.databinding.FragmentCommunityBinding
+import com.thewind.picture.main.page.PictureMainRecommendFragment
 import com.thewind.viewer.h5.H5PageFragment
 import com.thewind.widget.activity.FullScreenContainerActivity
 
@@ -44,6 +46,8 @@ class CommunityFragment : Fragment() {
                         activity,
                         H5PageFragment.newInstance(item.actionUrl!!)
                     )
+                } else if (item.topicId == TopicId.PICTURE.topic) {
+                    FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance())
                 }
 
             }

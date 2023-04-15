@@ -11,7 +11,9 @@ import java.net.URL
  */
 object HttpDownloader {
 
-    fun download(urlString: String, destination: String) : Boolean {
+    fun download(urlString: String?, destination: String) : Boolean {
+        urlString ?: return false
+        val file = File(destination)
         try {
             val url = URL(urlString)
             val connection = url.openConnection()
