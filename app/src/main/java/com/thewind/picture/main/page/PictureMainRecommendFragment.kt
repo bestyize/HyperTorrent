@@ -47,6 +47,7 @@ class PictureMainRecommendFragment: Fragment() {
         }
 
         vm.recommendTabs.observe(viewLifecycleOwner) {
+            tabs.clear()
             tabs.addAll(it)
             TabLayoutMediator(binding.tabs, binding.vpContainer, false)  { tab, pos ->
                 tab.text = tabs[pos].name
