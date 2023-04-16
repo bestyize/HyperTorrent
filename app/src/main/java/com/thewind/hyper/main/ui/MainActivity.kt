@@ -15,18 +15,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.thewind.community.index.page.CommunityFragment
 import com.thewind.hyper.R
 import com.thewind.hyper.databinding.ActivityMainBinding
 import com.thewind.local.LocalFileFragment
-import com.thewind.torrent.search.recommend.TorrentSearchRecommendFragment
 import com.thewind.user.center.UserCenterFragment
 import com.thewind.user.login.AccountHelper
 import com.thewind.user.login.LoginActivity
 import com.thewind.util.ViewUtils
 import com.thewind.util.toast
+import com.thewind.widget.actiondialog.ButtonActionType
+import com.thewind.widget.actiondialog.ButtonData
+import com.thewind.widget.actiondialog.NotifyData
+import com.thewind.widget.actiondialog.NotifyDialogFragment
 import com.xunlei.download.config.TORRENT_DIR
 import com.xunlei.download.config.TORRENT_FILE_DIR
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 
 
@@ -34,7 +40,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-//    private val torrentSearchFragment by lazy { TorrentSearchRecommendFragment.newInstance() }
     private val localFileFragment by lazy { LocalFileFragment.newInstance() }
     private val userCenterFragment by lazy { UserCenterFragment.newInstance() }
     private val communityFragment by lazy { CommunityFragment.newInstance() }
@@ -43,10 +48,10 @@ class MainActivity : AppCompatActivity() {
         Log.i(TAG, "onCreate")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        requestPermission()
         ViewUtils.enterFullScreenMode(this, true)
         supportActionBar?.hide()
         initView()
+        checkPermission()
     }
 
 
@@ -56,9 +61,6 @@ class MainActivity : AppCompatActivity() {
         binding.mainItemRecommend.setOnCheckedChangeListener { buttonView, isChecked ->
             handleMainTabChecked(buttonView, isChecked, communityFragment)
         }
-//        binding.mainItemMain.setOnCheckedChangeListener { buttonView, isChecked ->
-//            handleMainTabChecked(buttonView, isChecked, torrentSearchFragment)
-//        }
         binding.mainItemLocal.setOnCheckedChangeListener { buttonView, isChecked ->
             handleMainTabChecked(buttonView, isChecked, localFileFragment)
         }
@@ -90,29 +92,43 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkPermission() {
+        lifecycleScope.launch {
+            initDir()
+            if (!hasWritePermission()) {
+                delay(3000)
+                val notifyData = NotifyData().apply {
+                    this.title = "温馨提示"
+                    this.content = "本软件运行需要读写文件权限，是否同意打开读写文件权限"
+                    this.cancelable = true
+                    this.leftButton = ButtonData().apply {
+                        this.text = "不同意"
+                        this.actionType = ButtonActionType.NONE
+                    }
+                    this.rightButton = ButtonData().apply {
+                        this.text = "去打开"
+                        this.actionType = ButtonActionType.NONE
+
+                    }
+                }
+                NotifyDialogFragment.newInstance(notifyData) {
+                    if (it.text?.contains("去打开") == true) {
+                        requestPermission()
+                    }
+                }.showNow(supportFragmentManager, "req")
+            }
+
+        }
+    }
+
 
     private fun requestPermission() {
-        initDir()
         // 通过api判断手机当前版本号
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            // 安卓11，判断有没有“所有文件访问权限”权限
-            if (!Environment.isExternalStorageManager()) {
-                val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-                intent.data = Uri.parse("package:" + application.packageName)
-                startActivityForResult(intent, 100)
-            }
+            val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+            intent.data = Uri.parse("package:" + application.packageName)
+            startActivityForResult(intent, 100)
         } else {
-            // 安卓6 判断有没有读写权限权限
-            if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                ) === PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) === PackageManager.PERMISSION_GRANTED
-            ) {
-                return
-            }
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(
@@ -121,6 +137,20 @@ class MainActivity : AppCompatActivity() {
                 ),
                 100
             )
+
+        }
+    }
+
+    private fun hasWritePermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) Environment.isExternalStorageManager() else {
+            return ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) === PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) === PackageManager.PERMISSION_GRANTED
         }
     }
 
@@ -130,6 +160,7 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        initDir()
         if (requestCode == 100) {
             if (ActivityCompat.checkSelfPermission(
                     this,
