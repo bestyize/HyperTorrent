@@ -1,5 +1,6 @@
 package com.thewind.util
 
+import android.net.Uri
 import com.thewind.hyper.R
 import java.io.File
 import java.text.DecimalFormat
@@ -40,6 +41,11 @@ fun File.formatDate(): String {
 
 fun String.postfix(): String {
     return substring(lastIndexOf(".") + 1)
+}
+
+fun String.urlFilePostfix(): String {
+    val uri = Uri.parse(this)
+    return uri.path?.postfix()?:""
 }
 
 fun String.icon(): Int {

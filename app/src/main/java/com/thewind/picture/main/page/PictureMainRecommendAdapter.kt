@@ -5,8 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.thewind.picture.feed.page.PictureFeedFragment
-import com.thewind.picture.main.model.PictureRecommendTab
-import com.thewind.picture.main.model.PixbayImageQuery
+import com.thewind.picture.main.model.ImageRecommendTab
 
 /**
  * @author: read
@@ -15,10 +14,10 @@ import com.thewind.picture.main.model.PixbayImageQuery
  */
 class PictureMainRecommendAdapter(fm: FragmentManager,
                                   lifecycle: Lifecycle,
-                                  val list: MutableList<PictureRecommendTab> = mutableListOf()): FragmentStateAdapter(fm, lifecycle) {
+                                  val list: MutableList<ImageRecommendTab> = mutableListOf()): FragmentStateAdapter(fm, lifecycle) {
     override fun getItemCount(): Int = list.size
 
     override fun createFragment(position: Int): Fragment {
-        return PictureFeedFragment.newInstance(list[position].query)
+        return PictureFeedFragment.newInstance(list[position])
     }
 }

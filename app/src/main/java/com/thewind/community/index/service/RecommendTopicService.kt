@@ -24,8 +24,15 @@ object RecommendTopicServiceHelper {
                 this.actionUrl = "https://thewind.xyz"
             },
             TopicCardItem().apply {
-                this.topicId = TopicId.PICTURE.topic
-                this.title = "免费图片"
+                this.topicId = TopicId.PICTURE_PEXELS.topic
+                this.title = "Pexels"
+                this.desc = "超高质量的图片免费下"
+                this.leftBottomText = "8000+热度"
+                this.cover = "https://s.cn.bing.net/th?id=OHR.KiteDay_ZH-CN7813901578_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&qlt=50"
+            },
+            TopicCardItem().apply {
+                this.topicId = TopicId.PICTURE_PIXBAY.topic
+                this.title = "Pixbay"
                 this.desc = "来自Pixbay的百万精美图片"
                 this.leftBottomText = "1000+热度"
                 this.cover = "https://cdn.pixabay.com/photo/2013/04/03/21/25/flower-100263_960_720.jpg"
@@ -45,11 +52,11 @@ object RecommendTopicServiceHelper {
                 this.actionUrl = "https://sdjdd.github.io/whitewash-torrent/demo/"
             },
             TopicCardItem().apply {
-                this.title = "必应绘图"
-                this.desc = "借助DALL-E生成精美图片"
-                this.leftBottomText = "10w+热度"
+                this.title = "4K壁纸"
+                this.desc = "电脑4K壁纸免费下"
+                this.leftBottomText = "1w+热度"
                 this.cover = "https://th.bing.com/th/id/OIG.D4dUFPI0FNTcK5qlrc3b?pid=ImgGn"
-                this.actionUrl = "https://www.bing.com/images/create"
+                this.actionUrl = "https://wallpaper.mklab.eu.org/"
             },
             TopicCardItem().apply {
                 this.title = "TED演讲"
@@ -66,11 +73,11 @@ object RecommendTopicServiceHelper {
                 this.actionUrl = "https://52pojie.cn"
             },
             TopicCardItem().apply {
-                this.title = "VideVo"
-                this.desc = "免费视频素材"
+                this.title = "Pexel"
+                this.desc = "超高清图片随便下"
                 this.leftBottomText = "700热度"
                 this.cover = "https://img1.doubanio.com/view/photo/l/public/p1030775829.webp"
-                this.actionUrl = "https://www.videvo.net/"
+                this.actionUrl = "https://www.pexels.com/zh-cn/"
             }
         )
 

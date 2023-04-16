@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.thewind.hyper.R
 import com.thewind.hyper.databinding.PictureMainRecommendFragemntBinding
-import com.thewind.picture.main.model.PictureRecommendTab
+import com.thewind.picture.main.model.ImageRecommendTab
+import xyz.thewind.community.image.model.ImageSrc
 
 /**
  * @author: read
@@ -22,10 +22,12 @@ class PictureMainRecommendFragment: Fragment() {
 
     private lateinit var binding: PictureMainRecommendFragemntBinding
     private lateinit var vm: PictureMainRecommendFragmentViewModel
-    private var tabs: MutableList<PictureRecommendTab> = mutableListOf()
+    private var tabs: MutableList<ImageRecommendTab> = mutableListOf()
+    private var src: Int = ImageSrc.PEXELS.src
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        src = arguments?.getInt("src")?:ImageSrc.PEXELS.src
         vm = ViewModelProvider(this)[PictureMainRecommendFragmentViewModel::class.java]
     }
 
@@ -50,16 +52,20 @@ class PictureMainRecommendFragment: Fragment() {
             tabs.clear()
             tabs.addAll(it)
             TabLayoutMediator(binding.tabs, binding.vpContainer, false)  { tab, pos ->
-                tab.text = tabs[pos].name
+                tab.text = tabs[pos].title
             }.attach()
             binding.vpContainer.adapter?.notifyDataSetChanged()
         }
-        vm.loadRecommendTabs()
+        vm.loadRecommendTabs(src)
 
     }
 
     companion object {
-        fun newInstance() = PictureMainRecommendFragment()
+        fun newInstance(src: Int) = PictureMainRecommendFragment().apply {
+            arguments = Bundle().apply {
+                putInt("src", src)
+            }
+        }
     }
 
 

@@ -4,15 +4,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thewind.downloader.HttpDownloader
-import com.thewind.picture.main.model.PixbayImageQuery
-import com.thewind.picture.main.model.ImageSearchResponse
 import com.thewind.picture.main.service.PicturePageServiceHelper
 import com.thewind.util.Md5Util
 import com.thewind.util.postfix
+import com.thewind.util.urlFilePostfix
 import com.xunlei.download.config.BASE_PICTURE_DOWNLOAD_DIR
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import xyz.thewind.community.image.model.ImageSearchResponse
 import java.io.File
 
 /**
@@ -26,10 +26,10 @@ class PictureFeedFragmentViewModel : ViewModel() {
     val downloadState: MutableLiveData<Boolean> = MutableLiveData()
     val shareState: MutableLiveData<String> = MutableLiveData()
 
-    fun loadPictureList(request: PixbayImageQuery) {
+    fun loadPictureList(keyword: String?, page: Int?, num: Int?, src: Int?) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                PicturePageServiceHelper.loadPictures(request)
+                PicturePageServiceHelper.loadPictures(keyword, page, num, src)
             }.let {
                 list.value = it
             }
@@ -39,7 +39,7 @@ class PictureFeedFragmentViewModel : ViewModel() {
     fun downloadPicture(imageUrl: String?, quity: Boolean = false) {
         imageUrl ?: return
         viewModelScope.launch {
-            val filePath = BASE_PICTURE_DOWNLOAD_DIR + Md5Util.convertToMd5(imageUrl) + "." + imageUrl.postfix()
+            val filePath = BASE_PICTURE_DOWNLOAD_DIR + Md5Util.convertToMd5(imageUrl) + "." + imageUrl.urlFilePostfix()
             withContext(Dispatchers.IO) {
                 val file = File(filePath)
                 if (file.exists() && file.length() > 0) {

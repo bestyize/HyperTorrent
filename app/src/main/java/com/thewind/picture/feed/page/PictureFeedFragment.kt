@@ -10,15 +10,15 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.thewind.downloader.HttpDownloader
 import com.thewind.hyper.databinding.FragmentPictureFeedBinding
-import com.thewind.picture.main.model.PixBayImageData
-import com.thewind.picture.main.model.PixbayImageQuery
 import com.thewind.util.toast
 import com.thewind.viewer.image.ImageViewerFragment
 import com.thewind.viewer.image.model.ImageDetail
 import com.thewind.widget.activity.FullScreenContainerActivity
 import com.thewind.widget.bottomsheet.CommonBottomSheetDialogFragment
+import xyz.thewind.community.image.model.ImageInfo
+import com.thewind.picture.main.model.ImageRecommendTab
+import xyz.thewind.community.image.model.ImageSrc
 import java.io.File
 import java.lang.Exception
 
@@ -28,15 +28,15 @@ class PictureFeedFragment : Fragment() {
     private lateinit var binding: FragmentPictureFeedBinding
     private lateinit var vm: PictureFeedFragmentViewModel
 
-    private var request: PixbayImageQuery = PixbayImageQuery()
-    private val imageList: MutableList<PixBayImageData> = mutableListOf()
+    private var request: ImageRecommendTab = ImageRecommendTab()
+    private val imageList: MutableList<ImageInfo> = mutableListOf()
     private var isLoading: Boolean = true
     private val operationList = mutableListOf("分享", "下载", "取消")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vm = ViewModelProvider(this)[PictureFeedFragmentViewModel::class.java]
-        val req:PixbayImageQuery? = arguments?.getParcelable("request")
+        val req: ImageRecommendTab? = arguments?.getParcelable("request")
         if (req != null) {
             request = req
         }
@@ -82,7 +82,7 @@ class PictureFeedFragment : Fragment() {
                 isLoading = true
                 binding.srfRefresh.isRefreshing = true
                 request.page = 1
-                vm.loadPictureList(request)
+                vm.loadPictureList(request.query, request.page, request.num, request.src)
             }
         }
         binding.rvItems.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -93,7 +93,7 @@ class PictureFeedFragment : Fragment() {
                     if (lastPos == imageList.size - 1 && !isLoading) {
                         isLoading = true
                         request.page++
-                        vm.loadPictureList(request)
+                        vm.loadPictureList(keyword = request.query, page = request.page, num = request.num, src = request.src)
                     }
                 }
             }
@@ -145,14 +145,14 @@ class PictureFeedFragment : Fragment() {
             }
         }
 
-        vm.loadPictureList(request)
+        vm.loadPictureList(keyword = request.query, page = request.page, num = request.num, src = request.src)
 
     }
 
     companion object {
 
         @JvmStatic
-        fun newInstance(request: PixbayImageQuery): PictureFeedFragment {
+        fun newInstance(request: ImageRecommendTab): PictureFeedFragment {
             return PictureFeedFragment().apply {
                 arguments = Bundle().apply {
                     putParcelable("request", request)

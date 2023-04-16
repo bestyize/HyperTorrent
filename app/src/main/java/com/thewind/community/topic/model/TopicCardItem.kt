@@ -21,5 +21,6 @@ class TopicCardItem {
 
 
 enum class TopicId(val topic: Int) {
-    PICTURE(1)
+    PICTURE_PIXBAY(1),
+    PICTURE_PEXELS(2)
 }

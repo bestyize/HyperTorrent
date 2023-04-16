@@ -3,7 +3,7 @@ package com.thewind.picture.main.page
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.thewind.picture.main.model.PictureRecommendTab
+import com.thewind.picture.main.model.ImageRecommendTab
 import com.thewind.picture.main.service.PicturePageServiceHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,19 +15,19 @@ import kotlinx.coroutines.withContext
  * @description:
  */
 class PictureMainRecommendFragmentViewModel: ViewModel() {
-    val recommendTabs: MutableLiveData<List<PictureRecommendTab>> = MutableLiveData()
+    val recommendTabs: MutableLiveData<List<ImageRecommendTab>> = MutableLiveData()
 
-    fun loadRecommendTabs() {
+    fun loadRecommendTabs(src: Int) {
         viewModelScope.launch {
-            recommendTabs.value = PicturePageServiceHelper.loadDefaultRecommendTabs().data
+            recommendTabs.value = PicturePageServiceHelper.loadDefaultRecommendTabs(src).data
             withContext(Dispatchers.IO) {
-                PicturePageServiceHelper.loadRecommendTabs()
+                PicturePageServiceHelper.loadRecommendTabs(src)
             }.let {
                 val data = recommendTabs.value?: listOf()
                 var changed = false
                 if (data.size == it.data.size) {
                     data.forEachIndexed { index, tab ->
-                        if (tab.query.q != it.data[index].query.q){
+                        if (tab.query != it.data[index].query){
                             changed = true
                         }
                     }

@@ -2,20 +2,19 @@ package com.thewind.picture.feed.page
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.thewind.hyper.R
 import com.thewind.hyper.databinding.GridPictureCardItemBinding
-import com.thewind.picture.main.model.PixBayImageData
 import com.thewind.util.ViewUtils
+import xyz.thewind.community.image.model.ImageInfo
 
 /**
  * @author: read
  * @date: 2023/4/15 下午9:23
  * @description:
  */
-class PictureAdapter(val list: MutableList<PixBayImageData>, private val action: (PixBayImageData, Int) -> Unit): RecyclerView.Adapter<PictureViewHolder>() {
+class PictureAdapter(val list: MutableList<ImageInfo>, private val action: (ImageInfo, Int) -> Unit): RecyclerView.Adapter<PictureViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PictureViewHolder = PictureViewHolder(GridPictureCardItemBinding.bind(LayoutInflater.from(parent.context).inflate(R.layout.grid_picture_card_item, parent, false)))
     override fun getItemCount(): Int = list.size
 
