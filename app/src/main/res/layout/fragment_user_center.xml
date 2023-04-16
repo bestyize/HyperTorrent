@@ -24,6 +24,7 @@
                 android:layout_height="32dp"
                 app:tint="@color/white" />
             <ImageView
+                android:visibility="gone"
                 android:layout_marginTop="30dp"
                 android:id="@+id/iv_publish"
                 android:layout_gravity="end|top"
@@ -69,7 +70,7 @@
                 android:layout_height="wrap_content">
                 <TextView
                     android:textColor="@color/white"
-                    android:text="亦泽同学"
+                    android:text="未知用户"
                     android:textStyle="bold"
                     android:textSize="20sp"
                     android:id="@+id/tv_user_name"
@@ -98,6 +99,7 @@
             android:layout_height="wrap_content"/>
 
         <LinearLayout
+            android:visibility="gone"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:layout_marginTop="10dp"
@@ -169,6 +171,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_marginTop="30dp"
             android:orientation="vertical"
             android:background="@drawable/top_round_bg"
@@ -185,6 +188,71 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_marginTop="15dp"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.thewind.widget.option.OptionItemView
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/option_account"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:background="@color/gray_shadow_light"
+                    app:key="帐号设置"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <com.thewind.widget.option.OptionItemView
+                    android:id="@+id/option_download"
+                    android:layout_marginTop="15dp"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:background="@color/gray_shadow_light"
+                    app:key="下载页"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <com.thewind.widget.option.OptionItemView
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/option_aggrement"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:background="@color/gray_shadow_light"
+                    app:key="用户协议"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <com.thewind.widget.option.OptionItemView
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/option_wechat"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:background="@color/gray_shadow_light"
+                    app:key="微信公众号:从来不想"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <com.thewind.widget.option.OptionItemView
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/option_donate"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:background="@color/gray_shadow_light"
+                    app:key="请作者喝杯咖啡"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+
 
 
 

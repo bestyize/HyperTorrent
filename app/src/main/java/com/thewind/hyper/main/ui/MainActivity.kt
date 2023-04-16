@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private val torrentSearchFragment by lazy { TorrentSearchRecommendFragment.newInstance() }
+//    private val torrentSearchFragment by lazy { TorrentSearchRecommendFragment.newInstance() }
     private val localFileFragment by lazy { LocalFileFragment.newInstance() }
     private val userCenterFragment by lazy { UserCenterFragment.newInstance() }
     private val communityFragment by lazy { CommunityFragment.newInstance() }
@@ -56,9 +56,9 @@ class MainActivity : AppCompatActivity() {
         binding.mainItemRecommend.setOnCheckedChangeListener { buttonView, isChecked ->
             handleMainTabChecked(buttonView, isChecked, communityFragment)
         }
-        binding.mainItemMain.setOnCheckedChangeListener { buttonView, isChecked ->
-            handleMainTabChecked(buttonView, isChecked, torrentSearchFragment)
-        }
+//        binding.mainItemMain.setOnCheckedChangeListener { buttonView, isChecked ->
+//            handleMainTabChecked(buttonView, isChecked, torrentSearchFragment)
+//        }
         binding.mainItemLocal.setOnCheckedChangeListener { buttonView, isChecked ->
             handleMainTabChecked(buttonView, isChecked, localFileFragment)
         }

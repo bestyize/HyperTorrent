@@ -12,6 +12,7 @@ import com.thewind.community.topic.model.TopicId
 import com.thewind.community.topic.page.TopicCardAdapter
 import com.thewind.hyper.databinding.FragmentCommunityBinding
 import com.thewind.picture.main.page.PictureMainRecommendFragment
+import com.thewind.torrent.search.recommend.TorrentSearchRecommendFragment
 import com.thewind.viewer.h5.H5PageFragment
 import com.thewind.widget.activity.FullScreenContainerActivity
 import xyz.thewind.community.image.model.ImageSrc
@@ -47,10 +48,12 @@ class CommunityFragment : Fragment() {
                         activity,
                         H5PageFragment.newInstance(item.actionUrl!!)
                     )
-                } else if (item.topicId == TopicId.PICTURE_PEXELS.topic) {
+                } else if (item.topicId == TopicId.PEXELS.topic) {
                     FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance(ImageSrc.PEXELS.src))
-                } else if (item.topicId == TopicId.PICTURE_PIXBAY.topic) {
+                } else if (item.topicId == TopicId.PIXBAY.topic) {
                     FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance(ImageSrc.PIXBAY.src))
+                } else if (item.topicId == TopicId.MAGNET.topic) {
+                    FullScreenContainerActivity.startWithFragment(activity, TorrentSearchRecommendFragment.newInstance())
                 }
 
             }

@@ -41,13 +41,6 @@
                 android:textSize="20sp"
                 style="@style/MainTabTextStyle"/>
             <androidx.appcompat.widget.AppCompatRadioButton
-                android:id="@+id/main_item_main"
-                android:text="磁力"
-                android:textColor="@drawable/main_tab_text_color_selector"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                style="@style/MainTabTextStyle"/>
-            <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/main_item_local"
                 android:textSize="18sp"
                 android:textColor="@drawable/main_tab_text_color_selector"

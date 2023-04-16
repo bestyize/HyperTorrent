@@ -116,3 +116,8 @@ fun DialogFragment.fillFullScreen() {
     )
     dialog?.window?.setWindowAnimations(android.R.style.Animation_InputMethod)
 }
+
+fun DialogFragment.transportBackground() {
+    dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialog?.window?.setWindowAnimations(android.R.style.Animation_InputMethod)
+}

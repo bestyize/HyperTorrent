@@ -10,14 +10,23 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.thewind.community.editor.page.EditorActivity
+import com.thewind.download.page.DownloadFragment
 import com.thewind.hyper.R
 import com.thewind.hyper.databinding.FragmentUserCenterBinding
 import com.thewind.user.bean.FeedChannel
 import com.thewind.user.bean.User
+import com.thewind.user.donate.DonateDialogFragment
 import com.thewind.user.login.AccountHelper
 import com.thewind.user.login.LoginStateChangeListener
 import com.thewind.user.setting.user.page.UserSettingFragment
 import com.thewind.util.ViewUtils
+import com.thewind.util.baseUrl
+import com.thewind.util.toast
+import com.thewind.viewer.h5.H5PageFragment
+import com.thewind.viewer.image.ImageViewerFragment
+import com.thewind.viewer.image.model.ImageDetail
+import com.thewind.widget.actiondialog.NotifyData
+import com.thewind.widget.actiondialog.NotifyDialogFragment
 import com.thewind.widget.activity.FullScreenContainerActivity
 
 // TODO: Rename parameter arguments, choose names that match
@@ -75,6 +84,28 @@ class UserCenterFragment : Fragment() {
             TabLayoutMediator(binding.userUgcTab, binding.vpContainer, false) { tab, pos ->
                 tab.text = channels[pos].title
             }.attach()
+        }
+
+        binding.optionAccount.setOnClickListener {
+            FullScreenContainerActivity.startWithFragment(activity = activity, UserSettingFragment.newInstance())
+        }
+
+        binding.optionDownload.setOnClickListener {
+            FullScreenContainerActivity.startWithFragment(activity, DownloadFragment.newInstance())
+        }
+
+        binding.optionAggrement.setOnClickListener {
+            FullScreenContainerActivity.startWithFragment(activity, H5PageFragment.newInstance(
+                baseUrl() + "/user_aggrement"
+            ))
+        }
+
+        binding.optionWechat.setOnClickListener {
+            toast("若忘记用户名密码，请去公众号回复:找回账号")
+        }
+
+        binding.optionDonate.setOnClickListener {
+            DonateDialogFragment.newInstance().showNow(childFragmentManager, "donate")
         }
 
         vm.loadTabs(uid)
