@@ -27,6 +27,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
+            android:windowSoftInputMode="adjustResize"
             android:name="com.thewind.widget.activity.FullScreenContainerActivity"
             android:exported="false" />
         <activity

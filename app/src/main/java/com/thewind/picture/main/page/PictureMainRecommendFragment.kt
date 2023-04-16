@@ -11,6 +11,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.thewind.hyper.R
 import com.thewind.hyper.databinding.PictureMainRecommendFragemntBinding
 import com.thewind.picture.main.model.ImageRecommendTab
+import com.thewind.picture.search.page.ImageSearchFragment
+import com.thewind.widget.activity.FullScreenContainerActivity
 import xyz.thewind.community.image.model.ImageSrc
 
 /**
@@ -46,6 +48,10 @@ class PictureMainRecommendFragment: Fragment() {
         binding.vpContainer.adapter = PictureMainRecommendAdapter(childFragmentManager, lifecycle, tabs)
         context?.resources?.getColor(R.color.bili_pink_transport)?.let { biliPink ->
             binding.tabs.tabRippleColor = ColorStateList.valueOf(biliPink)
+        }
+
+        binding.cvSearchBg.setOnClickListener {
+            FullScreenContainerActivity.startWithFragment(activity, ImageSearchFragment.newInstance(src))
         }
 
         vm.recommendTabs.observe(viewLifecycleOwner) {
