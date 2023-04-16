@@ -6,6 +6,7 @@ import retrofit2.Call
 import retrofit2.create
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.lang.Exception
 
 /**
  * @author: read
@@ -27,14 +28,23 @@ interface UserCenterService {
 
 object UserCenterServiceHelper {
     fun loadUserInfo(uid: Long): UserInfoResponse {
-        return RetrofitDefault.create(UserCenterService::class.java).loadUserInfo(uid).execute().body() ?: UserInfoResponse()
+        return try {
+            return RetrofitDefault.create(UserCenterService::class.java).loadUserInfo(uid).execute().body() ?: UserInfoResponse()
+        } catch (_: Exception) {UserInfoResponse()}
+
     }
 
     fun loadUserTabs(uid: Long): FeedChannelResponse {
-        return RetrofitDefault.create(UserCenterService::class.java).loadUserTabs(uid).execute().body() ?: FeedChannelResponse()
+        return try {
+            return RetrofitDefault.create(UserCenterService::class.java).loadUserTabs(uid).execute().body() ?: FeedChannelResponse()
+        } catch (_: Exception) {FeedChannelResponse()}
+
     }
 
     fun attention(uid: Long, query: Boolean = true, follow: Boolean): AttentionResponse{
-        return RetrofitDefault.create(UserCenterService::class.java).attention(uid, query, follow).execute().body() ?: AttentionResponse()
+        return try {
+            return RetrofitDefault.create(UserCenterService::class.java).attention(uid, query, follow).execute().body() ?: AttentionResponse()
+        } catch (_: Exception) {AttentionResponse()}
+
     }
 }

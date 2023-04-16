@@ -62,7 +62,7 @@ object LoginService {
             } else {
                 return resp.message?.fromJson<User>() ?: User()
             }
-        } catch (e: java.lang.Exception) {
+        } catch (e: Exception) {
             Log.i(TAG, "login failed, e = ${e.message}")
         }
 

@@ -6,6 +6,7 @@ import com.thewind.util.RetrofitDefault
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.lang.Exception
 
 
 interface CommentService {
@@ -25,12 +26,20 @@ interface CommentService {
 object CommentServiceHelper {
 
     fun sendComment(postId: String, content: String): SendCommentResponse {
-        return RetrofitDefault.create(CommentService::class.java).sendComment(postId, content)
-            .execute().body() ?: SendCommentResponse()
+        try {
+            return RetrofitDefault.create(CommentService::class.java).sendComment(postId, content)
+                .execute().body() ?: SendCommentResponse()
+        } catch (_: Exception){}
+        return SendCommentResponse()
+
     }
 
     fun loadCommentList(postId: String, currPage: Int): LoadCommentListResponse {
-        return RetrofitDefault.create(CommentService::class.java).loadCommentList(postId, currPage)
-            .execute().body() ?: LoadCommentListResponse()
+        try {
+            return RetrofitDefault.create(CommentService::class.java).loadCommentList(postId, currPage)
+                .execute().body() ?: LoadCommentListResponse()
+        } catch (_:Exception){}
+        return LoadCommentListResponse()
+
     }
 }

@@ -8,6 +8,7 @@ import com.thewind.util.RetrofitDefault
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.lang.Exception
 
 
 interface PostContentService {
@@ -27,19 +28,29 @@ interface PostContentService {
 
 object PostServiceHelper {
     fun loadPostContent(postId: String): PostContentResponse {
-        return RetrofitDefault.create(PostContentService::class.java).loadPostContent(postId).execute().body() ?: PostContentResponse()
+        return try {
+            RetrofitDefault.create(PostContentService::class.java).loadPostContent(postId).execute().body() ?: PostContentResponse()
+        } catch (_: Exception){PostContentResponse()}
     }
 
     fun like(postId: String): LikeResponse {
-        return RetrofitDefault.create(PostContentService::class.java).likePost(postId).execute().body() ?: LikeResponse()
+        return try {
+            RetrofitDefault.create(PostContentService::class.java).likePost(postId).execute().body() ?: LikeResponse()
+        } catch (_: Exception){LikeResponse()}
     }
 
     fun collect(postId: String): CollectResponse {
-        return RetrofitDefault.create(PostContentService::class.java).collectPost(postId).execute().body() ?: CollectResponse()
+        return try {
+            RetrofitDefault.create(PostContentService::class.java).collectPost(postId).execute().body() ?: CollectResponse()
+        } catch (_: Exception) {
+            CollectResponse()
+        }
     }
 
     fun delete(postId: String): DeletePostResponse {
-        return RetrofitDefault.create(PostContentService::class.java).deletePost(postId).execute().body() ?: DeletePostResponse()
+        return try {
+            RetrofitDefault.create(PostContentService::class.java).deletePost(postId).execute().body() ?: DeletePostResponse()
+        } catch (_: Exception) {DeletePostResponse()}
     }
 
 }

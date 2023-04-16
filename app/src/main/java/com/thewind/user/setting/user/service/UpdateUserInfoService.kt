@@ -13,38 +13,48 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 import java.io.File
+import java.lang.Exception
 
 
 object UpdateUserInfoServiceHelper {
     fun updateUserName(userName: String): UpdateUserInfoResponse {
-        return RetrofitDefault.create(UpdateUserInfoService::class.java).updateUserName(userName).execute().body() ?: UpdateUserInfoResponse()
+        return try {
+            RetrofitDefault.create(UpdateUserInfoService::class.java).updateUserName(userName).execute().body() ?: UpdateUserInfoResponse()
+        }catch (_:Exception) {UpdateUserInfoResponse()}
     }
 
     fun updatePassword(password: String): UpdateUserInfoResponse {
-        return RetrofitDefault.create(UpdateUserInfoService::class.java).updatePassword(password).execute().body() ?: UpdateUserInfoResponse()
+        return try {
+            RetrofitDefault.create(UpdateUserInfoService::class.java).updatePassword(password).execute().body() ?: UpdateUserInfoResponse()
+        } catch (_: Exception) {UpdateUserInfoResponse()}
     }
 
     fun updateDesc(desc: String): UpdateUserInfoResponse {
-        return RetrofitDefault.create(UpdateUserInfoService::class.java).updateDesc(desc).execute().body() ?: UpdateUserInfoResponse()
+        return try {
+            RetrofitDefault.create(UpdateUserInfoService::class.java).updateDesc(desc).execute().body() ?: UpdateUserInfoResponse()
+        } catch (_:Exception) {UpdateUserInfoResponse()}
     }
 
     fun updateHeader(filePath: String): UpdateUserInfoResponse {
-        val file = File(filePath)
-        if (!file.exists() || !file.isPicture()) return UpdateUserInfoResponse()
-        val filePart = MultipartBody.Part.createFormData(
-            "file",
-            file.name,
-            RequestBody.create(MediaType.parse("multipart/form-data"), file)
-        )
-        val resp =
-            RetrofitDefault.create(UploadService::class.java).uploadFile(filePart).execute().body()
-                ?: UploadResponse()
-        if (resp.code != 0 || resp.list.size == 0) {
-            toast(resp.msg)
-            return UpdateUserInfoResponse()
-        }
-        val url = resp.list[0]
-        return RetrofitDefault.create(UpdateUserInfoService::class.java).updateHeader(url).execute().body()?: UpdateUserInfoResponse()
+        return try {
+            val file = File(filePath)
+            if (!file.exists() || !file.isPicture()) return UpdateUserInfoResponse()
+            val filePart = MultipartBody.Part.createFormData(
+                "file",
+                file.name,
+                RequestBody.create(MediaType.parse("multipart/form-data"), file)
+            )
+            val resp =
+                RetrofitDefault.create(UploadService::class.java).uploadFile(filePart).execute().body()
+                    ?: UploadResponse()
+            if (resp.code != 0 || resp.list.size == 0) {
+                toast(resp.msg)
+                return UpdateUserInfoResponse()
+            }
+            val url = resp.list[0]
+            return RetrofitDefault.create(UpdateUserInfoService::class.java).updateHeader(url).execute().body()?: UpdateUserInfoResponse()
+        } catch (_: Exception){UpdateUserInfoResponse()}
+
 
     }
 }

@@ -39,7 +39,9 @@ class CommunityFragmentViewModel : ViewModel() {
                 RecommendTopicServiceHelper.loadRecommendTopics()
             }.let {
                 if (localResp == it.toJson() || it.data.cardList.isEmpty()) {
-                    toast("更新失败，请检查网络")
+                    if (it.data.cardList.isEmpty()) {
+                        toast("更新失败，请检查网络")
+                    }
                     return@let
                 }
                 MMKV.defaultMMKV().encode("recommend_topic_response", it.toJson())
