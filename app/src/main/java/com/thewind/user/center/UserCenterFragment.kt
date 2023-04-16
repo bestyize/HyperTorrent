@@ -108,6 +108,12 @@ class UserCenterFragment : Fragment() {
             DonateDialogFragment.newInstance().showNow(childFragmentManager, "donate")
         }
 
+        binding.optionAd.setOnClickListener {
+            FullScreenContainerActivity.startWithFragment(activity, H5PageFragment.newInstance(
+                baseUrl() + "/ad"
+            ))
+        }
+
         vm.loadTabs(uid)
         vm.userInfoLiveData.observe(viewLifecycleOwner) {
             Glide.with(binding.root.context).load(it.headerUrl).into(binding.ivHeader)

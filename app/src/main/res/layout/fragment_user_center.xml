@@ -247,6 +247,15 @@
                     app:key="请作者喝杯咖啡"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+                <com.thewind.widget.option.OptionItemView
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/option_ad"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:background="@color/gray_shadow_light"
+                    app:key="商务合作"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
 
             </LinearLayout>
