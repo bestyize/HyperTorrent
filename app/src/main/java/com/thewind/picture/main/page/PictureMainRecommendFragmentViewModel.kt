@@ -3,11 +3,16 @@ package com.thewind.picture.main.page
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.tencent.mmkv.MMKV
 import com.thewind.picture.main.model.ImageRecommendTab
 import com.thewind.picture.main.service.PicturePageServiceHelper
+import com.thewind.util.fromJson
+import com.thewind.util.toJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import xyz.thewind.community.image.model.ImageRecommendTabResponse
+import java.lang.Exception
 
 /**
  * @author: read
@@ -19,22 +24,20 @@ class PictureMainRecommendFragmentViewModel: ViewModel() {
 
     fun loadRecommendTabs(src: Int) {
         viewModelScope.launch {
-            recommendTabs.value = PicturePageServiceHelper.loadDefaultRecommendTabs(src).data
+            var res: ImageRecommendTabResponse? = null
+            try {
+                 res = MMKV.defaultMMKV().getString("picture_recommend_tabs_$src","")?.fromJson()
+                if ((res?.data?.size ?: 0) > 0) {
+                    recommendTabs.value = res?.data
+                }
+            } catch (_: Exception){}
+
             withContext(Dispatchers.IO) {
                 PicturePageServiceHelper.loadRecommendTabs(src)
             }.let {
-                val data = recommendTabs.value?: listOf()
-                var changed = false
-                if (data.size == it.data.size) {
-                    data.forEachIndexed { index, tab ->
-                        if (tab.query != it.data[index].query){
-                            changed = true
-                        }
-                    }
-                } else {
-                    changed = true
-                }
-                if (changed) {
+
+                if (it.toJson() != res?.toJson()) {
+                    MMKV.defaultMMKV().encode("picture_recommend_tabs_$src", it.toJson())
                     recommendTabs.value = it.data
                 }
 

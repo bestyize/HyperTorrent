@@ -42,7 +42,9 @@ object PicturePageServiceHelper {
     fun loadRecommendTabs(src: Int?): ImageRecommendTabResponse{
         try {
             return RetrofitDefault.create(PicturePageService::class.java).tabs(src).execute().body() ?: ImageRecommendTabResponse()
-        } catch (_: Exception) {}
+        } catch (_: Exception) {
+            Log.i(TAG, "loadRecommendTabs, failed")
+        }
         return loadDefaultRecommendTabs(src?:ImageSrc.PEXELS.src)
     }
 
