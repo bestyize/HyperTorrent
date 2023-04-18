@@ -1,5 +1,8 @@
 package com.thewind.viewer.image
 
+import android.app.WallpaperManager
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
@@ -12,9 +15,12 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.thewind.hyper.databinding.FragmentImageDetailBinding
 import com.thewind.util.toPx
+import com.thewind.util.toast
 import com.thewind.viewer.image.model.ImageDetail
 import com.thewind.viewer.image.model.ImageDisplayStyle
+import com.thewind.widget.bottomsheet.CommonBottomSheetDialogFragment
 import java.io.File
+import java.lang.Exception
 
 private const val IMAGE_DETAIL = "image_detail"
 private const val INNER_MODE = "inner_mode"
@@ -71,6 +77,26 @@ class ImageDetailFragment : Fragment() {
             val isVisible = binding.tvTitle.isVisible
             binding.tvTitle.visibility = if (isVisible) View.GONE else View.VISIBLE
             binding.flImageDescContainer.visibility = if (isVisible) View.GONE else View.VISIBLE
+            binding.cvSetWallpapper.visibility = if (isVisible) View.GONE else View.VISIBLE
+        }
+
+        binding.tvSetToWallpapper.setOnClickListener {
+            try {
+                val options = mutableListOf("设置为桌面壁纸", "设置为锁屏壁纸", "同时设置为桌面和锁屏壁纸")
+                val bm = (binding.ivImageDetail.drawable as BitmapDrawable).bitmap
+                CommonBottomSheetDialogFragment.newInstance(options) {
+                    when(it){
+                        0 -> WallpaperManager.getInstance(context).setBitmap(bm, null, true, WallpaperManager.FLAG_SYSTEM)
+                        1 -> WallpaperManager.getInstance(context).setBitmap(bm, null, true, WallpaperManager.FLAG_LOCK)
+                        2 -> WallpaperManager.getInstance(context).setBitmap(bm, null, true)
+                    }
+                    toast("设置成功")
+                }.showNow(childFragmentManager, "wall_papper")
+
+            } catch (_: Exception) {
+                toast("设置失败")
+            }
+
         }
     }
 

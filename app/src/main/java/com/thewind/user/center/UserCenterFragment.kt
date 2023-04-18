@@ -114,6 +114,12 @@ class UserCenterFragment : Fragment() {
             ))
         }
 
+        binding.optionAbout.setOnClickListener {
+            FullScreenContainerActivity.startWithFragment(activity, H5PageFragment.newInstance(
+                baseUrl() + "/about"
+            ))
+        }
+
         vm.loadTabs(uid)
         vm.userInfoLiveData.observe(viewLifecycleOwner) {
             Glide.with(binding.root.context).load(it.headerUrl).into(binding.ivHeader)

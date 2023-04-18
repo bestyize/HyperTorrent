@@ -230,6 +230,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <com.thewind.widget.option.OptionItemView
+                    android:visibility="gone"
                     android:layout_marginTop="15dp"
                     android:id="@+id/option_wechat"
                     android:paddingStart="15dp"
@@ -239,6 +240,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <com.thewind.widget.option.OptionItemView
+                    android:visibility="gone"
                     android:layout_marginTop="15dp"
                     android:id="@+id/option_donate"
                     android:paddingStart="15dp"
@@ -254,6 +256,17 @@
                     android:paddingEnd="15dp"
                     android:background="@color/gray_shadow_light"
                     app:key="商务合作"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <com.thewind.widget.option.OptionItemView
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/option_about"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:background="@color/gray_shadow_light"
+                    app:key="关于"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
