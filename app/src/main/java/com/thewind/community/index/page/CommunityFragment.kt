@@ -56,6 +56,8 @@ class CommunityFragment : Fragment() {
                     FullScreenContainerActivity.startWithFragment(activity, TorrentSearchRecommendFragment.newInstance())
                 } else if (item.topicId == TopicId.KONA.topic) {
                     FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance(ImageSrc.KONA.src))
+                } else if (item.topicId == TopicId.WALLHAVEN.topic) {
+                    FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance(ImageSrc.WALLHAVEN.src))
                 }
 
 
