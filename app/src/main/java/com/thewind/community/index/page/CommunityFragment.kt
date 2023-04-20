@@ -54,7 +54,10 @@ class CommunityFragment : Fragment() {
                     FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance(ImageSrc.PIXBAY.src))
                 } else if (item.topicId == TopicId.MAGNET.topic) {
                     FullScreenContainerActivity.startWithFragment(activity, TorrentSearchRecommendFragment.newInstance())
+                } else if (item.topicId == TopicId.KONA.topic) {
+                    FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance(ImageSrc.KONA.src))
                 }
+
 
             }
             recommendTopicList.clear()
