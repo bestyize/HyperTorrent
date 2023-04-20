@@ -28,16 +28,20 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:windowSoftInputMode="adjustResize"
             android:name="com.thewind.widget.activity.FullScreenContainerActivity"
             android:exported="false" />
         <activity
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:name="com.thewind.community.editor.page.EditorActivity"
             android:exported="false" />
         <activity
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:name="com.thewind.community.user.UserDetailActivity"
             android:exported="true" />
         <activity
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:name="com.thewind.community.post.page.PostActivity"
             android:exported="true" />
         <activity
@@ -62,6 +66,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:name="com.thewind.viewer.FileViewerActivity"
             android:exported="true" />
         <activity
@@ -72,7 +77,7 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name="com.thewind.player.detail.DetailPlayerActivity"
-            android:configChanges="uiMode|orientation"
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:exported="false"
             android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
