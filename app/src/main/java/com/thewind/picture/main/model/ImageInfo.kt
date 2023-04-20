@@ -1,4 +1,4 @@
-package xyz.thewind.community.image.model
+package com.thewind.picture.main.model
 
 class ImageInfo {
     var src: Int = 0
@@ -15,4 +15,5 @@ class ImageInfo {
     var collections: Long = 0
     var comments: Long = 0
     var likes: Long = 0
+    var downloadExtras = mutableMapOf<String, String>()
 }

@@ -1,5 +1,6 @@
 package com.thewind.downloader
 
+import android.util.Log
 import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
@@ -11,14 +12,16 @@ import java.net.URL
  */
 object HttpDownloader {
 
-    fun download(urlString: String?, destination: String) : Boolean {
+    fun download(urlString: String?, destination: String, extra: MutableMap<String, String> = mutableMapOf()) : Boolean {
         urlString ?: return false
-        val file = File(destination)
         try {
+            //user-agent -> Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36
+            //cookie -> cf_clearance=PE9HYccupgUntVN9hddn1ulElgOzH1d..s9LgL_vDKI-1681927945-0-160
             val url = URL(urlString)
             val connection = url.openConnection()
             connection.connectTimeout = 5000
             connection.readTimeout = 5000
+            extra.forEach { (t, u) ->  connection.setRequestProperty(t, u)}
             val inputStream = connection.getInputStream()
             val outputStream = FileOutputStream(destination)
             val buffer = ByteArray(1024)
@@ -33,7 +36,7 @@ object HttpDownloader {
             inputStream.close()
             return true
         } catch (_: java.lang.Exception) {
-
+            Log.e(TAG, "")
         }
 
         return false
@@ -41,3 +44,5 @@ object HttpDownloader {
     }
 
 }
+
+private const val TAG = "HttpDownloader"

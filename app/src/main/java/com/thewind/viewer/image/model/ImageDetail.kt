@@ -10,13 +10,17 @@ import android.os.Parcelable
  */
 class ImageDetail() : Parcelable {
     var url: String? = null
+    var previewImageUrl: String? = null
     var title: String? = null
     var desc: String? = null
 
     var style:Int = 0
 
+    var downloadExtras: MutableMap<String, String> = mutableMapOf()
+
     constructor(parcel: Parcel) : this() {
         url = parcel.readString()
+        previewImageUrl = parcel.readString()
         title = parcel.readString()
         desc = parcel.readString()
         style = parcel.readInt()
@@ -24,6 +28,7 @@ class ImageDetail() : Parcelable {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(url)
+        parcel.writeString(previewImageUrl)
         parcel.writeString(title)
         parcel.writeString(desc)
         parcel.writeInt(style)

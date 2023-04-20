@@ -36,7 +36,7 @@ class PictureFeedFragmentViewModel : ViewModel() {
         }
     }
 
-    fun downloadPicture(imageUrl: String?, quity: Boolean = false) {
+    fun downloadPicture(imageUrl: String?, quity: Boolean = false, extra: MutableMap<String, String> = mutableMapOf()) {
         imageUrl ?: return
         viewModelScope.launch {
             val filePath = BASE_PICTURE_DOWNLOAD_DIR + Md5Util.convertToMd5(imageUrl) + "." + imageUrl.urlFilePostfix()
@@ -45,7 +45,7 @@ class PictureFeedFragmentViewModel : ViewModel() {
                 if (file.exists() && file.length() > 0) {
                     true
                 } else {
-                    HttpDownloader.download(imageUrl, filePath)
+                    HttpDownloader.download(imageUrl, filePath, extra)
                 }
 
             }.let {

@@ -16,9 +16,8 @@ import com.thewind.viewer.image.ImageViewerFragment
 import com.thewind.viewer.image.model.ImageDetail
 import com.thewind.widget.activity.FullScreenContainerActivity
 import com.thewind.widget.bottomsheet.CommonBottomSheetDialogFragment
-import xyz.thewind.community.image.model.ImageInfo
+import com.thewind.picture.main.model.ImageInfo
 import com.thewind.picture.main.model.ImageRecommendTab
-import xyz.thewind.community.image.model.ImageSrc
 import java.io.File
 import java.lang.Exception
 
@@ -61,15 +60,17 @@ class PictureFeedFragment : Fragment() {
                             this.title = image.tags
                             this.desc = image.tags
                             this.url = image.imageUrl
+                            this.downloadExtras.putAll(image.downloadExtras)
+                            this.previewImageUrl = image.previewImageUrl
                         }
                     ), false
                 ))
             } else if (type == 1) {
                 CommonBottomSheetDialogFragment.newInstance(operationList) {
                     if (it == 0) {
-                        vm.downloadPicture(image.imageUrl)
+                        vm.downloadPicture(image.imageUrl, extra = image.downloadExtras)
                     } else if (it == 1) {
-                        vm.downloadPicture(image.imageUrl, true)
+                        vm.downloadPicture(image.imageUrl, true, extra = image.downloadExtras)
                     }
 
                 }.showNow(childFragmentManager, image.hashCode().toString())

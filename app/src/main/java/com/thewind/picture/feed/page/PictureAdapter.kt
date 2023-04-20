@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.thewind.hyper.R
 import com.thewind.hyper.databinding.GridPictureCardItemBinding
 import com.thewind.util.ViewUtils
-import xyz.thewind.community.image.model.ImageInfo
+import com.thewind.picture.main.model.ImageInfo
 
 /**
  * @author: read
