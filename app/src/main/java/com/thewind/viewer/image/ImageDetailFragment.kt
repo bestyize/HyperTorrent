@@ -67,7 +67,7 @@ class ImageDetailFragment : Fragment() {
                 lazyHeader.setHeader("User-Agent", u)
             }
         }
-        val url = GlideUrl(imageDetail?.url, lazyHeader.build())
+        val url: Any? = if (imageDetail?.url?.startsWith("http") == true) GlideUrl(imageDetail?.url, lazyHeader.build()) else imageDetail?.url
         when (imageDetail?.style ?: 0) {
             ImageDisplayStyle.CENTER_CROP.style -> {
                 binding.ivImageDetail.scaleType = ImageView.ScaleType.CENTER_CROP
