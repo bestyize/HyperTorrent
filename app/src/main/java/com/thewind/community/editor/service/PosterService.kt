@@ -4,8 +4,10 @@ import com.thewind.community.post.model.PostContent
 import com.thewind.util.*
 import com.thewind.viewer.image.model.ImageDetail
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Multipart
@@ -34,7 +36,7 @@ object PosterService {
             MultipartBody.Part.createFormData(
                 "files",
                 it.name,
-                RequestBody.create(MediaType.parse("multipart/form-data"), it)
+                it.asRequestBody("multipart/form-data".toMediaTypeOrNull())
             )
         }
 

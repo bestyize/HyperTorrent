@@ -1,7 +1,6 @@
 package com.thewind.viewer.image
 
 import android.app.WallpaperManager
-import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.os.Bundle
@@ -21,8 +20,6 @@ import com.thewind.util.toast
 import com.thewind.viewer.image.model.ImageDetail
 import com.thewind.viewer.image.model.ImageDisplayStyle
 import com.thewind.widget.bottomsheet.CommonBottomSheetDialogFragment
-import java.io.File
-import java.lang.Exception
 
 private const val IMAGE_DETAIL = "image_detail"
 private const val INNER_MODE = "inner_mode"
@@ -42,9 +39,9 @@ class ImageDetailFragment : Fragment() {
         }
 
     }
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentImageDetailBinding.inflate(inflater)
         return binding.root
@@ -71,11 +68,12 @@ class ImageDetailFragment : Fragment() {
             }
         }
         val url = GlideUrl(imageDetail?.url, lazyHeader.build())
-        when(imageDetail?.style?:0) {
+        when (imageDetail?.style ?: 0) {
             ImageDisplayStyle.CENTER_CROP.style -> {
                 binding.ivImageDetail.scaleType = ImageView.ScaleType.CENTER_CROP
                 Glide.with(binding.root).load(url).centerCrop().into(binding.ivImageDetail)
             }
+
             else -> {
                 binding.ivImageDetail.scaleType = ImageView.ScaleType.FIT_CENTER
                 Glide.with(binding.root).load(url).fitCenter().into(binding.ivImageDetail)
@@ -87,17 +85,22 @@ class ImageDetailFragment : Fragment() {
             val isVisible = binding.tvTitle.isVisible
             binding.tvTitle.visibility = if (isVisible) View.GONE else View.VISIBLE
             binding.flImageDescContainer.visibility = if (isVisible) View.GONE else View.VISIBLE
-            binding.cvSetWallpapper.visibility = if (isVisible) View.GONE else View.VISIBLE
+            binding.cvSetWallpaper.visibility = if (isVisible) View.GONE else View.VISIBLE
         }
 
-        binding.tvSetToWallpapper.setOnClickListener {
+        binding.tvSetToWallpaper.setOnClickListener {
             try {
-                val options = mutableListOf("设置为桌面壁纸", "设置为锁屏壁纸", "同时设置为桌面和锁屏壁纸")
+                val options =
+                    mutableListOf("设置为桌面壁纸", "设置为锁屏壁纸", "同时设置为桌面和锁屏壁纸")
                 val bm = (binding.ivImageDetail.drawable as BitmapDrawable).bitmap
                 CommonBottomSheetDialogFragment.newInstance(options) {
-                    when(it){
-                        0 -> WallpaperManager.getInstance(context).setBitmap(bm, null, true, WallpaperManager.FLAG_SYSTEM)
-                        1 -> WallpaperManager.getInstance(context).setBitmap(bm, null, true, WallpaperManager.FLAG_LOCK)
+                    when (it) {
+                        0 -> WallpaperManager.getInstance(context)
+                            .setBitmap(bm, null, true, WallpaperManager.FLAG_SYSTEM)
+
+                        1 -> WallpaperManager.getInstance(context)
+                            .setBitmap(bm, null, true, WallpaperManager.FLAG_LOCK)
+
                         2 -> WallpaperManager.getInstance(context).setBitmap(bm, null, true)
                     }
                     toast("设置成功")
@@ -113,8 +116,7 @@ class ImageDetailFragment : Fragment() {
     private fun getImageDetail(bundle: Bundle?): ImageDetail? {
         bundle ?: return null
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) bundle.getParcelable(
-            IMAGE_DETAIL,
-            ImageDetail::class.java
+            IMAGE_DETAIL, ImageDetail::class.java
         ) else bundle.getParcelable(IMAGE_DETAIL)
 
     }
@@ -122,11 +124,10 @@ class ImageDetailFragment : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(imageDetail: ImageDetail) =
-            ImageDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(IMAGE_DETAIL, imageDetail)
-                }
+        fun newInstance(imageDetail: ImageDetail) = ImageDetailFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(IMAGE_DETAIL, imageDetail)
             }
+        }
     }
 }

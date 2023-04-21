@@ -34,17 +34,14 @@ class ImageViewerFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         imageList = getImageDetail(arguments)
-        innerMode = arguments?.getBoolean(INNER_MODE, true)?:true
+        innerMode = arguments?.getBoolean(INNER_MODE, true) ?: true
         ViewUtils.enterFullScreenMode(activity, innerMode)
         (activity as? AppCompatActivity)?.supportActionBar?.hide()
     }
 
 
-
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = ImageViewerFragmentBinding.inflate(inflater)
         return binding.root
@@ -53,8 +50,12 @@ class ImageViewerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vpContainer.offscreenPageLimit = 5
-        binding.vpContainer.adapter =
-            ImageDetailAdapter(childFragmentManager, lifecycle, imageList ?: mutableListOf(), innerMode)
+        binding.vpContainer.adapter = ImageDetailAdapter(
+            childFragmentManager,
+            lifecycle,
+            imageList ?: mutableListOf(),
+            innerMode
+        )
         TabLayoutMediator(binding.tbImages, binding.vpContainer, false) { tab, pos ->
             tab.text = ""
         }.attach()
@@ -80,6 +81,7 @@ class ImageViewerFragment : Fragment() {
                 }
             }
         }
+
         @JvmStatic
         fun newInstance(path: String): Fragment {
             val arrList = ArrayList<ImageDetail>()
@@ -89,12 +91,13 @@ class ImageViewerFragment : Fragment() {
                     url = "file://" + file.absolutePath
                     desc = file.name
                 })
-                file.parentFile?.listFiles()?.filter { it.isFile && it.exists() && it.isPicture() }?.forEach {
-                    arrList.add(ImageDetail().apply {
-                        url = "file://" + it.absolutePath
-                        desc = it.name
-                    })
-                }
+                file.parentFile?.listFiles()?.filter { it.isFile && it.exists() && it.isPicture() }
+                    ?.forEach {
+                        arrList.add(ImageDetail().apply {
+                            url = "file://" + it.absolutePath
+                            desc = it.name
+                        })
+                    }
             } else {
                 file.listFiles()?.filter { it.isFile && it.exists() && it.isPicture() }?.forEach {
                     arrList.add(ImageDetail().apply {

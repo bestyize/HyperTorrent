@@ -11,10 +11,12 @@ import com.thewind.viewer.image.model.ImageDetail
  * @date: 2023/3/31 上午1:04
  * @description:
  */
-class ImageDetailAdapter(fragmentManager: FragmentManager,
-                         lifecycle: Lifecycle,
-                         private val list: MutableList<ImageDetail>,
-                         innerMode: Boolean): FragmentStateAdapter(fragmentManager, lifecycle) {
+class ImageDetailAdapter(
+    fragmentManager: FragmentManager,
+    lifecycle: Lifecycle,
+    private val list: MutableList<ImageDetail>,
+    innerMode: Boolean
+) : FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
         return list.size
     }

@@ -2,24 +2,23 @@ package com.thewind.picture.feed.page
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.thewind.hyper.databinding.FragmentPictureFeedBinding
+import com.thewind.picture.main.model.ImageInfo
+import com.thewind.picture.main.model.ImageRecommendTab
 import com.thewind.util.toast
 import com.thewind.viewer.image.ImageViewerFragment
 import com.thewind.viewer.image.model.ImageDetail
 import com.thewind.widget.activity.FullScreenContainerActivity
 import com.thewind.widget.bottomsheet.CommonBottomSheetDialogFragment
-import com.thewind.picture.main.model.ImageInfo
-import com.thewind.picture.main.model.ImageRecommendTab
 import java.io.File
-import java.lang.Exception
 
 
 class PictureFeedFragment : Fragment() {
@@ -54,17 +53,18 @@ class PictureFeedFragment : Fragment() {
         binding.rvItems.layoutManager = LinearLayoutManager(context)
         binding.rvItems.adapter = PictureAdapter(imageList) { image, type ->
             if (type == 0) {
-                FullScreenContainerActivity.startWithFragment(activity, ImageViewerFragment.newInstance(
-                    arrayListOf(
-                        ImageDetail().apply {
-                            this.title = image.tags
-                            this.desc = image.tags
-                            this.url = image.imageUrl
-                            this.downloadExtras.putAll(image.downloadExtras)
-                            this.previewImageUrl = image.previewImageUrl
-                        }
-                    ), false
-                ))
+                FullScreenContainerActivity.startWithFragment(activity,
+                    ImageViewerFragment.newInstance(
+                        arrayListOf(
+                            ImageDetail().apply {
+                                this.title = image.tags
+                                this.desc = image.tags
+                                this.url = image.imageUrl
+                                this.downloadExtras.putAll(image.downloadExtras)
+                                this.previewImageUrl = image.previewImageUrl
+                            }
+                        ), false
+                    ))
             } else if (type == 1) {
                 CommonBottomSheetDialogFragment.newInstance(operationList) {
                     if (it == 0) {
@@ -94,7 +94,12 @@ class PictureFeedFragment : Fragment() {
                     if (lastPos == imageList.size - 1 && !isLoading) {
                         isLoading = true
                         request.page++
-                        vm.loadPictureList(keyword = request.query, page = request.page, num = request.num, src = request.src)
+                        vm.loadPictureList(
+                            keyword = request.query,
+                            page = request.page,
+                            num = request.num,
+                            src = request.src
+                        )
                     }
                 }
             }
@@ -146,7 +151,12 @@ class PictureFeedFragment : Fragment() {
             }
         }
 
-        vm.loadPictureList(keyword = request.query, page = request.page, num = request.num, src = request.src)
+        vm.loadPictureList(
+            keyword = request.query,
+            page = request.page,
+            num = request.num,
+            src = request.src
+        )
 
     }
 

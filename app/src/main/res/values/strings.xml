@@ -11,4 +11,5 @@
     <string name="login">登录</string>
     <string name="account_setting">帐号设置</string>
     <string name="select_photo">选择图片</string>
+    <string name="set_to_wallpaper">设置为壁纸</string>
 </resources>

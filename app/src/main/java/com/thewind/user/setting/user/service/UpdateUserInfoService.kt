@@ -6,9 +6,9 @@ import com.thewind.user.setting.user.model.UpdateUserInfoResponse
 import com.thewind.util.RetrofitDefault
 import com.thewind.util.isPicture
 import com.thewind.util.toast
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -42,7 +42,7 @@ object UpdateUserInfoServiceHelper {
             val filePart = MultipartBody.Part.createFormData(
                 "file",
                 file.name,
-                RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
             )
             val resp =
                 RetrofitDefault.create(UploadService::class.java).uploadFile(filePart).execute().body()
