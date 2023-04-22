@@ -33,7 +33,7 @@ class PictureAdapter(
         val item = list[position]
         holder.binding.tvDesc.text = item.tags
         holder.binding.tvLeftBottom.text = item.views.toString() + " 浏览"
-
+        holder.binding.tvSize.text = "${item.width} x ${item.height}"
         val width = ViewUtils.getScreenWidth()
         val height = if (item.previewWidth == 0) {
             (width * (item.height.toFloat() / item.width.toFloat())).toInt()

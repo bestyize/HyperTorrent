@@ -19,6 +19,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <TextView
+        android:maxLines="1"
+        android:maxEms="18"
+        android:ellipsize="end"
         android:textColor="@color/white"
         android:layout_gravity="top|start"
         android:textSize="11sp"
@@ -26,6 +29,16 @@
         android:layout_marginTop="5dp"
         android:text="无损音乐尽情下"
         android:id="@+id/tv_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_marginEnd="5dp"
+        android:textColor="@color/white"
+        android:layout_gravity="top|end"
+        android:textSize="10sp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/tv_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <ImageView

@@ -17,22 +17,24 @@
     <FrameLayout
         android:id="@+id/fl_image_desc_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_gravity="bottom"
         android:background="#88000000"
-        android:minHeight="60dp"
-        android:padding="15dp"
+        android:minHeight="80dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp">
 
-        <TextView
-            android:id="@+id/tv_image_desc"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_image_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </androidx.core.widget.NestedScrollView>
+
     </FrameLayout>
 
     <androidx.cardview.widget.CardView
