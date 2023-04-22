@@ -12,6 +12,7 @@ class ImageInfo {
     var previewImageUrl: String? = null
     var previewWidth: Int = 0
     var previewHeight: Int = 0
+    var originImageUrl: String? = null
     var type: String = "photo"
     var tags: String? = null
     var pageUrl: String? = null

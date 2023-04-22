@@ -66,11 +66,18 @@ class PictureFeedFragment : Fragment() {
                         ), false
                     ))
             } else if (type == 1) {
+                image.originImageUrl?.let {
+                    val last = operationList.removeLast()
+                    operationList.add("下载原始图片")
+                    operationList.add(last)
+                }
                 CommonBottomSheetDialogFragment.newInstance(operationList) {
                     if (it == 0) {
                         vm.downloadPicture(image.imageUrl, extra = image.downloadExtras)
                     } else if (it == 1) {
                         vm.downloadPicture(image.imageUrl, true, extra = image.downloadExtras)
+                    } else if (it == 2) {
+                        vm.downloadPicture(image.originImageUrl, true, extra = image.downloadExtras)
                     }
 
                 }.showNow(childFragmentManager, image.hashCode().toString())

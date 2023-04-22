@@ -26,5 +26,6 @@ enum class TopicId(val topic: Int) {
     PEXELS(2),
     MAGNET(3),
     KONA(4),
-    WALLHAVEN(5)
+    WALLHAVEN(5),
+    HUBBLE(6)
 }

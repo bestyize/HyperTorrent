@@ -58,6 +58,8 @@ class CommunityFragment : Fragment() {
                     FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance(ImageSrc.KONA.src))
                 } else if (item.topicId == TopicId.WALLHAVEN.topic) {
                     FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance(ImageSrc.WALLHAVEN.src))
+                }else if (item.topicId == TopicId.HUBBLE.topic) {
+                    FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance(ImageSrc.HUBBLE.src))
                 }
 
 
