@@ -11,8 +11,7 @@
         android:id="@+id/iv_image_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitCenter"
-        android:src="@drawable/user_center_bg" />
+        android:scaleType="fitCenter"/>
 
     <FrameLayout
         android:id="@+id/fl_image_desc_container"

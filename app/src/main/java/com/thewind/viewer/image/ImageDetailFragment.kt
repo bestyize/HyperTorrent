@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.load.model.LazyHeaders
+import com.thewind.hyper.R
 import com.thewind.hyper.databinding.FragmentImageDetailBinding
 import com.thewind.util.toPx
 import com.thewind.util.toast
@@ -71,12 +72,12 @@ class ImageDetailFragment : Fragment() {
         when (imageDetail?.style ?: 0) {
             ImageDisplayStyle.CENTER_CROP.style -> {
                 binding.ivImageDetail.scaleType = ImageView.ScaleType.CENTER_CROP
-                Glide.with(binding.root).load(url).centerCrop().into(binding.ivImageDetail)
+                Glide.with(binding.root).load(url).placeholder(R.drawable.loading).centerCrop().into(binding.ivImageDetail)
             }
 
             else -> {
                 binding.ivImageDetail.scaleType = ImageView.ScaleType.FIT_CENTER
-                Glide.with(binding.root).load(url).fitCenter().into(binding.ivImageDetail)
+                Glide.with(binding.root).load(url).placeholder(R.drawable.loading).fitCenter().into(binding.ivImageDetail)
             }
         }
 

@@ -18,6 +18,7 @@ import com.thewind.viewer.image.ImageViewerFragment
 import com.thewind.viewer.image.model.ImageDetail
 import com.thewind.widget.activity.FullScreenContainerActivity
 import com.thewind.widget.bottomsheet.CommonBottomSheetDialogFragment
+import xyz.thewind.community.image.model.ImageSrc
 import java.io.File
 
 
@@ -59,22 +60,18 @@ class PictureFeedFragment : Fragment() {
                             ImageDetail().apply {
                                 this.title = image.tags
                                 this.desc = image.tags
-                                this.url = image.imageUrl
+                                this.url = if (image.src == ImageSrc.HUBBLE.src) image.previewImageUrl else image.imageUrl
                                 this.downloadExtras.putAll(image.downloadExtras)
                                 this.previewImageUrl = image.previewImageUrl
                             }
                         ), false
                     ))
             } else if (type == 1) {
-                image.originImageUrl?.let {
-                    val last = operationList.removeLast()
-                    operationList.add("下载原始图片")
-                    operationList.add(last)
-                }
                 CommonBottomSheetDialogFragment.newInstance(operationList) {
                     if (it == 0) {
                         vm.downloadPicture(image.imageUrl, extra = image.downloadExtras)
                     } else if (it == 1) {
+                        toast("开始为您下载")
                         vm.downloadPicture(image.imageUrl, true, extra = image.downloadExtras)
                     } else if (it == 2) {
                         vm.downloadPicture(image.originImageUrl, true, extra = image.downloadExtras)
