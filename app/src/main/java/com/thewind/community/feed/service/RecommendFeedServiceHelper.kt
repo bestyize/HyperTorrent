@@ -5,6 +5,7 @@ import com.thewind.util.RetrofitDefault
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.lang.Exception
 
 
 interface RecommendFeedService {
@@ -14,6 +15,10 @@ interface RecommendFeedService {
 }
 object RecommendFeedServiceHelper {
     fun loadCards(channel: String, page: Int): ChannelCardResponse {
-        return RetrofitDefault.create(RecommendFeedService::class.java).loadCards(channel, page).execute().body() ?: ChannelCardResponse()
+        return try {
+            RetrofitDefault.create(RecommendFeedService::class.java).loadCards(channel, page).execute().body() ?: ChannelCardResponse()
+        } catch (_: Exception) {
+            ChannelCardResponse()
+        }
     }
 }
