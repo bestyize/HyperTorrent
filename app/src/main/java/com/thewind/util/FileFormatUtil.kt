@@ -45,7 +45,7 @@ fun String.postfix(): String {
 
 fun String.urlFilePostfix(): String {
     val uri = Uri.parse(this)
-    return uri.path?.postfix()?:""
+    return if (this.endsWith("fm=png")) "png" else uri.path?.postfix()?:""
 }
 
 fun String.icon(): Int {
