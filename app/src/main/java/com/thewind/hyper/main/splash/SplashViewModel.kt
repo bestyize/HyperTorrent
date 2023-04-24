@@ -3,8 +3,10 @@ package com.thewind.hyper.main.splash
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.thewind.hyper.main.isDebug
 import com.thewind.hyper.main.splash.model.StartCheckResponse
 import com.thewind.hyper.main.splash.service.SplashServiceHelper
+import com.thewind.util.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -19,6 +21,9 @@ class SplashViewModel : ViewModel() {
     val startupCheckLiveData: MutableLiveData<StartCheckResponse> = MutableLiveData()
 
     fun checkStartUp() {
+        if (isDebug()) {
+            return
+        }
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 SplashServiceHelper.startupCheck()

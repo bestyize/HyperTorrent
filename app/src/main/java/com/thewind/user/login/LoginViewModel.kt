@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.thewind.hyper.BuildConfig
 import com.thewind.user.bean.User
 import com.thewind.util.*
 import kotlinx.coroutines.Dispatchers
@@ -86,9 +85,6 @@ object LoginService {
                 return true
             }
         } catch (e: java.lang.Exception) {
-            if (BuildConfig.DEBUG) {
-                toast("register error, e = $e")
-            }
         }
         toast("注册失败！")
         return false

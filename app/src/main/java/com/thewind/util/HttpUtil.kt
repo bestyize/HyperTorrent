@@ -1,8 +1,11 @@
 package com.thewind.util
 
+
 import android.util.Log
-import com.thewind.hyper.BuildConfig
 import com.thewind.hyper.config.ConfigManager
+import com.thewind.hyper.main.getVersionCode
+import com.thewind.hyper.main.globalApplication
+import com.thewind.hyper.main.isDebug
 import com.thewind.user.login.AccountHelper
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -123,21 +126,25 @@ fun urlToKv(link: String): Map<String?, String?>? {
 
 private fun getCommonHeader(): Map<String, String> {
     val user = AccountHelper.loadUserInfo()
-    val versionCode = BuildConfig.VERSION_CODE
+    val versionCode = getVersionCode()
     return mapOf(
         "uid" to user.uid.toString(),
         "token" to (user.token?:""),
-        "versionCode" to versionCode.toString()
+        "versionCode" to versionCode.toString(),
+        "debug" to isDebug().toString()
     )
 }
 
 private val interceptor = Interceptor { chain ->
     val req = chain.request()
     val user = AccountHelper.loadUserInfo()
-    val versionCode = BuildConfig.VERSION_CODE
-    chain.proceed(req.newBuilder().header("uid", "${user.uid}").addHeader("token",
-        user.token?:""
-    ).addHeader("versionCode", versionCode.toString()).build())
+    val versionCode = getVersionCode()
+    globalApplication.applicationInfo.flags
+    chain.proceed(req.newBuilder()
+        .header("uid", "${user.uid}")
+        .addHeader("token", user.token?:"")
+        .addHeader("versionCode", versionCode.toString())
+        .addHeader("debug", isDebug().toString()).build())
 }
 
 private val okHttpClient = OkHttpClient.Builder()
