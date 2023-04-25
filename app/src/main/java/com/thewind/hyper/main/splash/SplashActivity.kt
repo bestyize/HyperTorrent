@@ -56,14 +56,14 @@ class SplashActivity : AppCompatActivity() {
             if (resp.data?.leftButton != null || resp.data?.rightButton != null) {
                 notifyDialogFragment = NotifyDialogFragment.newInstance(resp.data!!, actionLeft = { data ->
                     handleNotifyButtonClick(data)
-                    if (resp.data?.type == NotifyType.APP_UPDATE) {
+                    if (resp.data?.type == NotifyType.APP_UPDATE  && resp.data?.cancelable == false) {
                         exitProcess(0)
                     } else {
                         start()
                     }
                 }, actionRight = { data ->
                     handleNotifyButtonClick(data)
-                    if (resp.data?.type == NotifyType.APP_UPDATE) {
+                    if (resp.data?.type == NotifyType.APP_UPDATE && resp.data?.cancelable == false) {
                         exitProcess(0)
                     } else {
                         lifecycleScope.launch {
