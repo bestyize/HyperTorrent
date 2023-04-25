@@ -66,7 +66,11 @@ class SplashActivity : AppCompatActivity() {
                     if (resp.data?.type == NotifyType.APP_UPDATE) {
                         exitProcess(0)
                     } else {
-                        start()
+                        lifecycleScope.launch {
+                            delay(1000)
+                            start()
+                        }
+
                     }
                 })
                 notifyDialogFragment?.showNow(supportFragmentManager, "start_check")
