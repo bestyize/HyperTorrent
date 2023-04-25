@@ -13,6 +13,8 @@ import com.thewind.community.topic.page.TopicCardAdapter
 import com.thewind.hyper.databinding.FragmentCommunityBinding
 import com.thewind.picture.main.page.PictureMainRecommendFragment
 import com.thewind.torrent.search.recommend.TorrentSearchRecommendFragment
+import com.thewind.util.baseUrl
+import com.thewind.util.toast
 import com.thewind.viewer.h5.H5PageFragment
 import com.thewind.widget.activity.FullScreenContainerActivity
 import xyz.thewind.community.image.model.ImageSrc
@@ -42,30 +44,58 @@ class CommunityFragment : Fragment() {
         vm.recommendTopicLiveData.observe(viewLifecycleOwner) {
             binding.rvTopic.layoutManager =
                 StaggeredGridLayoutManager(it.columnCount, StaggeredGridLayoutManager.VERTICAL)
-            binding.rvTopic.adapter = TopicCardAdapter(recommendTopicList, aspectRadio = it.aspectRadio) { item ->
-                if (item.actionUrl?.startsWith("http") == true) {
-                    FullScreenContainerActivity.startWithFragment(
-                        activity,
-                        H5PageFragment.newInstance(item.actionUrl!!)
-                    )
-                } else if (item.topicId == TopicId.PEXELS.topic) {
-                    FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance(ImageSrc.PEXELS.src))
-                } else if (item.topicId == TopicId.PIXBAY.topic) {
-                    FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance(ImageSrc.PIXBAY.src))
-                } else if (item.topicId == TopicId.MAGNET.topic) {
-                    FullScreenContainerActivity.startWithFragment(activity, TorrentSearchRecommendFragment.newInstance())
-                } else if (item.topicId == TopicId.KONA.topic) {
-                    FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance(ImageSrc.KONA.src))
-                } else if (item.topicId == TopicId.WALLHAVEN.topic) {
-                    FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance(ImageSrc.WALLHAVEN.src))
-                } else if (item.topicId == TopicId.HUBBLE.topic) {
-                    FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance(ImageSrc.HUBBLE.src))
-                } else if (item.topicId == TopicId.UNSPLASH.topic) {
-                    FullScreenContainerActivity.startWithFragment(activity, PictureMainRecommendFragment.newInstance(ImageSrc.UNSPLASH.src))
+            binding.rvTopic.adapter =
+                TopicCardAdapter(recommendTopicList, aspectRadio = it.aspectRadio) { item ->
+                    if (item.actionUrl?.startsWith("http") == true) {
+                        FullScreenContainerActivity.startWithFragment(
+                            activity,
+                            H5PageFragment.newInstance(item.actionUrl!!)
+                        )
+                    } else if (item.topicId == TopicId.PEXELS.topic) {
+                        FullScreenContainerActivity.startWithFragment(
+                            activity,
+                            PictureMainRecommendFragment.newInstance(ImageSrc.PEXELS.src)
+                        )
+                    } else if (item.topicId == TopicId.PIXBAY.topic) {
+                        FullScreenContainerActivity.startWithFragment(
+                            activity,
+                            PictureMainRecommendFragment.newInstance(ImageSrc.PIXBAY.src)
+                        )
+                    } else if (item.topicId == TopicId.MAGNET.topic) {
+                        FullScreenContainerActivity.startWithFragment(
+                            activity,
+                            TorrentSearchRecommendFragment.newInstance()
+                        )
+                    } else if (item.topicId == TopicId.KONA.topic) {
+                        FullScreenContainerActivity.startWithFragment(
+                            activity,
+                            PictureMainRecommendFragment.newInstance(ImageSrc.KONA.src)
+                        )
+                    } else if (item.topicId == TopicId.WALLHAVEN.topic) {
+                        FullScreenContainerActivity.startWithFragment(
+                            activity,
+                            PictureMainRecommendFragment.newInstance(ImageSrc.WALLHAVEN.src)
+                        )
+                    } else if (item.topicId == TopicId.HUBBLE.topic) {
+                        FullScreenContainerActivity.startWithFragment(
+                            activity,
+                            PictureMainRecommendFragment.newInstance(ImageSrc.HUBBLE.src)
+                        )
+                    } else if (item.topicId == TopicId.UNSPLASH.topic) {
+                        FullScreenContainerActivity.startWithFragment(
+                            activity,
+                            PictureMainRecommendFragment.newInstance(ImageSrc.UNSPLASH.src)
+                        )
+                    } else {
+                        toast("请更新到最新版本体验该功能")
+                        FullScreenContainerActivity.startWithFragment(
+                            activity,
+                            H5PageFragment.newInstance("${baseUrl()}/app")
+                        )
+                    }
+
+
                 }
-
-
-            }
             recommendTopicList.clear()
             recommendTopicList.addAll(it.cardList)
             binding.rvTopic.adapter?.notifyDataSetChanged()
